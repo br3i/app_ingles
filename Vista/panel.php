@@ -51,7 +51,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
 
   <!-- My css -->
-  <link rel="stylesheet" href="dist/css/my-css.css" />
+  <link rel="stylesheet" href="../Publico/css/my-css.css" />
 
   <!-- Ventana modal para eliminar usuarios -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -130,7 +130,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="#" class="brand-link">
+      <a href="panel.php?modulo=inicio" class="brand-link">
         <img src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" class="brand-image img-circle elevation-3"
           style="opacity: 0.8" />
         <span class="brand-text font-weight-light">Ratbio</span>
@@ -150,7 +150,6 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
           <div class="info">
             <a href="#" class="d-block">
               <?php echo $_SESSION['username'] ?>
-              <?php echo $_SESSION['id_usuario'] ?>
             </a>
           </div>
         </div>
@@ -181,38 +180,59 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
-                <i class="fa fa-shopping-cart nav-icon" aria-hidden="true"></i>
+                <i class="fas fa-book-open nav-icon" aria-hidden="true"></i>
                 <p>
-                  Ratbio
+                  Menu
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="panel.php?modulo=estadisticas"
-                    class="nav-link <?php echo ($modulo == "estadisticas" || $modulo == "") ? " active " : " "; ?>">
-                    <i class="fa fa-chart-bar nav-icon" aria-hidden="true"></i>
-                    <p>Estadísticas</p>
+                  <a href="panel.php?modulo=actividades"
+                    class="nav-link <?php echo ($modulo == "actividades" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-pencil-alt nav-icon" aria-hidden="true"></i>
+                    <p>Actividades</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="panel.php?modulo=usuarios"
-                    class="nav-link <?php echo ($modulo == "usuarios" || $modulo == "crearUsuario" || $modulo == "editarUsuario") ? " active " : " "; ?>">
-                    <i class="fas fa-user nav-icon" aria-hidden="true"></i>
-                    <p>Usuarios</p>
+                  <a href="panel.php?modulo=pruebas"
+                    class="nav-link <?php echo ($modulo == "pruebas" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-file-signature nav-icon" aria-hidden="true"></i>
+                    <p>Pruebas</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="panel.php?modulo=productos"
-                    class="nav-link <?php echo ($modulo == "productos") ? " active " : " "; ?>">
-                    <i class="fa fa-shopping-bag nav-icon" aria-hidden="true"></i>
-                    <p>Productos</p>
+                  <a href="panel.php?modulo=repaso"
+                    class="nav-link <?php echo ($modulo == "repaso" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-dumbbell nav-icon" aria-hidden="true"></i>
+                    <p>Repaso</p>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="panel.php?modulo=ventas"
-                    class="nav-link <?php echo ($modulo == "ventas") ? " active " : " "; ?>">
-                    <i class="fa fa-table nav-icon" aria-hidden="true"></i>
-                    <p>Ventas</p>
+                  <a href="panel.php?modulo=ranking"
+                    class="nav-link <?php echo ($modulo == "ranking" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-crown nav-icon" aria-hidden="true"></i>
+                    <p>Ranking</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="panel.php?modulo=logros"
+                    class="nav-link <?php echo ($modulo == "logros" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-trophy nav-icon" aria-hidden="true"></i>
+                    <p>Logros</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="panel.php?modulo=bonificacion"
+                    class="nav-link <?php echo ($modulo == "bonificacion" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-star nav-icon" aria-hidden="true"></i>
+                    <p>Bonificacion</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="panel.php?modulo=racha"
+                    class="nav-link <?php echo ($modulo == "racha" || $modulo == "") ? " active " : " "; ?>">
+                    <i class="fas fa-fire nav-icon" aria-hidden="true"></i>
+                    <p>Racha</p>
                   </a>
                 </li>
               </ul>
@@ -233,20 +253,29 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
       </div>
       <?php
     }
-    if ($modulo == 'estadisticas' || $modulo == '') {
-      include_once 'estadisticas.php';
+    if ($modulo == 'inicio' || $modulo == '') {
+      include_once 'inicio.php';
     }
-    if ($modulo == 'usuarios') {
-      include_once 'usuarios.php';
+    if ($modulo == 'actividades') {
+      include_once 'actividades.php';
     }
-    if ($modulo == 'productos') {
-      include_once 'productos.php';
+    if ($modulo == 'pruebas') {
+      include_once 'pruebas.php';
     }
-    if ($modulo == 'ventas') {
-      include_once 'ventas.php';
+    if ($modulo == 'repaso') {
+      include_once 'repaso.php';
     }
-    if ($modulo == 'crearUsuario') {
-      include_once 'crearUsuario.php';
+    if ($modulo == 'ranking') {
+      include_once 'ranking.php';
+    }
+    if ($modulo == 'logros') {
+      include_once 'logros.php';
+    }
+    if ($modulo == 'bonificacion') {
+      include_once 'bonificacion.php';
+    }
+    if ($modulo == 'racha') {
+      include_once 'racha.php';
     }
     if ($modulo == 'editarUsuario') {
       include_once 'editarUsuario.php';

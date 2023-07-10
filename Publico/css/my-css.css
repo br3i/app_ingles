@@ -4,4 +4,9 @@
 .margen-5 {
     margin: 5%;
 }
- 
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
