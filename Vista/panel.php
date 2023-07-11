@@ -59,11 +59,11 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
   <div class="wrapper">
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60" />
+      <img class="animation__shake" src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" height="60" width="60" />
     </div>
 
     <!-- Navbar -->
@@ -78,42 +78,29 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
-        <!--
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              data-widget="navbar-search"
-              href="#"
-              role="button"
-            >
-              <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-              <form class="form-inline">
-                <div class="input-group input-group-sm">
-                  <input
-                    class="form-control form-control-navbar"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                  <div class="input-group-append">
-                    <button class="btn btn-navbar" type="submit">
-                      <i class="fas fa-search"></i>
-                    </button>
-                    <button
-                      class="btn btn-navbar"
-                      type="button"
-                      data-widget="navbar-search"
-                    >
-                      <i class="fas fa-times"></i>
-                    </button>
-                  </div>
+
+        <!-- <li class="nav-item">
+          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+            <i class="fas fa-search"></i>
+          </a>
+          <div class="navbar-search-block">
+            <form class="form-inline">
+              <div class="input-group input-group-sm">
+                <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                  aria-label="Search" />
+                <div class="input-group-append">
+                  <button class="btn btn-navbar" type="submit">
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                    <i class="fas fa-times"></i>
+                  </button>
                 </div>
-              </form>
-            </div>
-          </li>
-          -->
+              </div>
+            </form>
+          </div>
+        </li> -->
+
 
         <!-- Editar Perfil -->
         <a href="<?php echo 'panel.php?' . http_build_query(['modulo' => 'editarUsuario']); ?>"
@@ -188,49 +175,49 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
               <ul class="nav nav-treeview">
                 <li class="nav-item">
                   <a href="panel.php?modulo=actividades"
-                    class="nav-link <?php echo ($modulo == "actividades" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "actividades" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-pencil-alt nav-icon" aria-hidden="true"></i>
                     <p>Actividades</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=pruebas"
-                    class="nav-link <?php echo ($modulo == "pruebas" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "pruebas" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-file-signature nav-icon" aria-hidden="true"></i>
                     <p>Pruebas</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=repaso"
-                    class="nav-link <?php echo ($modulo == "repaso" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "repaso" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-dumbbell nav-icon" aria-hidden="true"></i>
                     <p>Repaso</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=ranking"
-                    class="nav-link <?php echo ($modulo == "ranking" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "ranking" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-crown nav-icon" aria-hidden="true"></i>
                     <p>Ranking</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=logros"
-                    class="nav-link <?php echo ($modulo == "logros" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "logros" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-trophy nav-icon" aria-hidden="true"></i>
                     <p>Logros</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=bonificacion"
-                    class="nav-link <?php echo ($modulo == "bonificacion" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "bonificacion" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-star nav-icon" aria-hidden="true"></i>
                     <p>Bonificacion</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=racha"
-                    class="nav-link <?php echo ($modulo == "racha" || $modulo == "") ? " active " : " "; ?>">
+                    class="nav-link <?php echo ($modulo == "racha" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-fire nav-icon" aria-hidden="true"></i>
                     <p>Racha</p>
                   </a>
@@ -283,18 +270,16 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     ?>
 
     <!-- /.content-wrapper -->
-    <!--
-      <footer class="main-footer">
-        <strong
-          >Copyright &copy; 2014-2021
-          <a href="https://adminlte.io">AdminLTE.io</a>.</strong
-        >
-        All rights reserved.
-        <div class="float-right d-none d-sm-inline-block">
-          <b>Version</b> 3.2.0
-        </div>
-      </footer>
-      -->
+
+    <footer class="main-footer">
+      <strong>Copyright &copy; 2022-2023
+        <a href="panel.php?modulo=inicio">App Ingles</a>.</strong>
+      All rights reserved.
+      <div class="float-right d-none d-sm-inline-block">
+        <b>Version</b> 1.0
+      </div>
+    </footer>
+
   </div>
 
   <!-- jQuery -->
@@ -385,14 +370,14 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
   </script>
 
   <!-- Script para llamar a la función nuevoProducto -->
-  <script>
+  <!-- <script>
     document.getElementById("nuevoProductoBtn").addEventListener("click", function () {
       $("#modalAñadir").modal("show");
     });
-  </script>
+  </script> -->
 
   <!-- Ventana Modal Para eliminar un registro -->
-  <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <!-- <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -411,10 +396,10 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Modal para editar -->
-  <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <!-- <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -447,10 +432,10 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Modal para añadir producto -->
-  <div class="modal fade" id="modalAñadir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <!-- <div class="modal fade" id="modalAñadir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -482,7 +467,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
 
   <script src="../Publico/js/my-scripts.js"></script>

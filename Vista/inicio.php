@@ -21,8 +21,9 @@
                                         <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Actividades</h4>
-                                            <a href="actividades.php" class="btn btn-outline-light text-ellipsis">Do
-                                                Activities</a>
+                                            <a href="panel.php?modulo=actividades"
+                                                class="btn btn-outline-light text-ellipsis"><b>Do
+                                                    Activities</b></a>
                                         </div>
                                     </div>
                                 </div>
@@ -31,27 +32,30 @@
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Pruebas</h4>
-                                            <a href="activities.php" class="btn btn-outline-light text-ellipsis">Try
-                                                Lessons</a>
+                                            <a href="panel.php?modulo=pruebas"
+                                                class="btn btn-outline-light text-ellipsis"><b>Try
+                                                    Lessons</b></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="info-box bg-dark">
+                                        <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
+                                        <div class="info-box-content">
+                                            <h4 class="info-box-text">Repaso</h4>
+                                            <a href="panel.php?modulo=repaso"
+                                                class="btn btn-outline-light text-ellipsis"><b>Train</b></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-box bg-warning">
-                                        <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
-                                        <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso</h4>
-                                            <a href="quizzes.php" class="btn btn-outline-light text-ellipsis">Train</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-info">
                                         <span class="info-box-icon"><i class="fas fa-crown"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Ranking</h4>
-                                            <a href="ranking.php" class="btn btn-outline-light text-ellipsis">View
-                                                Rank</a>
+                                            <a href="panel.php?modulo=ranking"
+                                                class="btn btn-outline-light text-ellipsis text-dark"><b>View
+                                                    Rank</b></a>
                                         </div>
                                     </div>
                                 </div>
@@ -60,28 +64,30 @@
                                         <span class="info-box-icon"><i class="fas fa-trophy"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Logros</h4>
-                                            <a href="ranking.php"
-                                                class="btn btn-outline-light text-ellipsis">Achiviements</a>
+                                            <a href="panel.php?modulo=logros"
+                                                class="btn btn-outline-light text-ellipsis"><b>Achiviements</b></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="info-box bg-info">
+                                    <div class="info-box bg-light">
                                         <span class="info-box-icon"><i class="fas fa-star"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Bonificacion</h4>
-                                            <a href="ranking.php" class="btn btn-outline-light text-ellipsis">Get
-                                                Bonus</a>
+                                            <a href="panel.php?modulo=bonificacion"
+                                                class="btn btn-outline-dark text-ellipsis text-dark"><b>Get
+                                                    Bonus</b></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <div class="info-box bg-info">
+                                    <div class="info-box bg-danger">
                                         <span class="info-box-icon"><i class="fas fa-fire"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Racha</h4>
-                                            <a href="ranking.php" class="btn btn-outline-light text-ellipsis">Keep on
-                                                fire!</a>
+                                            <a href="panel.php?modulo=racha"
+                                                class="btn btn-outline-light text-ellipsis"><b>Keep on
+                                                    fire!</b></a>
                                         </div>
                                     </div>
                                 </div>
