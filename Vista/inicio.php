@@ -18,7 +18,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="info-box bg-primary">
-                                        <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
+                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Actividades</h4>
                                             <a href="panel.php?modulo=actividades"
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="info-box bg-success">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
+                                        <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Pruebas</h4>
                                             <a href="panel.php?modulo=pruebas"
@@ -91,6 +91,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                <?php
+                                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'docente') {
+                                    ?>
+                                    <div class="col-md-3">
+                                        <div class="info-box bg-secondary">
+                                            <span class="info-box-icon"><i class="fas fa-film"></i></span>
+                                            <div class="info-box-content">
+                                                <h4 class="info-box-text">Recursos</h4>
+                                                <a href="panel.php?modulo=recursos"
+                                                    class="btn btn-outline-light text-ellipsis"><b>Upload!</b></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
                             </div>
                             <div class="progress">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 60%"
