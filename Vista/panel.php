@@ -56,7 +56,6 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
   <!-- Ventana modal para eliminar usuarios -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
@@ -77,6 +76,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
+
         <!-- Navbar Search -->
 
         <!-- <li class="nav-item">
@@ -101,11 +101,54 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
           </div>
         </li> -->
 
+        <!-- Norifications Dropdown Menu -->
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="fas fa-bell"></i>
+            <span class="badge badge-warning navbar-badge">15</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <span class="dropdown-item dropdown-header">15 Notifications</span>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-envelope mr-2"></i> 4 new messages
+              <span class="float-right text-muted text-sm">3 mins</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-users mr-2"></i> 8 friend requests
+              <span class="float-right text-muted text-sm">12 hours</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-file mr-2"></i> 3 new reports
+              <span class="float-right text-muted text-sm">2 days</span>
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </a>
+        </li> -->
+
+
+        <!-- Messages Dropdown Menu -->
+        <li class="nav-item">
+          <a class="nav-link" href="panel.php?modulo=racha">
+            <i class="fas fa-fire text-dark"></i>
+            <span class="badge badge-danger navbar-badge" style="position: relative; top: -10px; right: 7px;">
+              3
+            </span>
+          </a>
+        </li>
 
         <!-- Editar Perfil -->
-        <a href="<?php echo 'panel.php?' . http_build_query(['modulo' => 'editarUsuario']); ?>"
-          class="nav-link <?php echo ($modulo == "editarUsuario") ? " active " : " "; ?>">
-          <i class="far fa-user"></i>
+        <!-- echo 'panel.php?' . http_build_query(['modulo' => 'editarUsuario']); ?> -->
+        <a href="panel.php?modulo=perfil" class="nav-link text-dark">
+          <i class=" far fa-user"></i>
         </a>
         <a class="nav-link text-danger" href="panel.php?modulo=&sesion=cerrar" title="Cerrar sesión">
           <i class="fa fa-door-closed"></i>
@@ -130,7 +173,34 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
           <div class="image">
             <div>
               <?php
-              echo "<img src='data:image/png;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
+
+              $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
+
+              if ($imageInfo !== false) {
+                $mime = $imageInfo['mime'];
+
+                switch ($mime) {
+                  case 'image/jpeg':
+                    echo "<img src='data:image/jpeg;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
+                    break;
+                  case 'image/png':
+                    echo "<img src='data:image/png;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
+                    break;
+                  case 'image/gif':
+                    echo "<img src='data:image/gif;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
+                    break;
+                  case 'image/jpg':
+                    echo "<img src='data:image/jpg;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
+                    break;
+                  default:
+                    // El tipo de imagen no es reconocido
+                    break;
+                }
+              } else {
+                // No se pudo obtener información sobre la imagen
+              }
+
+
               ?>
             </div>
           </div>
@@ -222,6 +292,19 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                     <p>Racha</p>
                   </a>
                 </li>
+                <?php
+                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'docente') {
+                  ?>
+                  <li class="nav-item">
+                    <a href="panel.php?modulo=recursos"
+                      class="nav-link <?php echo ($modulo == "recursos" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
+                      <i class="fas fa-film nav-icon" aria-hidden="true"></i>
+                      <p>Recursos</p>
+                    </a>
+                  </li>
+                  <?php
+                }
+                ?>
               </ul>
         </nav>
         <!-- /.sidebar-menu -->
@@ -264,6 +347,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'racha') {
       include_once 'racha.php';
     }
+    if ($modulo == 'perfil') {
+      include_once 'perfil.php';
+    }
     if ($modulo == 'editarUsuario') {
       include_once 'editarUsuario.php';
     }
@@ -272,6 +358,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     }
     if ($modulo == 'crucigrama') {
       include_once 'crucigrama.php';
+    }
+    if ($modulo == 'recursos') {
+      include_once 'admin_recursos.php';
     }
     ?>
 
