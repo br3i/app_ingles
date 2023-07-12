@@ -16,75 +16,92 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div>
-                                <div>
-                                    <?php
+                            <div class="row">
+                                <div class="card col-md-6">
+                                    <div>
+                                        <h4>
+                                            <?php echo $_SESSION['username']; ?>
 
+                                        </h4>
+                                        <!-- Otros detalles del perfil, como descripción, fecha de registro, etc. -->
 
-                                    $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
+                                        <p>Description: *Lorem ipsum dolor sit amet*.</p>
 
-                                    if ($imageInfo !== false) {
-                                        $mime = $imageInfo['mime'];
-
-                                        switch ($mime) {
-                                            case 'image/jpeg':
-                                                echo "<img src='data:image/jpeg;base64," . base64_encode($_SESSION['foto_perfil']) . "'";
-                                                break;
-                                            case 'image/png':
-                                                echo "<img src='data:image/png;base64," . base64_encode($_SESSION['foto_perfil']) . "'";
-                                                break;
-                                            case 'image/gif':
-                                                echo "<img src='data:image/gif;base64," . base64_encode($_SESSION['foto_perfil']) . "'";
-                                                break;
-                                            case 'image/jpg':
-                                                echo "<img src='data:image/jpg;base64," . base64_encode($_SESSION['foto_perfil']) . "'";
-                                                break;
-                                            default:
-                                                // El tipo de imagen no es reconocido
-                                                break;
-                                        }
-                                    } else {
-                                        // No se pudo obtener información sobre la imagen
-                                    }
-                                    ?>
+                                        <p>Member since:
+                                            <?php echo date_format(date_create($_SESSION['fecha_creacion']), 'F d, Y'); ?>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div>
-                                    <h4>
-                                        <?php echo $_SESSION['username']; ?>
-                                    </h4>
-                                    <!-- Otros detalles del perfil, como descripción, fecha de registro, etc. -->
-                                    <p>Description: *Lorem ipsum dolor sit amet*.</p>
-                                    <p>Member since:
-                                        <?php echo date_format(date_create($_SESSION['fecha_creacion']), 'F d, Y'); ?>
-                                    </p>
+                                <div class="card col-md-6 align-items-center">
+                                    <div>
+                                        <?php
+                                        $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
+
+                                        if ($imageInfo !== false) {
+                                            $mime = $imageInfo['mime'];
+
+                                            switch ($mime) {
+                                                case 'image/jpeg':
+                                                    $mime = 'jpeg';
+                                                    break;
+                                                case 'image/png':
+                                                    $mime = 'png';
+                                                    break;
+                                                case 'image/gif':
+                                                    $mime = 'gif';
+                                                    break;
+                                                case 'image/jpg':
+                                                    $mime = 'jpg';
+                                                    break;
+                                                default:
+                                                    // El tipo de imagen no es reconocido
+                                                    break;
+                                            }
+                                        } else {
+                                            // No se pudo obtener información sobre la imagen
+                                        }
+
+                                        echo "<img src='data:image/$mime;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='width: 30%; opacity: 0.9; margin: 0 auto; display: block;'>";
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Aquí puedes incluir los datos adicionales del perfil, estadísticas y otros elementos que desees mostrar -->
-                            <div class="profile-data">
-                                <div class="data-item">
-                                    <h4>Days Streak:</h4>
-                                    <p>10</p>
+                            <div class="row">
+                                <div class="card col-md-6">
+                                    <div class="data-item">
+                                        <h4>Days Streak:</h4>
+                                        <p>10</p>
+                                    </div>
                                 </div>
-                                <div class="data-item">
-                                    <h4>Total Experience:</h4>
-                                    <p>1000</p>
+                                <div class="card col-md-6">
+                                    <div class="data-item">
+                                        <h4>Ranking:</h4>
+                                        <p>#5</p>
+                                    </div>
                                 </div>
                             </div>
 
                             <!-- Puedes mostrar los logros -->
-                            <div class="achievements">
-                                <h4>Achievements:</h4>
-                                <ul>
-                                    <li>Achievement 1</li>
-                                    <li>Achievement 2</li>
-                                    <li>Achievement 3</li>
-                                </ul>
-                            </div>
-
-                            <!-- Puedes añadir un botón para reclamar los logros -->
-                            <div>
-                                <button class="btn btn-primary">Claim Achievements</button>
+                            <div class="row">
+                                <div class="card col-md-12 achievements">
+                                    <h4>Achievements:</h4>
+                                    <ul>
+                                        <li>
+                                            <span>Achievement 1</span>
+                                            <button class="btn btn-primary btn-sm">Claim Reward</button>
+                                        </li>
+                                        <li>
+                                            <span>Achievement 2</span>
+                                            <button class="btn btn-primary btn-sm">Claim Reward</button>
+                                        </li>
+                                        <li>
+                                            <span>Achievement 3</span>
+                                            <button class="btn btn-primary btn-sm">Claim Reward</button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
