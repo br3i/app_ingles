@@ -61,9 +61,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
   <div class="wrapper">
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
+    <!-- <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__shake" src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" height="60" width="60" />
-    </div>
+    </div> -->
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -314,7 +314,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     <?php
     if (isset($_REQUEST['mensaje'])) {
       ?>
-      <div class="alert alert-primary alert-dismissible fade show float-right" role="alert">
+      <div class="alert alert-primary alert-dismissible fade show"
+        style="position: absolute; top: 8%; right: 20px; z-index: 9999;" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
@@ -362,6 +363,12 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'recursos') {
       include_once 'admin_recursos.php';
     }
+    if ($modulo == 'ver_recurso') {
+      include_once 'ver_recurso.php';
+    }
+    if ($modulo == 'eliminar_recurso') {
+      include_once 'eliminar_recurso.php';
+    }
     ?>
 
     <!-- /.content-wrapper -->
@@ -376,7 +383,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     </footer>
 
   </div>
-
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
   <!-- jQuery -->
   <script src="../Publico/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
