@@ -169,19 +169,19 @@ function ocultarError(){
 // reproducir audio
 function reproducirAudio(aud) {
     if(aud==1){
-        var audio= new Audio("audios/fire.mp3");
+        var audio= new Audio("../Publico/audios/fire.mp3");
         audio.play();
     }
     if(aud==2){
-        var audio= new Audio("audios/parrot.mp3");
+        var audio= new Audio("../Publico/audios/parrot.mp3");
         audio.play();
     }
     if(aud==3){
-        var audio= new Audio("audios/bear.mp3");
+        var audio= new Audio("../Publico/audios/bear.mp3");
         audio.play();
     }
     if(aud==4){
-        var audio= new Audio("audios/cat.mp3");
+        var audio= new Audio("../Publico/audios/cat.mp3");
         audio.play();
     }
 }

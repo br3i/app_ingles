@@ -28,6 +28,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../Publico/plugins/fontawesome-free/css/all.min.css" />
+  <!-- FontAweome CDN Link for Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
   <!-- Tempusdominus Bootstrap 4 -->
@@ -52,6 +54,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
   <!-- My css -->
   <link rel="stylesheet" href="../Publico/css/my-css.css" />
+  <link rel="stylesheet" href="../Publico/css/prueba.css">
 
   <!-- Ventana modal para eliminar usuarios -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -369,6 +372,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'eliminar_recurso') {
       include_once 'eliminar_recurso.php';
     }
+    if ($modulo == 'prueba') {
+      include_once 'prueba.php';
+    }
     ?>
 
     <!-- /.content-wrapper -->
@@ -574,6 +580,12 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
 
   <script src="../Publico/js/my-scripts.js"></script>
+
+
+  <!-- Inside this JavaScript file I've inserted Questions and Options only -->
+  <script src="../Publico/js/preguntas.js"></script>
+  <!-- Inside this JavaScript file I've coded all Quiz Codes -->
+  <script src="../Publico/js/prueba.js"></script>
 </body>
 
 </html>

@@ -274,19 +274,19 @@ window.onload = function(){
 
 function reproducirAudio() {
     if(palabra=="FIRE"){
-        var audio= new Audio("audios/fire.mp3");
+        var audio= new Audio("../Publico/audios/fire.mp3");
         audio.play();
     }
     if(palabra=="PARROT"){
-        var audio= new Audio("audios/parrot.mp3");
+        var audio= new Audio("../Publico/audios/parrot.mp3");
         audio.play();
     }
     if(palabra=="BEAR"){
-        var audio= new Audio("audios/bear.mp3");
+        var audio= new Audio("../Publico/audios/bear.mp3");
         audio.play();
     }
     if(palabra=="CAT"){
-        var audio= new Audio("audios/cat.mp3");
+        var audio= new Audio("../Publico/audios/cat.mp3");
         audio.play();
     }
 }
