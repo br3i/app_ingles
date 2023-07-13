@@ -375,6 +375,12 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'prueba') {
       include_once 'prueba.php';
     }
+    if ($modulo == 'ejRep1') {
+      include_once 'ejRep1.php';
+    }
+    if ($modulo == 'ejRep2') {
+      include_once 'ejRep2.php';
+    }
     ?>
 
     <!-- /.content-wrapper -->

@@ -36,48 +36,43 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Agregar los botones y iframes -->
+
                                 <div class="col-md-4">
                                     <div class="info-box bg-dark">
-                                        <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
+                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso</h4>
-                                            <a href="panel.php?modulo=repaso"
-                                                class="btn btn-outline-light text-ellipsis"><b>Train</b></a>
+                                            <h4 class="info-box-text">Repaso 1</h4>
+                                            <a href="panel.php?modulo=ejRep1"
+                                                class="btn btn-outline-light text-ellipsis"><b>Repaso 1</b></a>
                                         </div>
                                     </div>
                                 </div>
+
+
                                 <div class="col-md-4">
-                                    <div class="info-box bg-warning">
-                                        <span class="info-box-icon"><i class="fas fa-crown"></i></span>
+                                    <div class="info-box bg-dark">
+                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Ranking</h4>
-                                            <a href="panel.php?modulo=ranking"
-                                                class="btn btn-outline-light text-ellipsis text-dark"><b>View
-                                                    Rank</b></a>
+                                            <h4 class="info-box-text">Repaso 2</h4>
+                                            <a href="panel.php?modulo=ejRep2"
+                                                class="btn btn-outline-light text-ellipsis"><b>Repaso 2</b></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="info-box bg-info">
-                                        <span class="info-box-icon"><i class="fas fa-trophy"></i></span>
-                                        <div class="info-box-content">
-                                            <h4 class="info-box-text">Logros</h4>
-                                            <a href="panel.php?modulo=logros"
-                                                class="btn btn-outline-light text-ellipsis"><b>Achiviements</b></a>
-                                        </div>
-                                    </div>
+
+
+
+                                <!-- <button class="toggleIframeBtn btn btn-primary" data-iframe="iframe1">Repaso 1</button>
+                                <button class="toggleIframeBtn btn btn-primary" data-iframe="iframe2">Repaso 2</button>
+
+                                <div id="iframe1" class="iframe-container" style="display: none;">
+                                    <iframe src="ejRep1.php" style="width: 100%; height: 500px; border: none;"></iframe>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="info-box bg-light">
-                                        <span class="info-box-icon"><i class="fas fa-star"></i></span>
-                                        <div class="info-box-content">
-                                            <h4 class="info-box-text">Bonificacion</h4>
-                                            <a href="panel.php?modulo=bonificacion"
-                                                class="btn btn-outline-dark text-ellipsis text-dark"><b>Get
-                                                    Bonus</b></a>
-                                        </div>
-                                    </div>
-                                </div>
+                                <div id="iframe2" class="iframe-container" style="display: none;">
+                                    <iframe src="ejRep2.php" style="width: 100%; height: 500px; border: none;"></iframe>
+                                </div> -->
                             </div>
                             <div class="progress">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 60%"
@@ -102,3 +97,22 @@
     <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+
+<!-- Agrega el siguiente código al encabezado de tu página -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Agrega el evento click a cada botón para mostrar/ocultar el iframe correspondiente
+        $(".toggleIframeBtn").click(function () {
+            var iframeId = $(this).data("iframe");
+
+            // Recargar el contenido del otro iframe
+            var otherIframeId = (iframeId === "iframe1") ? "iframe2" : "iframe1";
+            $("#" + otherIframeId + " iframe").attr("src", $("#" + otherIframeId + " iframe").attr("src"));
+
+            $("#" + iframeId).slideToggle();
+            $(".iframe-container").not("#" + iframeId).slideUp();
+        });
+    });
+</script>

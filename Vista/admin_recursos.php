@@ -93,6 +93,10 @@
 													<input type="file" name="archivo" class="form-control-file" />
 												</div>
 												<div class="form-group">
+													<label>Unidad</label>
+													<input type="text" name="unidad" class="form-control-file" />
+												</div>
+												<div class="form-group">
 													<label>Archivo de Subtítulos (VTT)</label>
 													<input type="file" name="subtitulo" class="form-control-file">
 												</div>

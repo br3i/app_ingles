@@ -7,6 +7,7 @@ if (isset($_POST['save'])) {
 	$archivo_temp = $_FILES['archivo']['tmp_name'];
 	$archivo_size = $_FILES['archivo']['size'];
 	$descripcion = $_POST['descripcion'];
+	$unidad = $_POST['unidad'];
 
 	// Obtener extensión del archivo
 	$archivo_extension = pathinfo($archivo_name, PATHINFO_EXTENSION);
@@ -52,7 +53,7 @@ if (isset($_POST['save'])) {
 			}
 
 			// Insertar los datos en la base de datos
-			mysqli_query($con, "INSERT INTO `recursos` (`recurso_name`, `tipo_archivo`, `location`, `vtt_location`, `descripcion`) VALUES ('$name', '$tipo_archivo', '$archivo_location', '$subtitulo_location', '$descripcion')") or die(mysqli_error($con));
+			mysqli_query($con, "INSERT INTO `recursos` (`unidad`, `recurso_name`, `tipo_archivo`, `location`, `vtt_location`, `descripcion`) VALUES ('$unidad', '$name', '$tipo_archivo', '$archivo_location', '$subtitulo_location', '$descripcion')") or die(mysqli_error($con));
 
 			header("Location: panel.php?modulo=recursos&mensaje=Archivo cargado correctamente");
 			exit();
