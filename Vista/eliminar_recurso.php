@@ -110,7 +110,7 @@
                             <!-- Mostrar la lista de videos disponibles -->
                             <?php
                             // Realizar consulta para obtener los videos de la base de datos
-                            $query = mysqli_query($con, "SELECT * FROM `recursos` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
+                            $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
                             ?>
 
                             <div class="col-md-12">

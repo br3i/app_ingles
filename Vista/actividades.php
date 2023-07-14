@@ -52,7 +52,7 @@
                     <?php
                     include_once '../Config/conexion.php';
 
-                    $query = mysqli_query($con, "SELECT DISTINCT unidad FROM `recursos` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
+                    $query = mysqli_query($con, "SELECT DISTINCT unidad FROM recurso JOIN unidad ON recurso.id_unidad = unidad.id_unidad ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
 
                     while ($row = mysqli_fetch_assoc($query)) {
                         $unidad = $row['unidad'];
@@ -112,20 +112,20 @@
 <!-- /.content-wrapper -->
 
 <script>
-function loadVideo(selectElement) {
-    var selectedVideoId = selectElement.value;
-    var iframeContainer = document.getElementById('iframe-container');
-    var videoIframe = document.getElementById('video-iframe');
+    function loadVideo(selectElement) {
+        var selectedVideoId = selectElement.value;
+        var iframeContainer = document.getElementById('iframe-container');
+        var videoIframe = document.getElementById('video-iframe');
 
-    if (selectedVideoId) {
-        var dataSrc = selectElement.dataset.src;
-        var dataVideoSelect = selectElement.dataset.videoSelect;
+        if (selectedVideoId) {
+            var dataSrc = selectElement.dataset.src;
+            var dataVideoSelect = selectElement.dataset.videoSelect;
 
-        iframeContainer.style.display = 'block';
-        videoIframe.src = dataSrc + '?video_select=' + dataVideoSelect;
-    } else {
-        iframeContainer.style.display = 'none';
-        videoIframe.src = '';
+            iframeContainer.style.display = 'block';
+            videoIframe.src = dataSrc + '?video_select=' + dataVideoSelect;
+        } else {
+            iframeContainer.style.display = 'none';
+            videoIframe.src = '';
+        }
     }
-}
 </script>

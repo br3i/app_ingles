@@ -6,12 +6,12 @@ if (isset($_POST['video_select'])) {
     $selected_video_id = $_POST['video_select'];
 
     // Realizar una nueva consulta para obtener el video seleccionado
-    $selected_query = mysqli_query($con, "SELECT * FROM `recursos` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
+    $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
     $selected_video = mysqli_fetch_array($selected_query);
 }
 
 // Realizar consulta para obtener los videos de la base de datos
-$query = mysqli_query($con, "SELECT * FROM `recursos` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
+$query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
 ?>
 
 
@@ -34,16 +34,10 @@ $query = mysqli_query($con, "SELECT * FROM `recursos` ORDER BY `id_recurso` ASC"
                         Welcome to Resources!
                     </div>
 
-
-                    <div class="card card-primary">
-                        <div class="card-header">
-                            <h3 class="card-title">Welcome to Resources!</h3>
-                        </div>
-                    </div>
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="d-flex align-items-center justify-content-center card-header">
-                                <h3 class="text-primary col-md-10">Explorar Recursos</h3>
+                                <h3 class="text-primary col-md-10">Explore Resources</h3>
                                 <a href="panel.php?modulo=recursos" class="btn btn-primary">Volver</a>
                             </div>
                         </div>
@@ -53,28 +47,36 @@ $query = mysqli_query($con, "SELECT * FROM `recursos` ORDER BY `id_recurso` ASC"
                             $selected_video_id = $_POST['video_select'];
 
                             // Realizar una nueva consulta para obtener el video seleccionado
-                            $selected_query = mysqli_query($con, "SELECT * FROM `recursos` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
+                            $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
                             $selected_video = mysqli_fetch_array($selected_query);
 
                             // Mostrar el video seleccionado
                             if ($selected_video) {
                                 echo '
-                                    <div class="card d-flex align-items-center justify-content-center">
+                                    <div class="card-body row">
                                         <div class="col-md-4" style="word-wrap:break-word;">
-                                            <br />
-                                            <h4>Nombre del Recurso:</h4>
-                                            <h5 class="text-primary">' . $selected_video['recurso_name'] . '</h5>
-                                            <br />
-                                            <h4>Descripción:</h4>
-                                            <h5 class="text-primary">' . $selected_video['descripcion'] . '</h5>
+                                            <h6>Nombre del Recurso:</h6>
+                                            <h7 class="text-primary">' . $selected_video['recurso_name'] . '</h7>
                                         </div>
-                                        <div class="col-md-8 text-center">
-                                            <video width="100%" height="240" controls>
-                                                <source src="' . $selected_video['location'] . '">
-                                            </video>
+                                        <div class="col-md-4" style="word-wrap:break-word;">
+                                            <h6>Número de Unidad:</h6>
+                                            <h7 class="text-primary">' . $selected_video['id_unidad'] . '</h7>
+                                        </div>
+                                        <div class="col-md-4" style="word-wrap:break-word;">
+                                            <h6>Número de Actividad:</h6>
+                                            <h7 class="text-primary">' . $selected_video['id_actividad'] . '</h7>
+                                        </div>
+                                        <div class="col-md-4" style="word-wrap:break-word;">
+                                            <h6>Descripción:</h6>
+                                            <h7 class="text-primary">' . $selected_video['descripcion'] . '</h7>
                                         </div>
                                         <br>
-                                    </div>                         
+                                    </div>  
+                                    <div class="text-center d-flex align-items-center justify-content-center">
+                                            <video width="70%" controls>
+                                                <source src="' . $selected_video['location'] . '">
+                                            </video>
+                                    </div>                       
                                 ';
                             }
                         }

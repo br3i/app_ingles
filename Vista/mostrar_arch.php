@@ -6,7 +6,7 @@ if (isset($_POST['video_select'])) {
     $selected_video_id = $_POST['video_select'];
 
     // Realizar una nueva consulta para obtener el video seleccionado
-    $selected_query = mysqli_query($con, "SELECT * FROM `recursos` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
+    $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
     $selected_video = mysqli_fetch_array($selected_query);
 }
 ?>

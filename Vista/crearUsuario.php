@@ -22,7 +22,7 @@ if (isset($_REQUEST['guardar'])) {
       $fotoPerfil = addslashes(file_get_contents("..\Publico\img\arq2.jpg"));
     }
 
-    $query = "INSERT INTO usuarios (username, nombre, passw, rol, foto_perfil) VALUES ('$username', '$nombre','$password', '$rol', '$fotoPerfil');";
+    $query = "INSERT INTO usuario (username, nombre, passw, rol, foto_perfil) VALUES ('$username', '$nombre','$password', '$rol', '$fotoPerfil');";
     $result = mysqli_query($con, $query);
     if ($result) {
       echo "<meta http-equiv='refresh' content='0;url=..\index.php?mensaje=Usuario creado exitosamente'/>";

@@ -52,11 +52,34 @@ if (isset($_POST['save'])) {
 				}
 			}
 
-			// Insertar los datos en la base de datos
-			mysqli_query($con, "INSERT INTO `recursos` (`unidad`, `recurso_name`, `tipo_archivo`, `location`, `vtt_location`, `descripcion`) VALUES ('$unidad', '$name', '$tipo_archivo', '$archivo_location', '$subtitulo_location', '$descripcion')") or die(mysqli_error($con));
+			// Verificar si la unidad existe en la tabla unidad
+			$query = "SELECT id_unidad FROM unidad WHERE id_unidad = ?";
+			$stmt = mysqli_prepare($con, $query);
+			mysqli_stmt_bind_param($stmt, "i", $unidad);
+			mysqli_stmt_execute($stmt);
+			mysqli_stmt_store_result($stmt);
+			if (mysqli_stmt_num_rows($stmt) > 0) {
+				// La unidad existe, realizar la inserción en recursos
+				$query = "INSERT INTO recurso (id_unidad, recurso_name, tipo_archivo, location, vtt_location, descripcion) VALUES (?, ?, ?, ?, ?, ?)";
+				$stmt = mysqli_prepare($con, $query);
+				mysqli_stmt_bind_param($stmt, "isssss", $unidad, $name, $tipo_archivo, $archivo_location, $subtitulo_location, $descripcion);
+				mysqli_stmt_execute($stmt);
 
-			header("Location: panel.php?modulo=recursos&mensaje=Archivo cargado correctamente");
-			exit();
+				// Verificar si la inserción fue exitosa
+				if (mysqli_stmt_affected_rows($stmt) > 0) {
+					// La inserción fue exitosa
+					header("Location: panel.php?modulo=recursos&mensaje=Archivo cargado correctamente");
+					exit();
+				} else {
+					// Ocurrió un error durante la inserción
+					header("Location: panel.php?modulo=recursos&mensaje=Error al guardar el recurso");
+					exit();
+				}
+			} else {
+				// La unidad no existe en la tabla unidad
+				header("Location: panel.php?modulo=recursos&mensaje=La unidad seleccionada no existe");
+				exit();
+			}
 		} else {
 			header("Location: panel.php?modulo=recursos&mensaje=Error al cargar el archivo");
 			exit();
@@ -66,4 +89,7 @@ if (isset($_POST['save'])) {
 		exit();
 	}
 }
+
+// Cerrar la conexión a la base de datos
+mysqli_close($con);
 ?>

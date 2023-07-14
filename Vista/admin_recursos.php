@@ -53,7 +53,7 @@
 
 						include_once '../Config/conexion.php';
 
-						$query = mysqli_query($con, "SELECT * FROM `recursos` ORDER BY `id_recurso`ASC") or die(mysqli_error($con));
+						$query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso`ASC") or die(mysqli_error($con));
 
 						while ($row = mysqli_fetch_assoc($query)) {
 							$nombreArchivo = $row['recurso_name'];
