@@ -35,7 +35,7 @@ if (isset($_REQUEST['mensaje'])) {
 <body class="hold-transition login-page">
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="../../index2.html"><b>Bienvenido</b>!!</a>
+			<a href=""><b>Bienvenido</b>!!</a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="card">
@@ -59,16 +59,18 @@ if (isset($_REQUEST['mensaje'])) {
 					$password = $_REQUEST['passw'] ?? '';
 					$hash = password_hash($password, PASSWORD_DEFAULT);
 					include_once "Config/conexion.php";
-					$query = "SELECT id_usuario, username, passw, rol, foto_perfil, fecha_creacion FROM usuarios WHERE username='" . $username . "';";
+					$query = "SELECT id_usuario, username, nombre, passw, rol, foto_perfil, fecha_creacion, numero_racha FROM usuario WHERE username='" . $username . "';";
 					$res = mysqli_query($con, $query);
 					$row = mysqli_fetch_assoc($res);
 
 					if ($row && password_verify($password, $row['passw'])) {
 						$_SESSION['id_usuario'] = $row['id_usuario'];
 						$_SESSION['username'] = $row['username'];
+						$_SESSION['nombre'] = $row['nombre'];
 						$_SESSION['foto_perfil'] = $row['foto_perfil'];
 						$_SESSION['rol'] = $row['rol'];
 						$_SESSION['fecha_creacion'] = $row['fecha_creacion'];
+						$_SESSION['numero_racha'] = $row['numero_racha'];
 
 						header("Location: Vista/panel.php");
 						exit;

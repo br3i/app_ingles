@@ -3,10 +3,11 @@ if (isset($_REQUEST['guardar'])) {
   include_once "..\Config\conexion.php";
 
   $username = mysqli_real_escape_string($con, $_POST['username'] ?? '');
+  $nombre = mysqli_real_escape_string($con, $_POST['nombre'] ?? '');
   $password = mysqli_real_escape_string($con, $_POST['passw'] ?? '');
   $rol = mysqli_real_escape_string($con, $_POST['rol'] ?? '');
 
-  if ($username == '' || $password == '' || $rol == '') {
+  if ($username == '' || $nombre == '' || $password == '' || $rol == '') {
     $errorMessage = "Todos los campos son obligatorios";
   } else {
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -21,7 +22,7 @@ if (isset($_REQUEST['guardar'])) {
       $fotoPerfil = addslashes(file_get_contents("..\Publico\img\arq2.jpg"));
     }
 
-    $query = "INSERT INTO usuarios (username, passw, rol, foto_perfil) VALUES ('$username', '$password', '$rol', '$fotoPerfil');";
+    $query = "INSERT INTO usuario (username, nombre, passw, rol, foto_perfil) VALUES ('$username', '$nombre','$password', '$rol', '$fotoPerfil');";
     $result = mysqli_query($con, $query);
     if ($result) {
       echo "<meta http-equiv='refresh' content='0;url=..\index.php?mensaje=Usuario creado exitosamente'/>";
@@ -87,8 +88,12 @@ if (isset($_REQUEST['guardar'])) {
               <div class="card-body">
                 <form action="" method="post" enctype="multipart/form-data">
                   <div class="form-group">
-                    <label for="">Nombre de Usuario</label>
+                    <label for="">Username</label>
                     <input type="text" name="username" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label for="">Nombre</label>
+                    <input type="text" name="nombre" class="form-control">
                   </div>
                   <div class="form-group">
                     <label for="">Password</label>

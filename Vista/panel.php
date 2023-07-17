@@ -28,6 +28,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../Publico/plugins/fontawesome-free/css/all.min.css" />
+  <!-- FontAweome CDN Link for Icons-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
   <!-- Tempusdominus Bootstrap 4 -->
@@ -52,6 +54,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
   <!-- My css -->
   <link rel="stylesheet" href="../Publico/css/my-css.css" />
+  <link rel="stylesheet" href="../Publico/css/prueba.css">
 
   <!-- Ventana modal para eliminar usuarios -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -61,9 +64,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 <body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
   <div class="wrapper">
     <!-- Preloader -->
-    <div class="preloader flex-column justify-content-center align-items-center">
+    <!-- <div class="preloader flex-column justify-content-center align-items-center">
       <img class="animation__shake" src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" height="60" width="60" />
-    </div>
+    </div> -->
 
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -314,7 +317,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     <?php
     if (isset($_REQUEST['mensaje'])) {
       ?>
-      <div class="alert alert-primary alert-dismissible fade show float-right" role="alert">
+      <div class="alert alert-primary alert-dismissible fade show"
+        style="position: absolute; top: 8%; right: 20px; z-index: 9999;" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>
           <span class="sr-only">Close</span>
@@ -359,11 +363,23 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'crucigrama') {
       include_once 'crucigrama.php';
     }
+    if ($modulo == 'recursos') {
+      include_once 'admin_recursos.php';
+    }
+    if ($modulo == 'ver_recurso') {
+      include_once 'ver_recurso.php';
+    }
+    if ($modulo == 'eliminar_recurso') {
+      include_once 'eliminar_recurso.php';
+    }
     if ($modulo == 'prueba') {
       include_once 'prueba.php';
     }
-    if ($modulo == 'recursos') {
-      include_once 'admin_recursos.php';
+    if ($modulo == 'ejRep1') {
+      include_once 'ejRep1.php';
+    }
+    if ($modulo == 'ejRep2') {
+      include_once 'ejRep2.php';
     }
     ?>
 
@@ -379,7 +395,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     </footer>
 
   </div>
-
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
   <!-- jQuery -->
   <script src="../Publico/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
@@ -569,6 +586,12 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
 
   <script src="../Publico/js/my-scripts.js"></script>
+
+
+  <!-- Inside this JavaScript file I've inserted Questions and Options only -->
+  <script src="../Publico/js/preguntas.js"></script>
+  <!-- Inside this JavaScript file I've coded all Quiz Codes -->
+  <script src="../Publico/js/prueba.js"></script>
 </body>
 
 </html>
