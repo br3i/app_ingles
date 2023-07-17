@@ -124,5 +124,4 @@ if (isset($_REQUEST['mensaje'])) {
 		<!-- AdminLTE App
 		<script src="dist/js/adminlte.min.js"></script> -->
 </body>
-
 </html>

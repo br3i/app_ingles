@@ -40,8 +40,8 @@
                                     <div class="info-box bg-dark">
                                         <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso</h4>
-                                            <a href="panel.php?modulo=repaso"
+                                            <h4 class="info-box-text">Prueba</h4>
+                                            <a href="panel.php?modulo=prueba"
                                                 class="btn btn-outline-light text-ellipsis"><b>Train</b></a>
                                         </div>
                                     </div>

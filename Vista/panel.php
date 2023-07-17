@@ -359,6 +359,9 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     if ($modulo == 'crucigrama') {
       include_once 'crucigrama.php';
     }
+    if ($modulo == 'prueba') {
+      include_once 'prueba.php';
+    }
     if ($modulo == 'recursos') {
       include_once 'admin_recursos.php';
     }
