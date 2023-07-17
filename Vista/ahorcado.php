@@ -1,6 +1,3 @@
-<!doctype html>
-<html>
-
 <head>
     <meta charset="utf-8">
     <title>Juego del ahorcado</title>
@@ -17,5 +14,3 @@
     <button id="boton" type="reset" onclick="javascript:window.location.reload();">Volver a Jugar</button>
     <button id="boton2" type="reset" onclick="reproducirAudio()" hidden>Audio</button>
 </body>
-
-</html>
