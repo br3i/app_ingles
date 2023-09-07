@@ -104,7 +104,6 @@
 													<label>Descripción</label>
 													<input type="text" name="descripcion" class="form-control-file" />
 												</div>
-												<input type="hidden" name="tipo_archivo" value="video">
 											</div>
 										</div>
 										<div style="clear:both;"></div>

@@ -254,8 +254,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="panel.php?modulo=pruebas"
-                    class="nav-link <?php echo ($modulo == "pruebas" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
+                  <a href="panel.php?modulo=prueba"
+                    class="nav-link <?php echo ($modulo == "prueba" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-file-signature nav-icon" aria-hidden="true"></i>
                     <p>Pruebas</p>
                   </a>
@@ -332,9 +332,6 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
     }
     if ($modulo == 'actividades') {
       include_once 'actividades.php';
-    }
-    if ($modulo == 'pruebas') {
-      include_once 'pruebas.php';
     }
     if ($modulo == 'repaso') {
       include_once 'repaso.php';
@@ -589,7 +586,8 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
 
   <!-- Inside this JavaScript file I've inserted Questions and Options only -->
-  <script src="../Publico/js/preguntas.js"></script>
+  <script src="../Publico/js/PreguntasActividad.js"></script>
+  <script src="../Publico/js/PreguntasPrueba.js"></script>
   <!-- Inside this JavaScript file I've coded all Quiz Codes -->
   <script src="../Publico/js/prueba.js"></script>
 </body>

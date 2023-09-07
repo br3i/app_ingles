@@ -26,8 +26,8 @@ continue_btn.onclick = ()=>{
     quiz_box.classList.add("activeQuiz"); //show quiz box
     showQuetions(0); //calling showQestions function
     queCounter(1); //passing 1 parameter to queCounter
-    startTimer(15); //calling startTimer function
-    startTimerLine(0); //calling startTimerLine function
+    // startTimer(15); //calling startTimer function
+    // startTimerLine(0); //calling startTimerLine function
 }
 
 let timeValue =  15;
@@ -70,7 +70,7 @@ const bottom_ques_counter = document.querySelector("footer .total_que");
 
 // if Next Que button clicked
 next_btn.onclick = ()=>{
-    if(que_count < questions.length - 1){ //if question count is less than total question length
+    if(que_count < preguntas.length - 1){ //if pregunta count is less than total pregunta length
         que_count++; //increment the que_count value
         que_numb++; //increment the que_numb value
         showQuetions(que_count); //calling showQestions function
@@ -88,18 +88,33 @@ next_btn.onclick = ()=>{
     }
 }
 
-// getting questions and options from array
+// getting preguntas and options from array
 function showQuetions(index){
     const que_text = document.querySelector(".que_text");
 
-    //creating a new span and div tag for question and option and passing the value using array index
-    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
-    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    //creating a new span and div tag for pregunta and option and passing the value using array index
+    let que_tag = '<span>' + preguntas[index].id + ". " + preguntas[index].descripcion + " - " + preguntas[index].pregunta + '</span>';
+    let option_tag = '<div class="option"><span>'+ preguntas[index].opciones[0] +'</span></div>'
+    + '<div class="option"><span>'+ preguntas[index].opciones[1] +'</span></div>'
+    + '<div class="option"><span>'+ preguntas[index].opciones[2] +'</span></div>'
+    + '<div class="option"><span>'+ preguntas[index].opciones[3] +'</span></div>';
     que_text.innerHTML = que_tag; //adding new span tag inside que_tag
     option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+
+    // Remove any previous videos before appending a new one
+    const previousVideo = que_text.querySelector("video");
+    if (previousVideo) {
+        previousVideo.remove();
+    }
+
+    // Show video if there is a ruta_video
+    const rutaVideo = preguntas[index].ruta_video;
+    if (rutaVideo) {
+        const video = document.createElement("video");
+        video.src = rutaVideo;
+        video.controls = true; // Agregar controles de reproducción
+        que_text.appendChild(video); // Agregar el reproductor de video a la interfaz
+    }
     
     const option = option_list.querySelectorAll(".option");
 
@@ -113,22 +128,22 @@ let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
 let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
 
 //if user clicked on option
-function optionSelected(answer){
+function optionSelected(respuesta){
     clearInterval(counter); //clear counter
     clearInterval(counterLine); //clear counterLine
-    let userAns = answer.textContent; //getting user selected option
-    let correcAns = questions[que_count].answer; //getting correct answer from array
+    let userAns = respuesta.textContent; //getting user selected option
+    let correcAns = preguntas[que_count].respuesta; //getting correct answer from array
     const allOptions = option_list.children.length; //getting all option items
     
     if(userAns == correcAns){ //if user selected option is equal to array's correct answer
         userScore += 1; //upgrading score value with 1
-        answer.classList.add("correct"); //adding green color to correct selected option
-        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+        respuesta.classList.add("correct"); //adding green color to correct selected option
+        respuesta.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
         console.log("Correct Answer");
         console.log("Your correct answers = " + userScore);
     }else{
-        answer.classList.add("incorrect"); //adding red color to correct selected option
-        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
+        respuesta.classList.add("incorrect"); //adding red color to correct selected option
+        respuesta.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
         console.log("Wrong Answer");
 
         for(i=0; i < allOptions; i++){
@@ -151,16 +166,16 @@ function showResult(){
     result_box.classList.add("activeResult"); //show result box
     const scoreText = result_box.querySelector(".score_text");
     if (userScore > 3){ // if user scored more than 3
-        //creating a new span tag and passing the user score number and total question number
-        let scoreTag = '<span>and congrats! 🎉, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        //creating a new span tag and passing the user score number and total pregunta number
+        let scoreTag = '<span>and congrats! 🎉, You got <p>'+ userScore +'</p> out of <p>'+ preguntas.length +'</p></span>';
         scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
     }
     else if(userScore > 1){ // if user scored more than 1
-        let scoreTag = '<span>and nice 😎, You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        let scoreTag = '<span>and nice 😎, You got <p>'+ userScore +'</p> out of <p>'+ preguntas.length +'</p></span>';
         scoreText.innerHTML = scoreTag;
     }
     else{ // if user scored less than 1
-        let scoreTag = '<span>and sorry 😐, You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        let scoreTag = '<span>and sorry 😐, You got only <p>'+ userScore +'</p> out of <p>'+ preguntas.length +'</p></span>';
         scoreText.innerHTML = scoreTag;
     }
 }
@@ -178,9 +193,9 @@ function startTimer(time){
             clearInterval(counter); //clear counter
             timeText.textContent = "Time Off"; //change the time text to time off
             const allOptions = option_list.children.length; //getting all option items
-            let correcAns = questions[que_count].answer; //getting correct answer from array
+            let correcAns = preguntas[que_count].respuesta; //getting correct answer from array
             for(i=0; i < allOptions; i++){
-                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
+                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array respuesta
                     option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
                     option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
                     console.log("Time Off: Auto selected correct answer.");
@@ -206,7 +221,7 @@ function startTimerLine(time){
 }
 
 function queCounter(index){
-    //creating a new span tag and passing the question number and total question
-    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
+    //creating a new span tag and passing the pregunta number and total pregunta
+    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ preguntas.length +'</p> preguntas</span>';
     bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
 } 

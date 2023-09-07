@@ -32,7 +32,7 @@
                                         <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
                                         <div class="info-box-content">
                                             <h4 class="info-box-text">Pruebas</h4>
-                                            <a href="panel.php?modulo=pruebas"
+                                            <a href="panel.php?modulo=prueba"
                                                 class="btn btn-outline-light text-ellipsis"><b>Try
                                                     Lessons</b></a>
                                         </div>
