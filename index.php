@@ -35,22 +35,22 @@ if (isset($_REQUEST['mensaje'])) {
 <body class="hold-transition login-page">
 	<div class="login-box">
 		<div class="login-logo">
-			<a href=""><b>Bienvenido</b>!!</a>
+			<a href=""><b>Welcome</b>!!</a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="card">
 			<div class="card-body login-card-body">
-				<p class="login-box-msg">Ingrese sus credenciales</p>
+				<p class="login-box-msg">Enter your credentials</p>
 
 				<?php
 				if (isset($_GET['error'])) {
 					echo '<div class="alert alert-danger" role="alert">
-					Usuario o contraseña incorrectos
+					Incorrect username or password
 					</div>';
 				}
 				if (isset($_GET['registrarse'])) {
 					echo '<div class="alert alert-success" role="alert">
-					Aquí una ventana modal para crear un nuevo usuario
+					Here is a modal window to create a new user
 					</div>';
 				}
 				if (isset($_REQUEST['login'])) {
@@ -78,7 +78,7 @@ if (isset($_REQUEST['mensaje'])) {
 					} else {
 						?>
 						<div class="alert alert-danger" role="alert">
-							Usuario o contraseña incorrectos
+							Incorrect username or password
 						</div>
 						<?php
 					}
@@ -88,7 +88,7 @@ if (isset($_REQUEST['mensaje'])) {
 
 				<form method="post">
 					<div class="input-group mb-3">
-						<input type="text" class="form-control" placeholder="Nombre de usuario" name="username">
+						<input type="text" class="form-control" placeholder="Username" name="username">
 						<div class="input-group-append">
 							<div class="input-group-text">
 								<span class="fas fa-user"></span>
@@ -105,11 +105,11 @@ if (isset($_REQUEST['mensaje'])) {
 					</div>
 					<div class="centrado">
 						<div>
-							<button type="submit" class="btn btn-primary btn-block" name="login">Entrar</button>
+							<button type="submit" class="btn btn-primary btn-block" name="login">Start session</button>
 						</div>
 						<div>
 							<a href="Controlador/controlador.php?var=1"
-								class="btn btn-primary btn-block">Registrarse</a>
+								class="btn btn-primary btn-block">Create an account</a>
 						</div>
 					</div>
 				</form>

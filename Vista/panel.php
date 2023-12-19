@@ -16,6 +16,52 @@ if (!isset($_SESSION['id_usuario'])) {
 }
 
 $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
+
+include_once "../Config/conexion.php";
+
+function obtenerPreguntas($tipo) {
+    global $con;
+    $query = "SELECT a.*, r.location 
+              FROM actividad a
+              JOIN recurso r ON a.id_recurso = r.id_recurso
+              WHERE a.tipo = '$tipo'";
+    $result = mysqli_query($con, $query);
+
+    $preguntas = array();
+    $id = 1;
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        $opciones = explode(',', $row['opciones']);
+        $preguntas[] = array(
+            'id' => $id,
+            'tipo' => $row['tipo'],
+            'id_recurso' => intval($row['id_recurso']),
+            'id_actividad' => intval($row['id_actividad']),
+            'descripcion' => $row['descripcion'],
+            'pregunta' => $row['pregunta'],
+            'respuesta' => $row['respuesta'],
+            'opciones' => $opciones,
+            'ruta_video' => $row['location']
+        );
+        $id++;
+    }
+
+    return $preguntas;
+}
+
+$preguntasPrueba = obtenerPreguntas('Prueba');
+$preguntasActividad = obtenerPreguntas('Actividad');
+
+$preguntasJsonPrueba = json_encode($preguntasPrueba, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+$preguntasJsonActividad = json_encode($preguntasActividad, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+
+$filePrueba = fopen('../Publico/js/PreguntasPrueba.js', 'w');
+fwrite($filePrueba, 'let preguntas = ' . $preguntasJsonPrueba . ';');
+fclose($filePrueba);
+
+$fileActividad = fopen('../Publico/js/PreguntasActividad.js', 'w');
+fwrite($fileActividad, 'let preguntasActividad = ' . $preguntasJsonActividad . ';');
+fclose($fileActividad);
 ?>
 
 <head>
@@ -153,7 +199,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
         <a href="panel.php?modulo=perfil" class="nav-link text-dark">
           <i class=" far fa-user"></i>
         </a>
-        <a class="nav-link text-danger" href="panel.php?modulo=&sesion=cerrar" title="Cerrar sesión">
+        <a class="nav-link text-danger" href="panel.php?modulo=&sesion=cerrar" title="Sign out">
           <i class="fa fa-door-closed"></i>
         </a>
       </ul>
@@ -250,21 +296,21 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                   <a href="panel.php?modulo=actividades"
                     class="nav-link <?php echo ($modulo == "actividades" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-pencil-alt nav-icon" aria-hidden="true"></i>
-                    <p>Actividades</p>
+                    <p>Activities</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=prueba"
                     class="nav-link <?php echo ($modulo == "prueba" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-file-signature nav-icon" aria-hidden="true"></i>
-                    <p>Pruebas</p>
+                    <p>Tests</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=repaso"
                     class="nav-link <?php echo ($modulo == "repaso" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-dumbbell nav-icon" aria-hidden="true"></i>
-                    <p>Repaso</p>
+                    <p>Training</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -278,21 +324,21 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                   <a href="panel.php?modulo=logros"
                     class="nav-link <?php echo ($modulo == "logros" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-trophy nav-icon" aria-hidden="true"></i>
-                    <p>Logros</p>
+                    <p>Achivements</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=bonificacion"
                     class="nav-link <?php echo ($modulo == "bonificacion" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-star nav-icon" aria-hidden="true"></i>
-                    <p>Bonificacion</p>
+                    <p>Bonification</p>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="panel.php?modulo=racha"
                     class="nav-link <?php echo ($modulo == "racha" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-fire nav-icon" aria-hidden="true"></i>
-                    <p>Racha</p>
+                    <p>Streak</p>
                   </a>
                 </li>
                 <?php
@@ -302,7 +348,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
                     <a href="panel.php?modulo=recursos"
                       class="nav-link <?php echo ($modulo == "recursos" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                       <i class="fas fa-film nav-icon" aria-hidden="true"></i>
-                      <p>Recursos</p>
+                      <p>Resources</p>
                     </a>
                   </li>
                   <?php
@@ -589,7 +635,7 @@ $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
   <script src="../Publico/js/PreguntasActividad.js"></script>
   <script src="../Publico/js/PreguntasPrueba.js"></script>
   <!-- Inside this JavaScript file I've coded all Quiz Codes -->
-  <script src="../Publico/js/prueba.js"></script>
+  <script src="../Publico/js/pruebas.js"></script>
 </body>
 
 </html>

@@ -20,7 +20,7 @@
                                     <div class="info-box bg-primary">
                                         <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Ahorcado</h4>
+                                            <h4 class="info-box-text">Hanging Game</h4>
                                             <a href="panel.php?modulo=ahorcado"
                                                 class="btn btn-outline-light text-ellipsis"><b>Play</b></a>
                                         </div>
@@ -30,7 +30,7 @@
                                     <div class="info-box bg-success">
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Crucigrama</h4>
+                                            <h4 class="info-box-text">Crossword</h4>
                                             <a href="panel.php?modulo=crucigrama"
                                                 class="btn btn-outline-light text-ellipsis"><b>Play</b></a>
                                         </div>
@@ -43,9 +43,9 @@
                                     <div class="info-box bg-dark">
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso 1</h4>
+                                            <h4 class="info-box-text">Training 1</h4>
                                             <a href="panel.php?modulo=ejRep1"
-                                                class="btn btn-outline-light text-ellipsis"><b>Repaso 1</b></a>
+                                                class="btn btn-outline-light text-ellipsis"><b>Start</b></a>
                                         </div>
                                     </div>
                                 </div>
@@ -55,9 +55,9 @@
                                     <div class="info-box bg-dark">
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso 2</h4>
+                                            <h4 class="info-box-text">Training 2</h4>
                                             <a href="panel.php?modulo=ejRep2"
-                                                class="btn btn-outline-light text-ellipsis"><b>Repaso 2</b></a>
+                                                class="btn btn-outline-light text-ellipsis"><b>Start</b></a>
                                         </div>
                                     </div>
                                 </div>

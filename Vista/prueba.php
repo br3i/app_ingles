@@ -1,4 +1,5 @@
 <?php
+/*
 // Incluye tu archivo de conexión a la base de datos
 include_once "../Config/conexion.php";
 
@@ -80,6 +81,9 @@ $questionsJsonActividad = preg_replace('/"([^"]+)"\s*:/', '$1:', $questionsJsonA
 $fileActividad = fopen('../Publico/js/PreguntasActividad.js', 'w');
 fwrite($fileActividad, 'let preguntasActividad = ' . $questionsJsonActividad . ';');
 fclose($fileActividad);
+*/
+
+
 ?>
 
 
@@ -107,7 +111,7 @@ fclose($fileActividad);
                 <div class="info_box">
                     <div class="info-title"><span>Some Rules of this Quiz</span></div>
                     <div class="info-list">
-                        <div class="info">1. You will have only <span>15 seconds</span> per each question.</div>
+                        <div class="info">1. You will have only <span>60 seconds</span> per each question.</div>
                         <div class="info">2. Once you select your answer, it can't be undone.</div>
                         <div class="info">3. You can't select any option once time goes off.</div>
                         <div class="info">4. You can't exit from the Quiz while you're playing.</div>
@@ -125,7 +129,7 @@ fclose($fileActividad);
                         <div class="title">Awesome Quiz Application</div>
                         <div class="timer">
                             <div class="time_left_txt">Time Left</div>
-                            <div class="timer_sec">15</div>
+                            <div class="timer_sec">40</div>
                         </div>
                         <div class="time_line"></div>
                     </header>

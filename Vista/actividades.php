@@ -21,12 +21,12 @@
                                 echo '
                                     <div class="col-md-4 unidad-container">
                                         <div class="d-flex align-items-center justify-content-center info-box bg-dark">
-                                            <h3>Unidad ' . $unidad . '</h3>
+                                            <h3>Unity ' . $unidad . '</h3>
                                             <div class="info-box-content">
                                                 <select name="video_select" class="toggleIframeBtn video-select unidad-select bg-dark" onchange="loadVideo(this)" data-iframe="iframe1">';
 
                                 // Agregar la opción por defecto
-                                echo '<option value="">Seleccione un recurso</option>';
+                                echo '<option value="">Select a resource</option>';
 
                                 $unidadQuery = mysqli_query($con, "SELECT * FROM `recurso` WHERE id_unidad = '$unidad' ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
 
@@ -34,6 +34,7 @@
                                     $nombreArchivo = $recRow['recurso_name'];
                                     $tipoArchivo = $recRow['tipo_archivo'];
                                     $ubicacionArchivo = $recRow['location'];
+                                    $idRecurso = $recRow['id_recurso'];
 
                                     if ($tipoArchivo == 'video') {
                                         $icono_archivo = 'fas fa-file-video';
@@ -41,7 +42,7 @@
                                         $icono_archivo = 'fas fa-file-audio';
                                     }
 
-                                    echo '<option data-location="' . $ubicacionArchivo . '">' . $nombreArchivo . '</option>';
+                                    echo '<option data-location="' . $ubicacionArchivo . '" data-id-recurso="' . $idRecurso . '">' . $nombreArchivo . '</option>';
                                 }
 
                                 echo '
@@ -81,10 +82,6 @@
                             // Elimina las comillas solo alrededor de los nombres de las propiedades
                             $questionsJsonActividad = preg_replace('/"([^"]+)"\s*:/', '$1:', $questionsJsonActividad);
                             ?>
-                            <!-- Imprime el contenido JSON como una variable JavaScript global -->
-                            <script>
-                                var preguntasActividad = <?php echo $questionsJsonActividad; ?>;
-                            </script>
                             <!-- /.card -->
                         </div>
                         <?php
@@ -120,10 +117,19 @@
 <!-- /.content-wrapper -->
 
 <script>
-    var preguntasActividad;
+    // Variable global para almacenar temporalmente las actividades asociadas
+    var actividadesAsociadasTemp;
 
+    // Función para cargar el video y las preguntas asociadas
     function loadVideo(selectElement) {
-        var videoLocation = selectElement.options[selectElement.selectedIndex].getAttribute('data-location');
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
+        var videoLocation = selectedOption.getAttribute('data-location');
+        var idRecursoSeleccionado = selectedOption.getAttribute('data-id-recurso');
+        console.log("Id del recurso: " + idRecursoSeleccionado);
+
+        // Limpiar contenido anterior
+        var formularioContainer = document.getElementById('formulario-container');
+        formularioContainer.innerHTML = '';
 
         // Obtener el video y establecer su atributo src con la ubicación del video
         var videoElement = document.getElementById('video-iframe');
@@ -142,17 +148,66 @@
         var iframeContainer = document.getElementById('iframe-container');
         iframeContainer.style.display = 'block';
 
-        // Evento "ended" al elemento de video
+        // Obtener actividades asociadas al id del recurso seleccionado
+        actividadesAsociadasTemp = obtenerActividadesAsociadas(idRecursoSeleccionado);
+        console.log("En este punto tiene : " + actividadesAsociadasTemp.length);
+
         videoElement.addEventListener('ended', function () {
-            // Se mostraran las preguntas después de que el video termine
-            mostrarPreguntas();
+            // Verificar si hay actividades asociadas cada vez que el video termine
+            if (actividadesAsociadasTemp && actividadesAsociadasTemp.length !== 0) {
+                console.log("Actividades asociadas:", JSON.stringify(actividadesAsociadasTemp, null, 2));
+                // Mostrar solo una actividad al azar
+                var actividadSeleccionada = actividadesAsociadasTemp[Math.floor(Math.random() * actividadesAsociadasTemp.length)];
+                mostrarPreguntas(actividadSeleccionada);
+            } else {
+                // Limpiar el contenedor del formulario si no hay actividades asociadas
+                formularioContainer.innerHTML = '';
+            }
         });
     }
 
-    function mostrarPreguntas() {
-        // Acceder a las preguntas desde la variable global
-        console.log(preguntasActividad);
+    // Función para obtener actividades asociadas a un recurso
+    function obtenerActividadesAsociadas(idRecursoSeleccionado) {
+        return preguntasActividad.filter(function (actividad) {
+            return actividad.id_recurso === parseInt(idRecursoSeleccionado);
+        });
+    }
 
+    // Función para mostrar la retroalimentación después de responder preguntas
+    function mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada) {
+        var retroalimentacionElement = document.createElement('div');
+        retroalimentacionElement.style.backgroundColor = 'white';
+        retroalimentacionElement.style.border = '1px solid #ccc';
+        retroalimentacionElement.style.padding = '20px';
+        retroalimentacionElement.style.position = 'fixed';
+        retroalimentacionElement.style.top = '50%';
+        retroalimentacionElement.style.left = '50%';
+        retroalimentacionElement.style.transform = 'translate(-50%, -50%)';
+        retroalimentacionElement.style.zIndex = '9999';
+
+        var retroalimentacionHTML = '<h2>Retroalimentación</h2>';
+
+        var mensaje = respuestasCorrectasUsuario ? 'Respuesta correcta' : 'Respuesta incorrecta';
+        retroalimentacionHTML += '<p>' + mensaje + '</p>';
+
+        // Cambiar el fondo de la opción seleccionada
+        var opciones = document.querySelectorAll('input[name="pregunta"]');
+        opciones.forEach(function (opcion) {
+            var esCorrecta = respuestasCorrectasUsuario;
+            opcion.parentNode.style.backgroundColor = esCorrecta ? '#7CFF7C' : '#FF7C7C';
+        });
+
+        retroalimentacionElement.innerHTML = retroalimentacionHTML;
+
+        document.body.appendChild(retroalimentacionElement);
+
+        setTimeout(function () {
+            document.body.removeChild(retroalimentacionElement);
+        }, 3000);  // Ajusta el tiempo según tus preferencias
+    }
+
+    // Función para mostrar preguntas en un formulario
+    function mostrarPreguntas(actividadSeleccionada) {
         // Obtener el contenedor donde se mostrarán las preguntas
         var formularioContainer = document.getElementById('formulario-container');
 
@@ -162,35 +217,32 @@
         // Crear un formulario
         var formulario = document.createElement('form');
 
-        // Recorrer las preguntas y crear elementos para cada una
-        preguntasActividad.forEach(function (pregunta, index) {
-            // Crear un elemento de pregunta (por ejemplo, un párrafo)
-            var preguntaElement = document.createElement('p');
-            preguntaElement.textContent = pregunta.pregunta;
+        // Crear un elemento de pregunta (por ejemplo, un párrafo)
+        var preguntaElement = document.createElement('p');
+        preguntaElement.textContent = actividadSeleccionada.pregunta;
 
-            // Agregar la pregunta al formulario
-            formulario.appendChild(preguntaElement);
+        // Agregar la pregunta al formulario
+        formulario.appendChild(preguntaElement);
 
-            // Crear elementos de respuesta (por ejemplo, opciones de selección)
-            pregunta.opciones.forEach(function (opcion, opcionIndex) {
-                // Crear un elemento de opción (por ejemplo, un input tipo radio)
-                var opcionElement = document.createElement('input');
-                opcionElement.type = 'radio';
-                opcionElement.name = 'pregunta' + index; // Nombre único para cada pregunta
-                opcionElement.value = opcion;
+        // Recorrer las opciones y crear elementos para cada una
+        actividadSeleccionada.opciones.forEach(function (opcion, opcionIndex) {
+            // Crear un elemento de opción (por ejemplo, un input tipo radio)
+            var opcionElement = document.createElement('input');
+            opcionElement.type = 'radio';
+            opcionElement.name = 'pregunta'; // Nombre único para cada pregunta
+            opcionElement.value = opcion;
 
-                // Crear una etiqueta para la opción
-                var labelElement = document.createElement('label');
-                labelElement.textContent = opcion;
+            // Crear una etiqueta para la opción
+            var labelElement = document.createElement('label');
+            labelElement.textContent = opcion;
 
-                // Crear un div para contener la opción y la etiqueta
-                var optionContainer = document.createElement('div');
-                optionContainer.appendChild(opcionElement);
-                optionContainer.appendChild(labelElement);
+            // Crear un div para contener la opción y la etiqueta
+            var optionContainer = document.createElement('div');
+            optionContainer.appendChild(opcionElement);
+            optionContainer.appendChild(labelElement);
 
-                // Agregar la opción y la etiqueta al formulario
-                formulario.appendChild(optionContainer);
-            });
+            // Agregar la opción y la etiqueta al formulario
+            formulario.appendChild(optionContainer);
         });
 
         // Agregar un salto de línea para separar las preguntas del botón
@@ -207,28 +259,15 @@
         formulario.onsubmit = function (event) {
             event.preventDefault(); // Evitar que el formulario se envíe automáticamente
 
-            // Obtener todas las opciones seleccionadas por el usuario
-            var respuestasUsuario = [];
-            preguntasActividad.forEach(function (pregunta, index) {
-                var opciones = document.querySelectorAll('input[name="pregunta' + index + '"]:checked');
-                if (opciones.length === 1) {
-                    respuestasUsuario.push(opciones[0].value);
-                } else {
-                    respuestasUsuario.push(""); // Si el usuario no seleccionó una respuesta, agregar una cadena vacía
-                }
-            });
+            // Obtener la opción seleccionada por el usuario
+            var opcionSeleccionada = document.querySelector('input[name="pregunta"]:checked');
 
-            // Validar las respuestas aquí comparándolas con las respuestas correctas
-            var respuestasCorrectas = preguntasActividad.map(function (pregunta) {
-                return pregunta.respuesta;
-            });
-
-            var respuestasCorrectasUsuario = respuestasUsuario.map(function (respuesta, index) {
-                return respuesta === respuestasCorrectas[index];
-            });
+            // Validar la respuesta aquí comparándola con la respuesta correcta
+            var respuestaCorrecta = actividadSeleccionada.respuesta;
+            var respuestaCorrectaUsuario = opcionSeleccionada ? opcionSeleccionada.value : "";
 
             // Mostrar un mensaje de retroalimentación al usuario
-            mostrarRetroalimentacion(respuestasCorrectasUsuario);
+            mostrarRetroalimentacion(respuestaCorrectaUsuario === respuestaCorrecta, actividadSeleccionada);
         };
 
         // Agregar el formulario al contenedor
@@ -254,36 +293,4 @@
             modal.style.display = 'none';
         }
     };
-
-    function mostrarRetroalimentacion(respuestasCorrectasUsuario) {
-        // Crear un elemento div para mostrar la retroalimentación
-        var retroalimentacionElement = document.createElement('div');
-        retroalimentacionElement.style.backgroundColor = 'white';
-        retroalimentacionElement.style.border = '1px solid #ccc';
-        retroalimentacionElement.style.padding = '20px';
-        retroalimentacionElement.style.position = 'fixed';
-        retroalimentacionElement.style.top = '50%';
-        retroalimentacionElement.style.left = '50%';
-        retroalimentacionElement.style.transform = 'translate(-50%, -50%)';
-        retroalimentacionElement.style.zIndex = '9999';
-
-        var retroalimentacionHTML = '<h2>Retroalimentación</h2>';
-
-        for (var i = 0; i < respuestasCorrectasUsuario.length; i++) {
-            var mensaje = respuestasCorrectasUsuario[i] ? 'Respuesta correcta' : 'Respuesta incorrecta';
-            retroalimentacionHTML += '<p>Pregunta ' + (i + 1) + ': ' + mensaje + '</p>';
-        }
-
-        retroalimentacionElement.innerHTML = retroalimentacionHTML;
-
-        // Agregar el elemento de retroalimentación al cuerpo del documento
-        document.body.appendChild(retroalimentacionElement);
-
-        // Cerrar la retroalimentación después de unos segundos (opcional)
-        setTimeout(function () {
-            document.body.removeChild(retroalimentacionElement);
-        }, 1000); // Cierra la retroalimentación después de 1 segundos (ajusta el tiempo según tus necesidades)
-    }
-
-
 </script>

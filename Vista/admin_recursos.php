@@ -20,7 +20,7 @@
 							<div class="info-box bg-success">
 								<span class="info-box-icon"><i class="fas fa-play"></i></span>
 								<div class="info-box-content">
-									<h4 class="info-box-text">Ver recursos</h4>
+									<h4 class="info-box-text">Watch all Resources</h4>
 									<a href="panel.php?modulo=ver_recurso"
 										class="btn btn-outline-light text-ellipsis"><b>Watch
 											Resources</b></a>
@@ -31,9 +31,9 @@
 							<div class="info-box bg-info">
 								<span class="info-box-icon"><i class="fas fa-plus"></i></span>
 								<div class="info-box-content">
-									<h4 class="info-box-text">Subir archivos</h4>
+									<h4 class="info-box-text">Upload files</h4>
 									<button type="button" class="btn btn-outline-light text-ellipsis"
-										data-toggle="modal" data-target="#form_modal"><b>Agregar Archivo</b>
+										data-toggle="modal" data-target="#form_modal"><b>Add file</b>
 									</button>
 								</div>
 							</div>
@@ -42,10 +42,9 @@
 							<div class="info-box bg-danger">
 								<span class="info-box-icon"><i class="fas fa-trash"></i></span>
 								<div class="info-box-content">
-									<h4 class="info-box-text">Eliminar Recursos</h4>
+									<h4 class="info-box-text">Delete Resources</h4>
 									<a href="panel.php?modulo=eliminar_recurso"
-										class="btn btn-outline-light text-ellipsis"><b>Delete
-											Resources</b></a>
+										class="btn btn-outline-light text-ellipsis"><b>Delete it</b></a>
 								</div>
 							</div>
 						</div>

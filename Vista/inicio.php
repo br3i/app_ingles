@@ -20,7 +20,7 @@
                                     <div class="info-box bg-primary">
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Actividades</h4>
+                                            <h4 class="info-box-text">Activities</h4>
                                             <a href="panel.php?modulo=actividades"
                                                 class="btn btn-outline-light text-ellipsis"><b>Do
                                                     Activities</b></a>
@@ -31,7 +31,7 @@
                                     <div class="info-box bg-success">
                                         <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Pruebas</h4>
+                                            <h4 class="info-box-text">Tests</h4>
                                             <a href="panel.php?modulo=prueba"
                                                 class="btn btn-outline-light text-ellipsis"><b>Try
                                                     Lessons</b></a>
@@ -42,7 +42,7 @@
                                     <div class="info-box bg-dark">
                                         <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Repaso</h4>
+                                            <h4 class="info-box-text">Training</h4>
                                             <a href="panel.php?modulo=repaso"
                                                 class="btn btn-outline-light text-ellipsis"><b>Train</b></a>
                                         </div>
@@ -63,7 +63,7 @@
                                     <div class="info-box bg-info">
                                         <span class="info-box-icon"><i class="fas fa-trophy"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Logros</h4>
+                                            <h4 class="info-box-text">Achiviements</h4>
                                             <a href="panel.php?modulo=logros"
                                                 class="btn btn-outline-light text-ellipsis"><b>Achiviements</b></a>
                                         </div>
@@ -73,7 +73,7 @@
                                     <div class="info-box bg-light">
                                         <span class="info-box-icon"><i class="fas fa-star"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Bonificacion</h4>
+                                            <h4 class="info-box-text">Bonification</h4>
                                             <a href="panel.php?modulo=bonificacion"
                                                 class="btn btn-outline-dark text-ellipsis text-dark"><b>Get
                                                     Bonus</b></a>
@@ -84,7 +84,7 @@
                                     <div class="info-box bg-danger">
                                         <span class="info-box-icon"><i class="fas fa-fire"></i></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Racha</h4>
+                                            <h4 class="info-box-text">Streak</h4>
                                             <a href="panel.php?modulo=racha"
                                                 class="btn btn-outline-light text-ellipsis"><b>Keep on
                                                     fire!</b></a>
@@ -98,7 +98,7 @@
                                         <div class="info-box bg-secondary">
                                             <span class="info-box-icon"><i class="fas fa-film"></i></span>
                                             <div class="info-box-content">
-                                                <h4 class="info-box-text">Recursos</h4>
+                                                <h4 class="info-box-text">Resources</h4>
                                                 <a href="panel.php?modulo=recursos"
                                                     class="btn btn-outline-light text-ellipsis"><b>Upload!</b></a>
                                             </div>
