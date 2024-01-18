@@ -1,0 +1,21 @@
+.margen-2 {
+    margin: 2%;
+}
+.margen-5 {
+    margin: 5%;
+}
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dragdrop-container{
+    width: 100%;
+    height: 100%;
+    background: #6e3939;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
