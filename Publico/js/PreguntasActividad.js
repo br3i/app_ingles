@@ -2,6 +2,7 @@ let preguntasActividad = [
     {
         "id": 1,
         "tipo": "Actividad",
+<<<<<<< HEAD
         "id_recurso": 9,
         "id_actividad": 6,
         "descripcion": "7x7 - 1",
@@ -14,10 +15,25 @@ let preguntasActividad = [
             "Lisa"
         ],
         "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
+=======
+        "id_recurso": 1,
+        "id_actividad": 1,
+        "descripcion": "pregunta de si",
+        "pregunta": "¿Pregunta para probar actividades?",
+        "respuesta": "tal vez",
+        "opciones": [
+            "si",
+            "no",
+            "tal vez",
+            "aveces"
+        ],
+        "ruta_video": "../Publico/archivos/BAD BUNNY - 120.mp3"
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
     },
     {
         "id": 2,
         "tipo": "Actividad",
+<<<<<<< HEAD
         "id_recurso": 9,
         "id_actividad": 7,
         "descripcion": "",
@@ -102,5 +118,19 @@ let preguntasActividad = [
             "It’s like a lottery that rewards stupidity"
         ],
         "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
+=======
+        "id_recurso": 3,
+        "id_actividad": 3,
+        "descripcion": "Tiene que escoger una opcion de las planteadas",
+        "pregunta": "¿Esta canción es de Rels B?",
+        "respuesta": "si",
+        "opciones": [
+            "si",
+            "no lo se",
+            " tal vez si",
+            " quien sabe"
+        ],
+        "ruta_video": "../Publico/archivos/Rels B - pa quererte.mp3"
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
     }
 ];

@@ -148,6 +148,10 @@ async function nuevoProducto(){
   } catch (error) {
     console.error(error);
   }
+<<<<<<< HEAD
 }
 
 //Funciones para la actividad ordenar con drag & drop
+=======
+}
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4

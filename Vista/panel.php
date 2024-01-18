@@ -438,9 +438,14 @@ fclose($fileActividad);
     </footer>
 
   </div>
+<<<<<<< HEAD
   <script src="../Publico/"></script>
   <script src="../Publico/js/jquery-3.2.1.min.js"></script>
   <script src="../Publico/js/bootstrap.min.js"></script>
+=======
+  <script src="js/jquery-3.2.1.min.js"></script>
+  <script src="js/bootstrap.js"></script>
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <!-- jQuery -->
   <script src="../Publico/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
@@ -472,7 +477,11 @@ fclose($fileActividad);
   <!-- AdminLTE App -->
   <script src="../Publico/js/adminlte.js"></script>
   <!-- AdminLTE for demo purposes -->
+<<<<<<< HEAD
   <script src="../Publico/js/demo.js"></script>
+=======
+  <script src="../Publico/js/js/demo.js"></script>
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../Publico/js/pages/dashboard.js"></script>
   <!-- DataTables  & Plugins -->
@@ -628,7 +637,11 @@ fclose($fileActividad);
     </div>
   </div> -->
 
+<<<<<<< HEAD
   <!-- My Scripts -->
+=======
+
+>>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <script src="../Publico/js/my-scripts.js"></script>
 
 
