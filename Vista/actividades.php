@@ -602,7 +602,7 @@
             var wordContainer = document.createElement('div');
             wordContainer.id = 'wordContainer';
             wordContainer.className = 'word-container';
-            wordContainer.style = 'width: 40%; min-height: 50%; margin: 20px; border: 2px dashed #5f1818;';
+            wordContainer.style = 'width: 40%; min-height: 50%; margin: 20px; border: 2px dashed #c7d2e2;';
 
             // Crear un div para cada palabra
             opcionesBarajadas.forEach(function (opcion, opcionIndex) {

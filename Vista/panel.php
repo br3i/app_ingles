@@ -21,22 +21,24 @@ include_once "../Config/conexion.php";
 
 function obtenerPreguntas($tipo) {
     global $con;
-    $query = "SELECT a.*, r.location 
+    $query = "SELECT a.*, r.location, u.id_unidad 
               FROM actividad a
               JOIN recurso r ON a.id_recurso = r.id_recurso
+              JOIN unidad u ON r.id_unidad = u.id_unidad
               WHERE a.tipo = '$tipo'";
     $result = mysqli_query($con, $query);
 
     $preguntas = array();
     $id = 1;
 
-    while ($row = mysqli_fetch_assoc($result)) {
+   while ($row = mysqli_fetch_assoc($result)) {
         $opciones = explode(',', $row['opciones']);
         $preguntas[] = array(
             'id' => $id,
             'tipo' => $row['tipo'],
             'id_recurso' => intval($row['id_recurso']),
             'id_actividad' => intval($row['id_actividad']),
+            'id_unidad' => intval($row['id_unidad']), // Agregar el campo id_unidad
             'descripcion' => $row['descripcion'],
             'pregunta' => $row['pregunta'],
             'respuesta' => $row['respuesta'],
@@ -189,7 +191,21 @@ fclose($fileActividad);
           <a class="nav-link" href="panel.php?modulo=racha">
             <i class="fas fa-fire text-dark"></i>
             <span class="badge badge-danger navbar-badge" style="position: relative; top: -10px; right: 7px;">
-              3
+              <?php
+              // Consulta para obtener el número de racha del usuario
+              $userId = $_SESSION['id_usuario'];
+              $rachaQuery = "SELECT COUNT(DISTINCT DATE(ultima_actividad)) AS racha
+                            FROM racha
+                            WHERE id_usuario = $userId";
+              $rachaResult = mysqli_query($con, $rachaQuery);
+
+              if ($rachaResult) {
+                $rachaData = mysqli_fetch_assoc($rachaResult);
+                echo $rachaData['racha'];
+              } else {
+                echo "0";
+              }
+              ?>
             </span>
           </a>
         </li>
@@ -438,14 +454,9 @@ fclose($fileActividad);
     </footer>
 
   </div>
-<<<<<<< HEAD
   <script src="../Publico/"></script>
-  <script src="../Publico/js/jquery-3.2.1.min.js"></script>
+  <script src="../Publico/js/jquery-3.7.0.min.js"></script>
   <script src="../Publico/js/bootstrap.min.js"></script>
-=======
-  <script src="js/jquery-3.2.1.min.js"></script>
-  <script src="js/bootstrap.js"></script>
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <!-- jQuery -->
   <script src="../Publico/plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
@@ -477,11 +488,7 @@ fclose($fileActividad);
   <!-- AdminLTE App -->
   <script src="../Publico/js/adminlte.js"></script>
   <!-- AdminLTE for demo purposes -->
-<<<<<<< HEAD
   <script src="../Publico/js/demo.js"></script>
-=======
-  <script src="../Publico/js/js/demo.js"></script>
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="../Publico/js/pages/dashboard.js"></script>
   <!-- DataTables  & Plugins -->
@@ -637,19 +644,17 @@ fclose($fileActividad);
     </div>
   </div> -->
 
-<<<<<<< HEAD
   <!-- My Scripts -->
-=======
-
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
   <script src="../Publico/js/my-scripts.js"></script>
 
 
   <!-- Inside this JavaScript file I've inserted Questions and Options only -->
-  <script src="../Publico/js/PreguntasActividad.js"></script>
   <script src="../Publico/js/PreguntasPrueba.js"></script>
+  <script src="../Publico/js/PreguntasActividad.js"></script>
+  <script src="../Publico/js/prueba.js"></script>
   <!-- Inside this JavaScript file I've coded all Quiz Codes -->
-  <script src="../Publico/js/pruebas.js"></script>
+  <!--<script src="../Publico/js/pruebas.js"></script>
+  <script src="../Publico/js/prueba.js"></script>
 </body>
 
 </html>

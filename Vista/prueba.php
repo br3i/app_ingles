@@ -1,92 +1,23 @@
 <?php
-/*
-// Incluye tu archivo de conexión a la base de datos
-include_once "../Config/conexion.php";
+$unidadQuery = "SELECT id_unidad, descripcion FROM unidad";
+$unidadResult = mysqli_query($con, $unidadQuery);
 
-// Obtén las preguntas de tipo "Prueba" desde la base de datos
-$queryPrueba = "SELECT a.*, r.location FROM actividad a
-JOIN recurso r ON a.id_recurso = r.id_recurso
-WHERE a.tipo = 'Prueba'";
-$resultPrueba = mysqli_query($con, $queryPrueba);
-
-$questionsPrueba = array();
-$idPrueba = 1;
-
-// Convierte los resultados en un arreglo asociativo
-while ($rowPrueba = mysqli_fetch_assoc($resultPrueba)) {
-    $opcionesPrueba = explode(',', $rowPrueba['opciones']); // Convertir la cadena de opciones en un arreglo
-    $questionsPrueba[] = array(
-        'id' => $idPrueba,
-        'tipo' => $rowPrueba['tipo'],
-        'id_recurso' => intval($rowPrueba['id_recurso']),
-        'id_actividad' => intval($rowPrueba['id_actividad']),
-        'descripcion' => $rowPrueba['descripcion'],
-        'pregunta' => $rowPrueba['pregunta'],
-        'respuesta' => $rowPrueba['respuesta'],
-        'opciones' => $opcionesPrueba,
-        // Utilizar el arreglo de opciones
-        'ruta_video' => $rowPrueba['location'] // Agrega la ruta del video desde la tabla recurso
-    );
-    $idPrueba++;
+if (!$unidadResult) {
+    die('Error al obtener las unidades: ' . mysqli_error($con));
 }
 
-// Convierte el arreglo de preguntas en formato JSON
-$questionsJsonPrueba = json_encode($questionsPrueba, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES |
-    JSON_PRETTY_PRINT);
+$unidades = mysqli_fetch_all($unidadResult, MYSQLI_ASSOC);
 
-// Elimina las comillas solo alrededor de los nombres de las propiedades
-$questionsJsonPrueba = preg_replace('/"([^"]+)"\s*:/', '$1:', $questionsJsonPrueba);
+$unidadRecursoQuery = "SELECT id_recurso, id_unidad, recurso_name, tipo_archivo, location, vtt_location, descripcion FROM recurso";
+$unidadRecursoResult = mysqli_query($con, $unidadRecursoQuery);
 
-// Guarda el JSON en el archivo PreguntasPrueba.js
-$filePrueba = fopen('../Publico/js/PreguntasPrueba.js', 'w');
-fwrite($filePrueba, 'let preguntas = ' . $questionsJsonPrueba . ';');
-fclose($filePrueba);
-
-
-// Obtén las preguntas de tipo "Actividad" desde la base de datos
-$queryActividad = "SELECT a.*, r.location FROM actividad a
-JOIN recurso r ON a.id_recurso = r.id_recurso
-WHERE a.tipo = 'Actividad'";
-$resultActividad = mysqli_query($con, $queryActividad);
-
-$questionsActividad = array();
-$idActividad = 1;
-
-// Convierte los resultados en un arreglo asociativo
-while ($rowActividad = mysqli_fetch_assoc($resultActividad)) {
-    $opcionesActividad = explode(',', $rowActividad['opciones']); // Convertir la cadena de opciones en un arreglo
-    $questionsActividad[] = array(
-        'id' => $idActividad,
-        'tipo' => $rowActividad['tipo'],
-        'id_recurso' => intval($rowActividad['id_recurso']),
-        'id_actividad' => intval($rowActividad['id_actividad']),
-        'descripcion' => $rowActividad['descripcion'],
-        'pregunta' => $rowActividad['pregunta'],
-        'respuesta' => $rowActividad['respuesta'],
-        'opciones' => $opcionesActividad,
-        // Utilizar el arreglo de opciones
-        'ruta_video' => $rowActividad['location'] // Agrega la ruta del video desde la tabla recurso
-    );
-    $idActividad++;
+if (!$unidadRecursoResult) {
+    die('Error al obtener los recursos de las unidades: ' . mysqli_error($con));
 }
 
-// Convierte el arreglo de preguntas en formato JSON
-$questionsJsonActividad = json_encode($questionsActividad, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES |
-    JSON_PRETTY_PRINT);
-
-// Elimina las comillas solo alrededor de los nombres de las propiedades
-$questionsJsonActividad = preg_replace('/"([^"]+)"\s*:/', '$1:', $questionsJsonActividad);
-
-// Guarda el JSON en el archivo PreguntasActividad.js
-$fileActividad = fopen('../Publico/js/PreguntasActividad.js', 'w');
-fwrite($fileActividad, 'let preguntasActividad = ' . $questionsJsonActividad . ';');
-fclose($fileActividad);
-*/
-
+$unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
 
 ?>
-
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Main content -->
@@ -100,18 +31,26 @@ fclose($fileActividad);
                         <div class="card-header">
                             <h3 class="card-title">Welcome to Quiz!</h3>
                         </div>
+                        <!-- Botones de Unidades -->
+                        <div class="unidad-buttons">
+                            <?php foreach ($unidades as $unidad) : ?>
+                                <button class="unidad-btn" data-id="<?= $unidad['id_unidad']; ?>">
+                                    <?= $unidad['descripcion']; ?>
+                                </button>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                     <!-- /.card -->
 
                 </div>
                 <!-- start Quiz button -->
-                <div class="start_btn"><button id="startQuizBtn">Start Quiz</button></div>
+                <div class="start_btn" hidden><button id="startQuizBtn">Start Quiz</button></div>
 
                 <!-- Info Box -->
                 <div class="info_box">
                     <div class="info-title"><span>Some Rules of this Quiz</span></div>
                     <div class="info-list">
-                        <div class="info">1. You will have only <span>60 seconds</span> per each question.</div>
+                        <div class="info">1. You will have only <span>90 seconds</span> per each question.</div>
                         <div class="info">2. Once you select your answer, it can't be undone.</div>
                         <div class="info">3. You can't select any option once time goes off.</div>
                         <div class="info">4. You can't exit from the Quiz while you're playing.</div>
@@ -129,7 +68,7 @@ fclose($fileActividad);
                         <div class="title">Awesome Quiz Application</div>
                         <div class="timer">
                             <div class="time_left_txt">Time Left</div>
-                            <div class="timer_sec">40</div>
+                            <div class="timer_sec">90</div>
                         </div>
                         <div class="time_line"></div>
                     </header>
@@ -165,6 +104,9 @@ fclose($fileActividad);
                         <button class="quit">Quit Quiz</button>
                     </div>
                 </div>
+
+                <!-- Agregamos un input oculto para almacenar el ID del usuario -->
+                <input type="hidden" id="userId" value="<?php echo $_SESSION['id_usuario']; ?>">
             </div>
             <!-- /.col -->
 

@@ -10,15 +10,12 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-<<<<<<< HEAD
 
 .dragdrop-container{
     width: 100%;
     height: 100%;
-    background: #6e3939;
+    background: #8ea0be;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-=======
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4

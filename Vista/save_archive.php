@@ -13,7 +13,7 @@ if (isset($_POST['save'])) {
 	$archivo_extension = pathinfo($archivo_name, PATHINFO_EXTENSION);
 
 	// Validación del archivo
-	if ($archivo_size < 50000000) {
+	if ($archivo_size < 500000000) {
 		$video_extensions = array('avi', 'flv', 'wmv', 'mov', 'mp4');
 		$audio_extensions = array('mp3', 'wav');
 
@@ -92,4 +92,3 @@ if (isset($_POST['save'])) {
 
 // Cerrar la conexión a la base de datos
 mysqli_close($con);
-?>
