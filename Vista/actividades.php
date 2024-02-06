@@ -21,11 +21,7 @@
                                 echo '
                                     <div class="col-md-4 unidad-container">
                                         <div class="d-flex align-items-center justify-content-center info-box bg-dark">
-<<<<<<< HEAD
                                             <h3>Unit ' . $unidad . '</h3>
-=======
-                                            <h3>Unity ' . $unidad . '</h3>
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
                                             <div class="info-box-content">
                                                 <select name="video_select" class="toggleIframeBtn video-select unidad-select bg-dark" onchange="loadVideo(this)" data-iframe="iframe1">';
 
@@ -97,12 +93,9 @@
                         <!-- /.row -->
 
                     </div>
-<<<<<<< HEAD
                         <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()">
                             <option value="">Select an activity</option>
                         </select>
-=======
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
                     <!-- /.container-fluid -->
                 </div>
                 <!-- /.content -->
@@ -111,11 +104,7 @@
         </div>
         <!-- Contenedor de la ventana modal -->
         <div id="myModal" class="modal col-md-4"
-<<<<<<< HEAD
             style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80vh; overflow-y: auto;">
-=======
-            style="position: absolute; top: 80%; left: 50%; transform: translate(-50%, -50%);">
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
             <div class="modal-content" style="padding: 10px;"> <!-- Agrega un padding de 10px aquí -->
                 <!-- Cerrar el modal -->
                 <span class="close">&times;</span>
@@ -131,7 +120,6 @@
 <!-- /.content-wrapper -->
 
 <script>
-<<<<<<< HEAD
 
 
 
@@ -175,11 +163,6 @@
 
     
 
-=======
-    // Variable global para almacenar temporalmente las actividades asociadas
-    var actividadesAsociadasTemp;
-
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
     // Función para cargar el video y las preguntas asociadas
     function loadVideo(selectElement) {
         var selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -211,7 +194,6 @@
         // Obtener actividades asociadas al id del recurso seleccionado
         actividadesAsociadasTemp = obtenerActividadesAsociadas(idRecursoSeleccionado);
         console.log("En este punto tiene : " + actividadesAsociadasTemp.length);
-<<<<<<< HEAD
         
         
         
@@ -232,19 +214,13 @@
         
         
         
-=======
-
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
         videoElement.addEventListener('ended', function () {
             // Verificar si hay actividades asociadas cada vez que el video termine
             if (actividadesAsociadasTemp && actividadesAsociadasTemp.length !== 0) {
                 console.log("Actividades asociadas:", JSON.stringify(actividadesAsociadasTemp, null, 2));
                 // Mostrar solo una actividad al azar
                 var actividadSeleccionada = actividadesAsociadasTemp[Math.floor(Math.random() * actividadesAsociadasTemp.length)];
-<<<<<<< HEAD
                 console.log("El valor que se manda en actividadSeleccionada es: ",JSON.stringify(actividadSeleccionada, null, 2));
-=======
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
                 mostrarPreguntas(actividadSeleccionada);
             } else {
                 // Limpiar el contenedor del formulario si no hay actividades asociadas
@@ -261,7 +237,6 @@
     }
 
     // Función para mostrar la retroalimentación después de responder preguntas
-<<<<<<< HEAD
     function mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada, tipoActividad) {
         console.log('Mostrando retroalimentación');
         console.log('respuestasCorrectasUsuario: ' + JSON.stringify(respuestasCorrectasUsuario, null, 2));
@@ -791,103 +766,6 @@
 
             formulario.appendChild(sendButton);
         }
-=======
-    function mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada) {
-        var retroalimentacionElement = document.createElement('div');
-        retroalimentacionElement.style.backgroundColor = 'white';
-        retroalimentacionElement.style.border = '1px solid #ccc';
-        retroalimentacionElement.style.padding = '20px';
-        retroalimentacionElement.style.position = 'fixed';
-        retroalimentacionElement.style.top = '50%';
-        retroalimentacionElement.style.left = '50%';
-        retroalimentacionElement.style.transform = 'translate(-50%, -50%)';
-        retroalimentacionElement.style.zIndex = '9999';
-
-        var retroalimentacionHTML = '<h2>Retroalimentación</h2>';
-
-        var mensaje = respuestasCorrectasUsuario ? 'Respuesta correcta' : 'Respuesta incorrecta';
-        retroalimentacionHTML += '<p>' + mensaje + '</p>';
-
-        // Cambiar el fondo de la opción seleccionada
-        var opciones = document.querySelectorAll('input[name="pregunta"]');
-        opciones.forEach(function (opcion) {
-            var esCorrecta = respuestasCorrectasUsuario;
-            opcion.parentNode.style.backgroundColor = esCorrecta ? '#7CFF7C' : '#FF7C7C';
-        });
-
-        retroalimentacionElement.innerHTML = retroalimentacionHTML;
-
-        document.body.appendChild(retroalimentacionElement);
-
-        setTimeout(function () {
-            document.body.removeChild(retroalimentacionElement);
-        }, 3000);  // Ajusta el tiempo según tus preferencias
-    }
-
-    // Función para mostrar preguntas en un formulario
-    function mostrarPreguntas(actividadSeleccionada) {
-        // Obtener el contenedor donde se mostrarán las preguntas
-        var formularioContainer = document.getElementById('formulario-container');
-
-        // Limpiar el contenido anterior del contenedor
-        formularioContainer.innerHTML = '';
-
-        // Crear un formulario
-        var formulario = document.createElement('form');
-
-        // Crear un elemento de pregunta (por ejemplo, un párrafo)
-        var preguntaElement = document.createElement('p');
-        preguntaElement.textContent = actividadSeleccionada.pregunta;
-
-        // Agregar la pregunta al formulario
-        formulario.appendChild(preguntaElement);
-
-        // Recorrer las opciones y crear elementos para cada una
-        actividadSeleccionada.opciones.forEach(function (opcion, opcionIndex) {
-            // Crear un elemento de opción (por ejemplo, un input tipo radio)
-            var opcionElement = document.createElement('input');
-            opcionElement.type = 'radio';
-            opcionElement.name = 'pregunta'; // Nombre único para cada pregunta
-            opcionElement.value = opcion;
-
-            // Crear una etiqueta para la opción
-            var labelElement = document.createElement('label');
-            labelElement.textContent = opcion;
-
-            // Crear un div para contener la opción y la etiqueta
-            var optionContainer = document.createElement('div');
-            optionContainer.appendChild(opcionElement);
-            optionContainer.appendChild(labelElement);
-
-            // Agregar la opción y la etiqueta al formulario
-            formulario.appendChild(optionContainer);
-        });
-
-        // Agregar un salto de línea para separar las preguntas del botón
-        var lineBreak = document.createElement('br');
-        formulario.appendChild(lineBreak);
-
-        // Agregar un botón de envío al formulario
-        var submitButton = document.createElement('input');
-        submitButton.type = 'submit';
-        submitButton.value = 'Enviar respuestas';
-        formulario.appendChild(submitButton);
-
-        // Configurar el evento onsubmit del formulario para validar respuestas
-        formulario.onsubmit = function (event) {
-            event.preventDefault(); // Evitar que el formulario se envíe automáticamente
-
-            // Obtener la opción seleccionada por el usuario
-            var opcionSeleccionada = document.querySelector('input[name="pregunta"]:checked');
-
-            // Validar la respuesta aquí comparándola con la respuesta correcta
-            var respuestaCorrecta = actividadSeleccionada.respuesta;
-            var respuestaCorrectaUsuario = opcionSeleccionada ? opcionSeleccionada.value : "";
-
-            // Mostrar un mensaje de retroalimentación al usuario
-            mostrarRetroalimentacion(respuestaCorrectaUsuario === respuestaCorrecta, actividadSeleccionada);
-        };
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
 
         // Agregar el formulario al contenedor
         formularioContainer.appendChild(formulario);
@@ -895,7 +773,6 @@
         // Mostrar la ventana modal
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';
-<<<<<<< HEAD
 
 
         
@@ -1207,10 +1084,6 @@
 
 
 
-=======
-    }
-
->>>>>>> 084a356a6bf8d281d23780a6c6a8c4cb9f5b27e4
     // Obtener el elemento de cierre y la ventana modal
     var modal = document.getElementById('myModal');
     var closeButton = document.getElementsByClassName('close')[0];
