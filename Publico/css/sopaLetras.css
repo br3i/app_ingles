@@ -1,0 +1,54 @@
+body {
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.col-md-12 {
+    padding: 0 0 0 40%;
+}
+.sopaLetras {
+    width: 70%;
+    margin: 0 auto;
+    padding: 0 0 0 5%;
+}
+
+#sopaLetras{
+    user-select: none;
+}
+
+#sopaLetras td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#btn-reiniciar{
+    margin: 10px;
+}
+
+.encontrada {
+    background-color: rgb(96, 182, 139);
+    /* Cambia el color de fondo de las celdas de las palabras encontradas */
+}
+
+/* Estilos para las celdas seleccionadas */
+.seleccionada {
+    background-color: yellow;
+}
+
+.tachado {
+    text-decoration: line-through;
+}
+
+/* Estilos para la línea de selección */
+#lineaSeleccion {
+    position: absolute;
+    background-color: red;
+    pointer-events: none;
+}
+
+@media (max-width: 600px) {
+    .col-md-12 {
+        padding: 0 0 0 18%;
+    }
+}

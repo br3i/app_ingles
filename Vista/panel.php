@@ -422,6 +422,9 @@ fclose($fileActividad);
     if ($modulo == 'crucigrama') {
       include_once 'crucigrama.php';
     }
+    if ($modulo == 'sopaLetras') {
+      include_once 'sopaLetras.php';
+    }
     if ($modulo == 'recursos') {
       include_once 'admin_recursos.php';
     }

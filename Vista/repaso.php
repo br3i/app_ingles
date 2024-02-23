@@ -36,7 +36,16 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="col-md-4">
+                                    <div class="info-box bg-warning">
+                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
+                                        <div class="info-box-content">
+                                            <h4 class="info-box-text">Words Soup</h4>
+                                            <a href="panel.php?modulo=sopaLetras"
+                                                class="btn btn-outline-light text-ellipsis"><b>Play</b></a>
+                                        </div>
+                                    </div>
+                                </div>
                                 <!-- Agregar los botones y iframes -->
 
                                 <div class="col-md-4">
@@ -61,18 +70,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
-
-                                <!-- <button class="toggleIframeBtn btn btn-primary" data-iframe="iframe1">Repaso 1</button>
-                                <button class="toggleIframeBtn btn btn-primary" data-iframe="iframe2">Repaso 2</button>
-
-                                <div id="iframe1" class="iframe-container" style="display: none;">
-                                    <iframe src="ejRep1.php" style="width: 100%; height: 500px; border: none;"></iframe>
-                                </div>
-                                <div id="iframe2" class="iframe-container" style="display: none;">
-                                    <iframe src="ejRep2.php" style="width: 100%; height: 500px; border: none;"></iframe>
-                                </div> -->
                             </div>
                             <div class="progress">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 60%"
