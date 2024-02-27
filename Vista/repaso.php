@@ -46,8 +46,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Agregar los botones y iframes -->
 
+                                <!-- Adaptar estos dos para que uno agarre un video al azar y practique y el otro un audio
                                 <div class="col-md-4">
                                     <div class="info-box bg-dark">
                                         <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
@@ -70,6 +70,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                -->
+
+
                             </div>
                             <div class="progress">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 60%"

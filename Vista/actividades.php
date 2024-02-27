@@ -1,3 +1,7 @@
+<?php
+// Obtener el ID del usuario desde la sesión
+$userId = $_SESSION['id_usuario'];
+?>
 <!-- Content Wrapper. Contains page content -->
 <br>
 <div class="content-wrapper">
@@ -12,6 +16,8 @@
                         <div class="row">
                             <?php
                             include_once '../Config/conexion.php';
+
+                            $userId = $_SESSION['id_usuario'];
 
                             $query = mysqli_query($con, "SELECT DISTINCT unidad FROM recurso JOIN unidad ON recurso.id_unidad = unidad.id_unidad ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
 
@@ -96,6 +102,7 @@
                         <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()">
                             <option value="">Select an activity</option>
                         </select>
+                    </div>
                     <!-- /.container-fluid -->
                 </div>
                 <!-- /.content -->
@@ -120,14 +127,29 @@
 <!-- /.content-wrapper -->
 
 <script>
-
-
-
-
-
 // Variable global para almacenar temporalmente las actividades asociadas
     var actividadesAsociadasTemp;
+    // Definir userId globalmente
+    var userId = "<?php echo $userId; ?>";
+    console.log("El valor de userId es: " + userId);
 
+    // Función para actualizar la fecha de última actividad en la base de datos
+    function actualizarTablaRacha() {
+        console.log("Entra en la funcion para actualizar la tabla de racha");
+        // Realizar una solicitud AJAX para actualizar la fecha de última actividad en la base de datos
+        // Suponiendo que estés utilizando jQuery para realizar solicitudes AJAX
+        $.ajax({
+            url: 'actRacha.php',
+            method: 'POST',
+            data: { userId: userId },
+            success: function(response) {
+                console.log('Fecha de última actividad actualizada correctamente.');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al actualizar la fecha de última actividad:', error);
+            }
+        });
+    }
 
     //Funcion para cargar el select con actividades
     function loadSelectedActivity() {
@@ -156,12 +178,6 @@
         }
     }
 
-
-
-
-
-
-    
 
     // Función para cargar el video y las preguntas asociadas
     function loadVideo(selectElement) {
@@ -195,8 +211,6 @@
         actividadesAsociadasTemp = obtenerActividadesAsociadas(idRecursoSeleccionado);
         console.log("En este punto tiene : " + actividadesAsociadasTemp.length);
         
-        
-        
         //Esto lo agregue para poder ver las actividades en el select
         // Llenar el menú select con las actividades asociadas
         var actividadSelect = document.getElementById('actividad-select');
@@ -209,11 +223,7 @@
             actividadSelect.appendChild(option);
         });
 
-        
-        
-        
-        
-        
+    
         videoElement.addEventListener('ended', function () {
             // Verificar si hay actividades asociadas cada vez que el video termine
             if (actividadesAsociadasTemp && actividadesAsociadasTemp.length !== 0) {
@@ -250,6 +260,7 @@
             if (opcionSeleccionada) {
                 var esCorrecta = respuestasCorrectasUsuario;
                 opcionSeleccionada.parentNode.style.backgroundColor = esCorrecta ? '#7CFF7C' : '#FF7C7C';
+                actualizarTablaRacha();
             }
         }
 
@@ -278,10 +289,9 @@
                 }
             });
 
-
-
             // Mostrar mensaje de respuesta correcta o incorrecta
             respuestasCorrectasUsuario = false;
+            actualizarTablaRacha();
         }
 
         // Mostrar mensaje específico para el caso de ordenar si la respuesta es correcta
@@ -291,16 +301,19 @@
             } else {
                 alert('Incorrect order. Please try again.');
             }
+            actualizarTablaRacha();
         }
 
         // Mostrar mensaje de respuesta correcta o incorrecta para la actividad de completar
         if (tipoActividad === 'completar') {
             var mensaje = respuestasCorrectasUsuario ? 'Correct answers!' : 'Incorrect answers. Please try again.';
+            actualizarTablaRacha();
             alert(mensaje);
         }
 
         if (tipoActividad === 'unir') {
             var mensajeUnir = respuestasCorrectasUsuario ? 'Connections are correct!' : 'Connections are incorrect. Please try again.';
+            actualizarTablaRacha();
             alert(mensajeUnir);
         }
 
@@ -310,6 +323,7 @@
                 console.log(palabra, respuestasCorrectasUsuario[palabra]);
             });
             var mensajeUnir = respuestasCorrectasUsuario ? 'Numbers are correct!' : 'Numbers are incorrect. Please try again.';
+            actualizarTablaRacha();
             alert(mensajeUnir);
         }
 

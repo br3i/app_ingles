@@ -101,8 +101,16 @@ fclose($fileActividad);
 
 
   <!-- My css -->
+  <link rel="stylesheet" href="../Publico/css/style.css">
   <link rel="stylesheet" href="../Publico/css/my-css.css" />
   <link rel="stylesheet" href="../Publico/css/prueba.css">
+  <link rel="stylesheet" href="../Publico/css/racha.css">
+  <link rel="stylesheet" href="../Publico/css/ahorcado.css">
+  <link rel="stylesheet" href="../Publico/css/sopaLetras.css">
+
+
+  <!-- Revisar este link Bootstrap 4 -->
+  <link rel="stylesheet" href="../Publico/ext/bootstrap/css/bootstrap.min.css">
 
   <!-- Ventana modal para eliminar usuarios -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -194,12 +202,12 @@ fclose($fileActividad);
               <?php
               // Consulta para obtener el número de racha del usuario
               $userId = $_SESSION['id_usuario'];
-              $rachaQuery = "SELECT COUNT(DISTINCT DATE(ultima_actividad)) AS racha
+              $rachaQuery = "SELECT num_racha AS racha
                             FROM racha
                             WHERE id_usuario = $userId";
               $rachaResult = mysqli_query($con, $rachaQuery);
 
-              if ($rachaResult) {
+              if (mysqli_num_rows($rachaResult) > 0) {
                 $rachaData = mysqli_fetch_assoc($rachaResult);
                 echo $rachaData['racha'];
               } else {
@@ -655,6 +663,9 @@ fclose($fileActividad);
   <script src="../Publico/js/PreguntasPrueba.js"></script>
   <script src="../Publico/js/PreguntasActividad.js"></script>
   <script src="../Publico/js/prueba.js"></script>
+  <script src="../Publico/js/racha.js"></script>
+  <script src="../Publico/js/ahorcado.js"></script>
+  <script src="../Publico/js/sopaLetras.js"></script>
   <!-- Inside this JavaScript file I've coded all Quiz Codes -->
   <!--<script src="../Publico/js/pruebas.js"></script>
   <script src="../Publico/js/prueba.js"></script>

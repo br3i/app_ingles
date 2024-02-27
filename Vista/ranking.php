@@ -67,7 +67,7 @@ if ($resultNotaPruebas) {
 }
 
 // 4. Ranking por frecuencia de rachas
-$rankingRachasQuery = "SELECT u.username, COUNT(DISTINCT DATE(r.ultima_actividad)) AS frecuencia_rachas
+$rankingRachasQuery = "SELECT u.username, COUNT(DISTINCT DATE(r.end_date)) AS frecuencia_rachas
                       FROM usuario u
                       INNER JOIN racha r ON u.id_usuario = r.id_usuario
                       GROUP BY u.username

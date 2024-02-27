@@ -226,7 +226,7 @@ function selecciona(e){
             errores++;
             horca(errores);
             if (errores==3) {
-                document.getElementById("boton2").hidden=false;
+                document.getElementById("hangButn2").hidden=false;
             }
             if (errores == 5) gameOver(errores);
         }
@@ -273,6 +273,7 @@ window.onload = function(){
 }
 
 function reproducirAudio() {
+    console.log("Esta llegando a la funcion de reproducir audio");
     if(palabra=="FIRE"){
         var audio= new Audio("../Publico/audios/fire.mp3");
         audio.play();

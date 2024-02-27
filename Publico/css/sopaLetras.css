@@ -1,11 +1,8 @@
-body {
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-.col-md-12 {
-    padding: 0 0 0 40%;
+.contSopaLetras{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .sopaLetras {
     width: 70%;

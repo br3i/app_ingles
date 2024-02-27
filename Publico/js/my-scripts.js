@@ -1,4 +1,4 @@
-///Aqui van las funciones que yo voy a añadir
+let url = window.location.href;
 
 //Codigo para mostrar o no la contraseña
 var passwordEye = document.getElementById("passwordEye");
