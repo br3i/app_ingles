@@ -1,3 +1,34 @@
+<?php
+include_once '../Config/conexion.php';
+
+// Obtener el ID del usuario desde la sesión
+$userId = $_SESSION['id_usuario'];
+
+// Consulta SQL para obtener la última entrada de la tabla usuario para el usuario actual
+$sql = "SELECT * FROM usuario WHERE id_usuario = $userId";
+$resultado = mysqli_query($con, $sql);
+
+// Verificar si se encontró alguna entrada en la tabla usuario para el usuario actual
+if (mysqli_num_rows($resultado) > 0) {
+    $row = mysqli_fetch_assoc($resultado);
+    $nombre = $row['nombre'];
+    $descrip = $row['descripcion'];
+}
+
+// Consulta SQL para obtener la última entrada de la tabla racha para el usuario actual
+$sqlRacha = "SELECT num_racha FROM racha WHERE id_usuario = $userId";
+$resultadoRacha = mysqli_query($con, $sqlRacha);
+
+// Verificar si se encontró alguna entrada en la tabla racha para el usuario actual
+if (mysqli_num_rows($resultadoRacha) > 0) {
+    $row = mysqli_fetch_assoc($resultadoRacha);
+    $nRacha = $row['num_racha'];
+}
+
+// Cerrar la conexión a la base de datos
+mysqli_close($con);
+?>
+
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Main content -->
@@ -25,7 +56,7 @@
                                         </h4>
                                         <!-- Otros detalles del perfil, como descripción, fecha de registro, etc. -->
 
-                                        <p>Description: *Lorem ipsum dolor sit amet*.</p>
+                                        <p>Description: <?php  echo $descrip; ?></p>
 
                                         <p>Member since:
                                             <?php echo date_format(date_create($_SESSION['fecha_creacion']), 'F d, Y'); ?>
@@ -72,7 +103,7 @@
                                 <div class="card col-md-6">
                                     <div class="data-item">
                                         <h4>Days Streak:</h4>
-                                        <p>10</p>
+                                        <p><?php echo $nRacha ?></p>
                                     </div>
                                 </div>
                                 <div class="card col-md-6">

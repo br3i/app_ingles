@@ -59,7 +59,7 @@ if (isset($_REQUEST['mensaje'])) {
 					$password = $_REQUEST['passw'] ?? '';
 					$hash = password_hash($password, PASSWORD_DEFAULT);
 					include_once "Config/conexion.php";
-					$query = "SELECT id_usuario, username, nombre, passw, rol, foto_perfil, fecha_creacion, numero_racha FROM usuario WHERE username='" . $username . "';";
+					$query = "SELECT id_usuario, username, nombre, passw, rol, foto_perfil, fecha_creacion, descripcion FROM usuario WHERE username='" . $username . "';";
 					$res = mysqli_query($con, $query);
 					$row = mysqli_fetch_assoc($res);
 
@@ -70,7 +70,7 @@ if (isset($_REQUEST['mensaje'])) {
 						$_SESSION['foto_perfil'] = $row['foto_perfil'];
 						$_SESSION['rol'] = $row['rol'];
 						$_SESSION['fecha_creacion'] = $row['fecha_creacion'];
-						$_SESSION['numero_racha'] = $row['numero_racha'];
+						$_SESSION['descripcion'] = $row['descripcion'];
 
 						header("Location: Vista/panel.php");
 						exit;

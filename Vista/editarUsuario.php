@@ -1,7 +1,7 @@
 <?php
 include_once "..\Config\conexion.php";
 
-$query = "SELECT * FROM usuarios WHERE id_usuario = '" . $_SESSION['id_usuario'] . "';";
+$query = "SELECT * FROM usuario WHERE id_usuario = '" . $_SESSION['id_usuario'] . "';";
 
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
