@@ -128,7 +128,7 @@ if (isset($_POST['canEditar'])) {
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="">Foto de Perfil</label>
+                  <label for="">Profile Photo</label>
                   <br>
                   <div style="display: flex;
                        justify-content: space-evenly;
@@ -142,9 +142,9 @@ if (isset($_POST['canEditar'])) {
                   <div class="form-group">
                     <br>
                     <input type="hidden" name="id_usuario" value="<?php echo $row['id_usuario'] ?>">
-                    <button type="submit" class="btn btn-success" name="editar">Guardar</button>
+                    <button type="submit" class="btn btn-success" name="editar">Save</button>
                     <button type="button" class="btn btn-primary" name="canEditar"
-                      onclick="window.location.href='panel.php?modulo=usuarios'">Cancelar</button>
+                      onclick="window.location.href='panel.php?modulo=perfil'">Cancel</button>
                   </div>
               </form>
             </div>

@@ -107,6 +107,7 @@ fclose($fileActividad);
   <link rel="stylesheet" href="../Publico/css/racha.css">
   <link rel="stylesheet" href="../Publico/css/ahorcado.css">
   <link rel="stylesheet" href="../Publico/css/sopaLetras.css">
+  <link rel="stylesheet" href="../Publico/css/logros.css">
 
 
   <!-- Revisar este link Bootstrap 4 -->
@@ -194,7 +195,7 @@ fclose($fileActividad);
         </li> -->
 
 
-        <!-- Messages Dropdown Menu -->
+        <!-- Boton de racha -->
         <li class="nav-item">
           <a class="nav-link" href="panel.php?modulo=racha">
             <i class="fas fa-fire text-dark"></i>
@@ -217,12 +218,23 @@ fclose($fileActividad);
             </span>
           </a>
         </li>
-
-        <!-- Editar Perfil -->
-        <!-- echo 'panel.php?' . http_build_query(['modulo' => 'editarUsuario']); ?> -->
+        <!-- Boton de puntos -->
+        <li class="nav-item">
+          <a href="panel.php?modulo=bonificacion" class="nav-link text-dark">
+            <i class="fas fa-coins"></i>
+            <span class="badge badge-danger navbar-badge" style="position: relative; top: -10px; right: 7px;">
+              <?php
+                $puntosUsuario = $_SESSION['puntos'];
+                echo $puntosUsuario;
+              ?>
+            </span>
+          </a>
+        </li>
+        <!-- Boton de usuario -->
         <a href="panel.php?modulo=perfil" class="nav-link text-dark">
           <i class=" far fa-user"></i>
         </a>
+        <!-- Boton de salida -->
         <a class="nav-link text-danger" href="panel.php?modulo=&sesion=cerrar" title="Sign out">
           <i class="fa fa-door-closed"></i>
         </a>
@@ -375,6 +387,13 @@ fclose($fileActividad);
                       <p>Resources</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="panel.php?modulo=usuarios"
+                      class="nav-link <?php echo ($modulo == "usuarios" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
+                      <i class="fas fa-users nav-icon" aria-hidden="true"></i>
+                      <p>Users</p>
+                    </a>
+                  </li>
                   <?php
                 }
                 ?>
@@ -456,8 +475,8 @@ fclose($fileActividad);
     <!-- /.content-wrapper -->
 
     <footer class="main-footer">
-      <strong>Copyright &copy; 2022-2023
-        <a href="panel.php?modulo=inicio">App Ingles</a>.</strong>
+      <strong>Copyright &copy; 2022-<?php echo date('Y'); ?>
+        <a href="panel.php?modulo=inicio">English App</a>.</strong>
       All rights reserved.
       <div class="float-right d-none d-sm-inline-block">
         <b>Version</b> 1.0

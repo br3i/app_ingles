@@ -87,6 +87,22 @@ if ($resultRachas) {
     exit;
 }
 
+// Obtener el username del usuario actual
+$usuarioActual = $_SESSION['username'];
+
+// Buscar la posición del usuario en cada ranking
+$posicionesUsuarios = array();
+foreach ([$rankingActividades, $rankingNotaActividades, $rankingNotaPruebas, $rankingRachas] as $ranking) {
+    $posicionUsuario = null;
+    foreach ($ranking as $index => $usuario) {
+        if ($usuario['username'] === $usuarioActual) {
+            $posicionUsuario = $index + 1;
+            break;
+        }
+    }
+    $posicionesUsuarios[] = $posicionUsuario;
+}
+
 // Cerrar la conexión a la base de datos
 mysqli_close($con);
 ?>
@@ -117,8 +133,8 @@ mysqli_close($con);
                             <div>
                                 <h4>Ranking por número total de actividades completadas</h4>
                                 <ul>
-                                    <?php foreach ($rankingActividades as $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Total Actividades: <?= $usuario['total_actividades']; ?></li>
+                                    <?php foreach ($rankingActividades as $index => $usuario): ?>
+                                        <li>Usuario: <?= $usuario['username']; ?> - Total Actividades: <?= $usuario['total_actividades']; ?> (Posición: <?= $posicionesUsuarios[0] === null ? "No listado" : "#{$posicionesUsuarios[0]}"; ?>)</li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
@@ -127,8 +143,8 @@ mysqli_close($con);
                             <div>
                                 <h4>Ranking por promedio de notas de Actividades</h4>
                                 <ul>
-                                    <?php foreach ($rankingNotaActividades as $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= $usuario['avg_nota_actividades']; ?></li>
+                                    <?php foreach ($rankingNotaActividades as $index => $usuario): ?>
+                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= $usuario['avg_nota_actividades']; ?> (Posición: <?= $posicionesUsuarios[1] === null ? "No listado" : "#{$posicionesUsuarios[1]}"; ?>)</li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
@@ -137,8 +153,8 @@ mysqli_close($con);
                             <div>
                                 <h4>Ranking por promedio de notas de Pruebas</h4>
                                 <ul>
-                                    <?php foreach ($rankingNotaPruebas as $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= $usuario['avg_nota_pruebas']; ?></li>
+                                    <?php foreach ($rankingNotaPruebas as $index => $usuario): ?>
+                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= number_format($usuario['avg_nota_pruebas'], 2); ?> (Posición: <?= $posicionesUsuarios[2] === null ? "No listado" : "#{$posicionesUsuarios[2]}"; ?>)</li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>
@@ -147,8 +163,8 @@ mysqli_close($con);
                             <div>
                                 <h4>Ranking por frecuencia de rachas</h4>
                                 <ul>
-                                    <?php foreach ($rankingRachas as $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Frecuencia de Rachas: <?= $usuario['frecuencia_rachas']; ?></li>
+                                    <?php foreach ($rankingRachas as $index => $usuario): ?>
+                                        <li>Usuario: <?= $usuario['username']; ?> - Frecuencia de Rachas: <?= $usuario['frecuencia_rachas']; ?> (Posición: <?= $posicionesUsuarios[3] === null ? "No listado" : "#{$posicionesUsuarios[3]}"; ?>)</li>
                                     <?php endforeach; ?>
                                 </ul>
                             </div>

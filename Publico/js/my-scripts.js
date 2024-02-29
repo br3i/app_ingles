@@ -4,7 +4,9 @@ let url = window.location.href;
 var passwordEye = document.getElementById("passwordEye");
 var passwordInput = document.getElementById("passwordInput");
 
-passwordEye.addEventListener("click", function() {
+url = window.location.href;
+if (url.includes('modulo=editarUsuario')) {
+  passwordEye.addEventListener("click", function() {
     if (passwordInput.type === "password") {
         passwordInput.type = "text";
         passwordEye.classList.remove("fa-eye");
@@ -16,6 +18,7 @@ passwordEye.addEventListener("click", function() {
         passwordEye.classList.add("fa-eye");
     }
   });
+}
 
 //Script para el boton deseleccionar radio button
 function uncheckRadioButtons() {
