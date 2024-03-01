@@ -378,7 +378,7 @@ fclose($fileActividad);
                   </a>
                 </li>
                 <?php
-                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'docente') {
+                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher') {
                   ?>
                   <li class="nav-item">
                     <a href="panel.php?modulo=recursos"

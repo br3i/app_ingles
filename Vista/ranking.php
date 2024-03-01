@@ -67,12 +67,13 @@ if ($resultNotaPruebas) {
 }
 
 // 4. Ranking por frecuencia de rachas
-$rankingRachasQuery = "SELECT u.username, COUNT(DISTINCT DATE(r.end_date)) AS frecuencia_rachas
-                      FROM usuario u
-                      INNER JOIN racha r ON u.id_usuario = r.id_usuario
-                      GROUP BY u.username
-                      ORDER BY frecuencia_rachas DESC
-                      LIMIT 5";
+$rankingRachasQuery = "SELECT u.username, r.num_racha AS frecuencia_rachas
+                        FROM usuario u
+                        LEFT JOIN racha r ON u.id_usuario = r.id_usuario
+                        GROUP BY u.username
+                        ORDER BY frecuencia_rachas DESC
+                        LIMIT 5;
+                        ";
 
 $resultRachas = mysqli_query($con, $rankingRachasQuery);
 
@@ -80,6 +81,7 @@ if ($resultRachas) {
     $rankingRachas = array();
 
     while ($rowRachas = mysqli_fetch_assoc($resultRachas)) {
+        echo "<script>console.log('Usuario: " . $rowRachas['username'] . ", Frecuencia de Rachas: " . $rowRachas['frecuencia_rachas'] . "');</script>";
         $rankingRachas[] = $rowRachas;
     }
 } else {
@@ -93,15 +95,31 @@ $usuarioActual = $_SESSION['username'];
 // Buscar la posición del usuario en cada ranking
 $posicionesUsuarios = array();
 foreach ([$rankingActividades, $rankingNotaActividades, $rankingNotaPruebas, $rankingRachas] as $ranking) {
-    $posicionUsuario = null;
+    // Inicializa el array de usuarios únicos y sus posiciones
+    $usuariosUnicos = array();
+    $posiciones = array();
+
+    // Itera sobre cada usuario en el ranking
     foreach ($ranking as $index => $usuario) {
-        if ($usuario['username'] === $usuarioActual) {
-            $posicionUsuario = $index + 1;
-            break;
+        // Si el usuario no está en el array de usuarios únicos, agrégalo y registra su posición
+        if (!isset($usuariosUnicos[$usuario['username']])) {
+            $usuariosUnicos[$usuario['username']] = true;
+            $posiciones[$usuario['username']] = $index + 1;
         }
     }
-    $posicionesUsuarios[] = $posicionUsuario;
+
+    // Agrega las posiciones de los usuarios únicos al array general de posiciones
+    $posicionesUsuarios[] = $posiciones;
 }
+
+echo "<script>";
+foreach ($posicionesUsuarios as $index => $posiciones) {
+    foreach ($posiciones as $usuario => $posicion) {
+        echo "console.log('Índice: $index - Posición de $usuario en el ranking #" . ($index + 1) . ": $posicion');";
+    }
+}
+
+echo "</script>";
 
 // Cerrar la conexión a la base de datos
 mysqli_close($con);
@@ -126,50 +144,118 @@ mysqli_close($con);
                     <!-- Ranking Section -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Ranking Results</h3>
+                            <h3 class="">Ranking Results</h3>
                         </div>
                         <div class="card-body">
-                            <!-- Ranking Actividades -->
-                            <div>
-                                <h4>Ranking por número total de actividades completadas</h4>
-                                <ul>
-                                    <?php foreach ($rankingActividades as $index => $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Total Actividades: <?= $usuario['total_actividades']; ?> (Posición: <?= $posicionesUsuarios[0] === null ? "No listado" : "#{$posicionesUsuarios[0]}"; ?>)</li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-
-                            <!-- Ranking Notas por Actividades -->
-                            <div>
-                                <h4>Ranking por promedio de notas de Actividades</h4>
-                                <ul>
-                                    <?php foreach ($rankingNotaActividades as $index => $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= $usuario['avg_nota_actividades']; ?> (Posición: <?= $posicionesUsuarios[1] === null ? "No listado" : "#{$posicionesUsuarios[1]}"; ?>)</li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-
-                            <!-- Ranking Notas por Pruebas -->
-                            <div>
-                                <h4>Ranking por promedio de notas de Pruebas</h4>
-                                <ul>
-                                    <?php foreach ($rankingNotaPruebas as $index => $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Promedio de Notas: <?= number_format($usuario['avg_nota_pruebas'], 2); ?> (Posición: <?= $posicionesUsuarios[2] === null ? "No listado" : "#{$posicionesUsuarios[2]}"; ?>)</li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </div>
-
-                            <!-- Ranking Rachas -->
-                            <div>
-                                <h4>Ranking por frecuencia de rachas</h4>
-                                <ul>
-                                    <?php foreach ($rankingRachas as $index => $usuario): ?>
-                                        <li>Usuario: <?= $usuario['username']; ?> - Frecuencia de Rachas: <?= $usuario['frecuencia_rachas']; ?> (Posición: <?= $posicionesUsuarios[3] === null ? "No listado" : "#{$posicionesUsuarios[3]}"; ?>)</li>
-                                    <?php endforeach; ?>
-                                </ul>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-header bg-info text-white">
+                                            <h4 class="card-title">Ranking by total number of activities completed</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <?php if (empty($rankingActividades)): ?>
+                                                <p>No ranked users were found in this category.</p>
+                                            <?php else: ?>
+                                                <ul class="list-group">
+                                                    <?php foreach ($rankingActividades as $index => $usuario): ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            Username: <?= $usuario['username']; ?>
+                                                            <span class="badge badge-primary badge-pill"><?= $usuario['total_actividades']; ?></span>
+                                                            <?php 
+                                                            
+                                                            if (isset($posicionesUsuarios[0][$usuario['username']])): ?>
+                                                                (Posición: <?= "#{$posicionesUsuarios[0][$usuario['username']]}"; ?>)
+                                                            <?php else: ?>
+                                                                (Posición: No Listed)
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-light">
+                                        <div class="card-header bg-info text-white">
+                                            <h4 class="card-title">Ranking por promedio de notas de Actividades</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <?php if (empty($rankingNotaActividades)): ?>
+                                                <p>No ranked users were found in this category.</p>
+                                            <?php else: ?>
+                                                <ul class="list-group">
+                                                    <?php foreach ($rankingNotaActividades as $index => $usuario): ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            Username: <?= $usuario['username']; ?>
+                                                            <span class="badge badge-primary badge-pill"><?= $usuario['avg_nota_actividades']; ?></span>
+                                                            <?php if (isset($posicionesUsuarios[1][$usuario['username']])): ?>
+                                                                (Posición: <?= "#{$posicionesUsuarios[1][$usuario['username']]}"; ?>)
+                                                            <?php else: ?>
+                                                                (Posición: No Listed)
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card bg-light mb-4">
+                                        <div class="card-header bg-info text-white">
+                                            <h4 class="card-title">Ranking por promedio de notas de Pruebas</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <?php if (empty($rankingNotaPruebas)): ?>
+                                                <p>No ranked users were found in this category.</p>
+                                            <?php else: ?>
+                                                <ul class="list-group">
+                                                    <?php foreach ($rankingNotaPruebas as $index => $usuario): ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            Username: <?= $usuario['username']; ?>
+                                                            <span class="badge badge-primary badge-pill"><?= number_format($usuario['avg_nota_pruebas'], 2); ?></span>
+                                                            <?php if (isset($posicionesUsuarios[2][$usuario['username']])): ?>
+                                                                (Posición: <?= "#{$posicionesUsuarios[2][$usuario['username']]}"; ?>)
+                                                            <?php else: ?>
+                                                                (Posición: No Listed)
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-light">
+                                        <div class="card-header bg-info text-white">
+                                            <h4 class="card-title">Ranking por frecuencia de rachas</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <?php if (empty($rankingRachas)): ?>
+                                                <p>No ranked users were found in this category.</p>
+                                            <?php else: ?>
+                                                <ul class="list-group">
+                                                    <?php foreach ($rankingRachas as $index => $usuario): ?>
+                                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                            Username: <?= $usuario['username']; ?>
+                                                            <span class="badge badge-primary badge-pill"><?= $usuario['frecuencia_rachas']; ?></span>
+                                                            <?php 
+                                                            echo "<script>console.log('Esto es lo que tengo: ". $posicionesUsuarios[3][$usuario['username']] ."');</script>";
+                                                            if (isset($posicionesUsuarios[3][$usuario['username']])): ?>
+                                                                (Posición: <?= "#{$posicionesUsuarios[3][$usuario['username']]}"; ?>)
+                                                            <?php else: ?>
+                                                                (Posición: No Listed)
+                                                            <?php endif; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- /.col -->
             </div>

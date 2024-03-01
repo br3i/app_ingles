@@ -94,12 +94,13 @@ if ($resultNotaPruebas) {
 }
 
 // 4. Ranking por frecuencia de rachas
-$rankingRachasQuery = "SELECT u.username, COUNT(DISTINCT DATE(r.end_date)) AS frecuencia_rachas
-                      FROM usuario u
-                      INNER JOIN racha r ON u.id_usuario = r.id_usuario
-                      GROUP BY u.username
-                      ORDER BY frecuencia_rachas DESC
-                      LIMIT 5";
+$rankingRachasQuery = "SELECT u.username, r.num_racha AS frecuencia_rachas
+                        FROM usuario u
+                        LEFT JOIN racha r ON u.id_usuario = r.id_usuario
+                        GROUP BY u.username
+                        ORDER BY frecuencia_rachas DESC
+                        LIMIT 5;
+                        ";
 
 $resultRachas = mysqli_query($con, $rankingRachasQuery);
 
@@ -132,14 +133,13 @@ if ($resultRachas) {
                                 </b>
                             </h3>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <!-- Agregar enlace para editar perfil -->
-                                <div class="col-md-12">
-                                    <a href="panel.php?modulo=editarUsuario" class="m-2 float-right btn btn-info">Editar Perfil</a>
-                                </div>
+                        <div class="bg-secondary">
+                            <a href="panel.php?modulo=editarUsuario" class="mt-3 mr-1 float-right btn btn-info">Editar Perfil</a>
+                        </div>
+                        <div class="card-body bg-secondary text-dark">
+                            <div class="row">                                
                                 <div class="card col-md-6">
-                                    <div>
+                                    <div class="m-3">
                                         <h4>
                                             <?php echo $_SESSION['username']; ?>
 
@@ -154,7 +154,7 @@ if ($resultRachas) {
                                     </div>
                                 </div>
                                 <div class="card col-md-6 align-items-center">
-                                    <div>
+                                    <div class="m-3">
                                         <?php
                                         $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
 
@@ -186,50 +186,51 @@ if ($resultRachas) {
                                         ?>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Aquí puedes incluir los datos adicionales del perfil, estadísticas y otros elementos que desees mostrar -->
-                            <div class="row">
                                 <div class="card col-md-6">
-                                    <div class="data-item">
+                                    <div class="m-3">
                                         <h4>Days Streak:</h4>
                                         <p><?php echo $nRacha ?></p>
                                     </div>
                                 </div>
+                            </div>
+
+                            
+                            <!-- Aquí puedes incluir los datos adicionales del perfil, estadísticas y otros elementos que desees mostrar -->
+                            <div class="row ">
                                 <!-- Ranking del Usuario en Cada Categoría -->
                                 <?php
                                 // Define las categorías y los resultados del ranking
                                 $categorias = array(
-                                    "Ranking por número total de actividades completadas" => $rankingActividades,
-                                    "Ranking por promedio de notas de Actividades" => $rankingNotaActividades,
-                                    "Ranking por promedio de notas de Pruebas" => $rankingNotaPruebas,
-                                    "Ranking por frecuencia de rachas" => $rankingRachas
+                                    "Ranking by total number of activities completed" => $rankingActividades,
+                                    "Ranking by grade point average of Activities" => $rankingNotaActividades,
+                                    "Ranking by test grade point average" => $rankingNotaPruebas,
+                                    "Ranking by streak frequency" => $rankingRachas
                                 );
 
                                 // Itera sobre cada categoría de ranking
                                 foreach ($categorias as $categoria => $ranking) {
                                     echo "<div class='card col-md-6'>";
-                                    echo "<div class='data-item'>";
-                                    echo "<h4>$categoria</h4>";
+                                        echo "<div class='m-3'>";
+                                            echo "<h4>$categoria</h4>";
 
-                                    // Busca la posición del usuario en el ranking actual
-                                    $posicionUsuario = null;
-                                    foreach ($ranking as $index => $usuario) {
-                                        if ($usuario['username'] === $_SESSION['username']) {
-                                            $posicionUsuario = $index + 1;
-                                            break;
-                                        }
-                                    }
+                                            // Busca la posición del usuario en el ranking actual
+                                            $posicionUsuario = null;
+                                            foreach ($ranking as $index => $usuario) {
+                                                if ($usuario['username'] === $_SESSION['username']) {
+                                                    $posicionUsuario = $index + 1;
+                                                    break;
+                                                }
+                                            }
 
-                                    // Muestra la posición del usuario en la categoría actual
-                                    if ($posicionUsuario !== null) {
-                                        echo "<p>Your position in this ranking: #$posicionUsuario</p>";
-                                    } else {
-                                        echo "<p>You are not listed in this ranking.</p>";
-                                    }
+                                            // Muestra la posición del usuario en la categoría actual
+                                            if ($posicionUsuario !== null) {
+                                                echo "<p>Your position in this ranking: #$posicionUsuario</p>";
+                                            } else {
+                                                echo "<p>You are not listed in this ranking.</p>";
+                                            }
 
-                                    echo "</div>"; // Cerrar data-item
-                                    echo "</div>"; // Cerrar card
+                                        echo "</div>"; 
+                                    echo "</div>"; 
                                 }
                                 ?>
                             </div>
@@ -247,38 +248,39 @@ if ($resultRachas) {
                                 // Verificar si hay logros para el usuario
                                 if (mysqli_num_rows($result_logros_usuario) > 0) {
                                     echo "<div class='card col-md-12 achievements'>";
-                                    echo "<h4>Achievements:</h4>";
-                                    echo "<ul>";
+                                        echo "<div class='m-3'>";
+                                            echo "<h4>Achievements:</h4>";
+                                            echo "<ul>";
 
-                                    // Iterar sobre cada logro del usuario
-                                    while ($row_logro_usuario = mysqli_fetch_assoc($result_logros_usuario)) {
-                                        $id_logro = $row_logro_usuario['id_logro'];
-                                        $nombre = $row_logro_usuario['nombre_logro'];
-                                        $descripcion = $row_logro_usuario['descripcion'];
-                                        $recompensa = $row_logro_usuario['recompensa'];
-                                        $imagen = $row_logro_usuario['imagen'];
+                                            // Iterar sobre cada logro del usuario
+                                            while ($row_logro_usuario = mysqli_fetch_assoc($result_logros_usuario)) {
+                                                $id_logro = $row_logro_usuario['id_logro'];
+                                                $nombre = $row_logro_usuario['nombre_logro'];
+                                                $descripcion = $row_logro_usuario['descripcion'];
+                                                $recompensa = $row_logro_usuario['recompensa'];
+                                                $imagen = $row_logro_usuario['imagen'];
 
-                                        // Establecer el estilo de la card
-                                        $contenedorStyle = 'bg-dark';
-                                        $textStyle = 'text-warning';
+                                                // Establecer el estilo de la card
+                                                $contenedorStyle = 'bg-dark';
+                                                $textStyle = 'text-warning';
 
-                                        // Mostrar el logro en una tarjeta
-                                        echo "<div class='col-md-4'>";
-                                            echo "<div class='card $contenedorStyle'>";
-                                                echo "<div class='card align-items-center justify-content-center contAchiImg'>";
-                                                    echo "<img src='$imagen' class='achiImg' alt='Achievement Image'>";
+                                                // Mostrar el logro en una tarjeta
+                                                echo "<div class='col-md-4'>";
+                                                    echo "<div class='card $contenedorStyle'>";
+                                                        echo "<div class='card align-items-center justify-content-center contAchiImg'>";
+                                                            echo "<img src='$imagen' class='achiImg' alt='Achievement Image'>";
+                                                        echo "</div>";
+                                                        echo "<div class='card-body $textStyle'>";
+                                                            echo "<h5 class='card-title'>$nombre</h5>";
+                                                            echo "<p class='card-text'>$descripcion</p>";
+                                                            echo "<p class='card-text'>Reward: $recompensa points</p>";
+                                                        echo "</div>";
+                                                    echo "</div>";
                                                 echo "</div>";
-                                                echo "<div class='card-body $textStyle'>";
-                                                    echo "<h5 class='card-title'>$nombre</h5>";
-                                                    echo "<p class='card-text'>$descripcion</p>";
-                                                    echo "<p class='card-text'>Reward: $recompensa points</p>";
-                                                echo "</div>";
-                                            echo "</div>";
+                                            }
+                                            echo "</ul>";
                                         echo "</div>";
-                                    }
-                                    
-                                    echo "</div>"; // Cerrar la fila
-                                    echo "</div>"; // Cerrar la tarjeta de logros
+                                    echo "</div>";
                                 } else {
                                     echo "No achievements found.";
                                 }

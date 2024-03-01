@@ -151,7 +151,7 @@ mysqli_close($con);
                                     </div>
                                 </div>
                                 <?php
-                                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'docente') {
+                                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher') {
                                     ?>
                                     <div class="col-md-3">
                                         <div class="info-box bg-secondary">

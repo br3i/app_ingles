@@ -32,17 +32,19 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_erro
                                         <tr>
                                             <th>ID</th>
                                             <th>Username</th>
-                                            <th>Nombre</th>
-                                            <th>Rol</th>
-                                            <th>Fecha de Creación</th>
-                                            <th>Descripción</th>
-                                            <th>Puntos</th>
+                                            <th>Name</th>
+                                            <th>Role</th>
+                                            <th>Member since</th>
+                                            <th>Description</th>
+                                            <th>Points</th>
                                             <!-- Crear dinámicamente las columnas de las actividades -->
                                             <?php
                                             while ($actividad = mysqli_fetch_assoc($actividades_query)) {
-                                                echo '<th>' . $actividad['tipo'] . ' Activity ' . $actividad['id_actividad'] . '</th>';
+                                                echo '<th>' . $actividad['tipo'] . ' id ' . $actividad['id_actividad'] . '</th>';
                                             }
                                             ?>
+                                            <th class="bg-info">Average Tests</th>
+                                            <th class="bg-dark">Average Activities</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,15 +71,58 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_erro
 
                                             // Iterar sobre las actividades para mostrar las notas correspondientes
                                             mysqli_data_seek($actividades_query, 0); // Reiniciar el puntero de la consulta de actividades
+                                            $sumActivities = 0;
+                                            $sumTests = 0;
+                                            $numActivities = 0;
+                                            $numTests = 0;
                                             while ($actividad = mysqli_fetch_assoc($actividades_query)) {
                                                 echo '<td>';
                                                 if (isset($notas[$actividad['id_actividad']])) {
                                                     echo $notas[$actividad['id_actividad']];
+                                                    if($actividad['tipo'] == 'Test'){
+                                                        $sumTests += $notas[$actividad['id_actividad']];
+                                                        $numTests++;
+                                                    } else {
+                                                        $sumActivities += $notas[$actividad['id_actividad']];
+                                                        $numActivities++;
+                                                    }
                                                 } else {
                                                     echo 'N/A';
                                                 }
                                                 echo '</td>';
                                             }
+                                            if($numActivities > 0){
+                                                $sumActivities = $sumActivities / $numActivities;
+                                            }else{
+                                                $sumActivities = 0;
+                                            }
+                                            if($numTests > 0){
+                                                $sumTests = $sumTests / $numTests;
+                                            }else{
+                                                $sumTests = 0;
+                                            }
+
+                                            $styleST = '';
+                                            if ($sumTests >= 7) {
+                                                $styleST = 'bg-success';
+                                            } elseif ($sumTests >= 5) {
+                                                $styleST = 'bg-warning';
+                                            } else {
+                                                $styleST = 'bg-danger';
+                                            }
+
+                                            $styleSA  = '';
+                                            if ($sumActivities >= 7) {
+                                                $styleSA = 'bg-success';
+                                            } elseif ($sumActivities >= 5) {
+                                                $styleSA = 'bg-warning';
+                                            } else {
+                                                $styleSA = 'bg-danger';
+                                            }
+
+                                            echo '<td class="' . $styleST . '">' . number_format($sumTests, 2) . '</td>';
+
+                                            echo '<td class="' . $styleSA . '">' . number_format($sumActivities, 2) . '</td>';
 
                                             echo '</tr>';
                                         }
