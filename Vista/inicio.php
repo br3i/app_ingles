@@ -11,7 +11,7 @@ $query_actividades = "SELECT COUNT(*) as total_actividades
                   INNER JOIN actividad a ON p.id_actividad = a.id_actividad
                     WHERE p.id_usuario = $id_usuario 
                     AND p.completado = 1 
-                    AND a.tipo = 'Actividad'";
+                    AND a.tipo = 'Activity'";
 
 $result_actividades = mysqli_query($con, $query_actividades);
 $row_actividades = mysqli_fetch_assoc($result_actividades);
@@ -23,7 +23,7 @@ $query_pruebas = "SELECT COUNT(*) as total_pruebas
                   INNER JOIN actividad a ON p.id_actividad = a.id_actividad
                     WHERE p.id_usuario = $id_usuario 
                     AND p.completado = 1 
-                    AND a.tipo = 'Prueba'";
+                    AND a.tipo = 'Test'";
 
 $result_pruebas = mysqli_query($con, $query_pruebas);
 $row_pruebas = mysqli_fetch_assoc($result_pruebas);
@@ -31,13 +31,13 @@ $total_pruebas = $row_pruebas['total_pruebas'];
 
 
 // Consulta para contar el número total de actividades disponibles en la base de datos
-$query_total_actividades = "SELECT COUNT(*) AS total_actividades FROM actividad WHERE tipo = 'Actividad'";
+$query_total_actividades = "SELECT COUNT(*) AS total_actividades FROM actividad WHERE tipo = 'Activity'";
 $result_total_actividades = mysqli_query($con, $query_total_actividades);
 $row_total_actividades = mysqli_fetch_assoc($result_total_actividades);
 $total_actividades_totales = $row_total_actividades['total_actividades'];
 
 // Consulta para contar el número total de pruebas disponibles en la base de datos
-$query_total_pruebas = "SELECT COUNT(*) AS total_pruebas FROM actividad WHERE tipo = 'Prueba'";
+$query_total_pruebas = "SELECT COUNT(*) AS total_pruebas FROM actividad WHERE tipo = 'Test'";
 $result_total_pruebas = mysqli_query($con, $query_total_pruebas);
 $row_total_pruebas = mysqli_fetch_assoc($result_total_pruebas);
 $total_pruebas_totales = $row_total_pruebas['total_pruebas'];

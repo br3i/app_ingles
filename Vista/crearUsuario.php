@@ -72,7 +72,7 @@ if (isset($_REQUEST['guardar'])) {
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Crear Usuario</h1>
+            <h1>Create an Account</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -92,7 +92,7 @@ if (isset($_REQUEST['guardar'])) {
                     <input type="text" name="username" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="">Nombre</label>
+                    <label for="">Name</label>
                     <input type="text" name="nombre" class="form-control">
                   </div>
                   <div class="form-group">
@@ -100,7 +100,7 @@ if (isset($_REQUEST['guardar'])) {
                     <input type="password" name="passw" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="">Rol</label>
+                    <label for="">Role</label>
                     <select name="rol" class="form-control">
                       <?php
                       $usuario_actual = "estudiante"; // Coloca aquí el rol del usuario actual obtenido de tu base de datos o autenticación
@@ -121,12 +121,9 @@ if (isset($_REQUEST['guardar'])) {
 
 
                   <div class="form-group">
-                    <label for="">Foto de Perfil</label>
+                    <label for="">Profile photo</label>
                     <br>
-                    <div style="display: flex;
-           justify-content: space-evenly;
-           border: 1px solid #ced4da;border-radius: .25rem;
-           box-shadow: inset 0 0 0 transparent;">
+                    <div style="display: flex; justify-content: space-evenly; border: 1px solid #ced4da;border-radius: .25rem; box-shadow: inset 0 0 0 transparent;">
                       <div>
                         <input type="radio" id="ftDeafault" name="fotDefault" value="ftDefault">
                         <img src="..\Publico\img\arq1.jpg" alt="" style='width: 150px;'>
@@ -139,13 +136,9 @@ if (isset($_REQUEST['guardar'])) {
                         style="position: absolute; left: 20px" onclick="uncheckRadioButtons()">X</button>
                     </div>
                   </div>
-
-
-
-
-
+                  
                   <br>
-                  <label for="">Seleccione una imagen por defecto o suba una a su gusto</label>
+                  <label for="">Select a default image or upload one of your choice</label>
                   <input type="file" name="fperfil" class="form-control" id="inpFoto" value="UPLOAD">
                   <br>
 
@@ -163,9 +156,9 @@ if (isset($_REQUEST['guardar'])) {
 
 
                   <div class="form-group">
-                    <button type="submit" class="btn btn-success" name="guardar">Crear</button>
+                    <button type="submit" class="btn btn-success" name="guardar">Create</button>
                     <button type="button" class="btn btn-primary" id="btnCancelar"
-                      onclick="window.location.href='../index.php'">Cancelar</button>
+                      onclick="window.location.href='../index.php'">Cancel</button>
                   </div>
                 </form>
               </div>

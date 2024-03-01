@@ -419,6 +419,9 @@ fclose($fileActividad);
     if ($modulo == 'inicio' || $modulo == '') {
       include_once 'inicio.php';
     }
+    if ($modulo == 'usuarios') {
+      include_once 'usuarios.php';
+    }
     if ($modulo == 'actividades') {
       include_once 'actividades.php';
     }
@@ -453,7 +456,10 @@ fclose($fileActividad);
       include_once 'sopaLetras.php';
     }
     if ($modulo == 'recursos') {
-      include_once 'admin_recursos.php';
+      include_once 'recursos.php';
+    }
+    if ($modulo == 'mostrar_arch') {
+      include_once 'mostrar_arch.php';
     }
     if ($modulo == 'ver_recurso') {
       include_once 'ver_recurso.php';

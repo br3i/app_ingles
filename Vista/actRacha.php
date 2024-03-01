@@ -1,5 +1,6 @@
 <?php
 include_once '../Config/conexion.php';
+date_default_timezone_set('America/Bogota');
 
 // Obtener el ID del usuario desde la solicitud POST
 $userId = $_POST['userId'];

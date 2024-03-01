@@ -5,6 +5,10 @@
     margin: 5%;
 }
 
+#myModal{
+    margin-top: 20vh;
+}
+
 .text-ellipsis {
     white-space: nowrap;
     overflow: hidden;

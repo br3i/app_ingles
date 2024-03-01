@@ -11,67 +11,82 @@ if (isset($_POST['video_select'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="es">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <div class="col-lg-12">
+                    <div class="card mt-3">
+                        <div class="d-flex justify-content-between card-header">
+                            <h3 class="text-primary col-md-10">Seleted Resource</h3>
+                            <a href="panel.php?modulo=recursos" class="btn btn-primary">Back</a>
+                        </div>
+                    </div>
+                    <!-- /.card -->
+                    <div>
+                        <?php
+                        // Verificar si la variable $selected_video está definida
+                        if (isset($selected_video)) {
+                            echo '<div class="card">';
+                            echo '    <div class="mx-auto m-2">';
+                            echo '        <div class="text-center">';
+                            echo '            <br />';
+                            echo '            <h4>Resource Name:</h4>';
+                            echo '            <h5 class="text-primary">' . $selected_video['recurso_name'] . '</h5>';
+                            echo '            <br />';
+                            echo '            <h4>Description:</h4>';
+                            echo '            <h5 class="text-primary">' . $selected_video['descripcion'] . '</h5>';
+                            echo '        </div>';
+                            echo '        <div>';
+                            echo '            <video style="max-height: 550px; height: 80%; width: 100%" controls>';
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
+                            // Obtener la ubicación del archivo VTT desde la base de datos
+                            $subtitulo_location = $selected_video['vtt_location'];
+                            echo '            <source src="' . $selected_video['location'] . '">';
 
-<body>
-    <!-- <nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <a href="panel.php?modulo=recursos" class="btn btn-primary">Volver</a>
-    </div>
-</nav> -->
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-6 well">
-                <h3 class="text-primary">Video Seleccionado</h3>
-                <hr style="border-top:1px dotted #ccc;" />
-                <?php
-                // Verificar si la variable $selected_video está definida
-                if (isset($selected_video)) {
-                    echo '<div class="row">';
-                    echo '    <div class="col-md-4" style="word-wrap:break-word;">';
-                    echo '        <br />';
-                    echo '        <h4>Nombre del Video:</h4>';
-                    echo '        <h5 class="text-primary">' . $selected_video['recurso_name'] . '</h5>';
-                    echo '        <br />';
-                    echo '        <h4>Descripción:</h4>';
-                    echo '        <h5 class="text-primary">' . $selected_video['descripcion'] . '</h5>';
-                    echo '    </div>';
-                    echo '    <div class="col-md-8">';
-                    echo '        <video width="100%" height="240" controls>';
+                            // Verificar si se ha cargado un archivo de subtítulos
+                            if (!empty($subtitulo_location)) {
+                                echo '            <track label="Subtítulos" kind="subtitles" srclang="es" src="' . $subtitulo_location . '" default>';
+                            }
 
-                    // Obtener la ubicación del archivo VTT desde la base de datos
-                    $subtitulo_location = $selected_video['vtt_location'];
-                    echo '            <source src="' . $selected_video['location'] . '">';
-
-                    // Verificar si se ha cargado un archivo de subtítulos
-                    if (!empty($subtitulo_location)) {
-                        echo '            <track label="Subtítulos" kind="subtitles" srclang="es" src="' . $subtitulo_location . '" default>';
-                    }
-
-                    echo '        </video>';
-                    echo '    </div>';
-                    echo '</div>';
-                    echo '<br>';
-                    echo '<hr style="border-top:1px groovy #000;"/>';
-                } else {
-                    echo '<div class="alert alert-danger">No se ha seleccionado ningún video.</div>';
-                }
-                ?>
+                            echo '            </video>';
+                            echo '        </div>';
+                            echo '    </div>';
+                            echo '</div>';
+                            echo '<br>';
+                            echo '<hr style="border-top:1px groovy #000;"/>';
+                        } else {
+                            echo '<div class="alert alert-danger">No se ha seleccionado ningún video.</div>';
+                        }
+                        ?>
+                    </div>
+                    <!-- Racha Section -->
+                    
+                </div>
+                <!-- /.col -->
             </div>
+            <!-- /.row -->
         </div>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</body>
+        <!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
 
-</html>
+<script>
+    $(document).ready(function () {
+        // Detectar cuando se presiona la tecla "Volver"
+        $(document).keydown(function (event) {
+            if (event.keyCode == 8) {
+                event.preventDefault(); // Prevenir el comportamiento predeterminado de la tecla "Volver"
+
+                // Redirigir a la página anterior
+                window.location.href = 'panel.php?modulo=recursos';
+            }
+        });
+    });
+</script>

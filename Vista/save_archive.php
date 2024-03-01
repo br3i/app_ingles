@@ -1,5 +1,5 @@
 <?php
-date_default_timezone_set('America/Mexico_City');
+date_default_timezone_set('America/Bogota');
 include_once '../Config/conexion.php';
 
 if (isset($_POST['save'])) {

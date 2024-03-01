@@ -1,5 +1,6 @@
 <?php
 include_once '../Config/conexion.php';
+date_default_timezone_set('America/Bogota');
 
 // Obtener datos del cuerpo de la solicitud
 $data = json_decode(file_get_contents('php://input'), true);

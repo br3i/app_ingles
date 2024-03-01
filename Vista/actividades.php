@@ -1,6 +1,8 @@
 <?php
 // Obtener el ID del usuario desde la sesión
 $userId = $_SESSION['id_usuario'];
+date_default_timezone_set('America/Bogota');
+
 ?>
 <!-- Content Wrapper. Contains page content -->
 <br>
@@ -20,6 +22,16 @@ $userId = $_SESSION['id_usuario'];
                             $userId = $_SESSION['id_usuario'];
 
                             $query = mysqli_query($con, "SELECT DISTINCT unidad FROM recurso JOIN unidad ON recurso.id_unidad = unidad.id_unidad ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
+
+
+                            $queryRacha = mysqli_query($con, "SELECT end_date FROM racha WHERE id_usuario = $userId");
+                            $rowRacha = mysqli_fetch_assoc($queryRacha);
+                            $MiendDate = $rowRacha['end_date'];
+                            echo "<script>console.log('El valor de eso es: " . $MiendDate . "');</script>";
+                            echo "<script>console.log('El valor de time() es: " . time() . "');</script>";
+                            echo "<script>console.log('La fecha actual es: " . date('Y-m-d', time()) . "');</script>";
+
+
 
                             while ($row = mysqli_fetch_assoc($query)) {
                                 $unidad = $row['unidad'];
@@ -59,14 +71,15 @@ $userId = $_SESSION['id_usuario'];
                             }
                             $queryActividad = "SELECT a.*, r.location FROM actividad a
                             JOIN recurso r ON a.id_recurso = r.id_recurso
-                            WHERE a.tipo = 'Actividad'";
-                            $resultActividad = mysqli_query($con, $queryActividad);
+                            WHERE a.tipo = 'Activity'";
+                            $resultActividad = mysqli_query($con, $queryActividad);                          
 
                             $questionsActividad = array();
                             $idActividad = 1;
 
                             // Convierte los resultados en un arreglo asociativo
                             while ($rowActividad = mysqli_fetch_assoc($resultActividad)) {
+
                                 $opcionesActividad = explode(',', $rowActividad['opciones']); // Convertir la cadena de opciones en un arreglo
                                 $questionsActividad[] = array(
                                     'id' => $idActividad,
@@ -84,9 +97,15 @@ $userId = $_SESSION['id_usuario'];
 
                             // Convierte el arreglo de preguntas en formato JSON
                             $questionsJsonActividad = json_encode($questionsActividad, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                            
+
 
                             // Elimina las comillas solo alrededor de los nombres de las propiedades
                             $questionsJsonActividad = preg_replace('/"([^"]+)"\s*:/', '$1:', $questionsJsonActividad);
+                            //imprimir con echo y console log $questionsJsonActividad
+                            echo "<script>console.log('Contenido de questionsJsonActividad:');</script>";
+                            echo "<script>console.log(" . json_encode($questionsJsonActividad, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . ");</script>";
+                            echo '<script>var preguntasActividad = ' . $questionsJsonActividad . ';</script>';
                             ?>
                             <!-- /.card -->
                         </div>
@@ -109,17 +128,20 @@ $userId = $_SESSION['id_usuario'];
             </div>
             <!-- /.content-wrapper -->
         </div>
-        <!-- Contenedor de la ventana modal -->
-        <div id="myModal" class="modal col-md-4"
-            style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); max-width: 80%; max-height: 80vh; overflow-y: auto;">
-            <div class="modal-content" style="padding: 10px;"> <!-- Agrega un padding de 10px aquí -->
-                <!-- Cerrar el modal -->
-                <span class="close">&times;</span>
-                <!-- Contenedor para el formulario de preguntas -->
-                <div id="formulario-container"></div>
-            </div>
-        </div>
 
+        <!-- El estilo de este modal esta en my-css -->
+        <div class="modal" id="myModal" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="col-md-12">
+                            <span class="close">&times;</span>
+							<div id="formulario-container"></div>
+						</div>
+					</div>
+				<div style="clear:both;"></div>
+			</div>
+		</div>
 
     </section>
     <!-- /.content -->
@@ -241,6 +263,8 @@ $userId = $_SESSION['id_usuario'];
 
     // Función para obtener actividades asociadas a un recurso
     function obtenerActividadesAsociadas(idRecursoSeleccionado) {
+        console.log("En esta funcion llega con este valor: " + idRecursoSeleccionado);
+        console.log(preguntasActividad);
         return preguntasActividad.filter(function (actividad) {
             return actividad.id_recurso === parseInt(idRecursoSeleccionado);
         });
@@ -516,6 +540,7 @@ $userId = $_SESSION['id_usuario'];
 
             // Mostrar las respuestas arriba del formulario
             var respuestasDiv = document.createElement('div');
+            respuestasDiv.className = 'text-center';
             respuestasDiv.textContent = 'Options: ' + actividadSeleccionada.respuesta;
             completarContainer.appendChild(respuestasDiv);
 
@@ -529,7 +554,7 @@ $userId = $_SESSION['id_usuario'];
             actividadSeleccionada.opciones.forEach(function (opcion) {
                 // Div para cada opción
                 var opcionDiv = document.createElement('div');
-                opcionDiv.style.display = 'flex';
+                opcionDiv.className = 'row d-block';
 
                 // Separar palabras en la opción
                 var palabrasOpcion = opcion.split(' ');
@@ -1113,4 +1138,9 @@ $userId = $_SESSION['id_usuario'];
             modal.style.display = 'none';
         }
     };
+
+
+
+
+    
 </script>
