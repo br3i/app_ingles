@@ -24,13 +24,26 @@
 }
 
 .encontrada {
-    background-color: rgb(96, 182, 139);
-    /* Cambia el color de fondo de las celdas de las palabras encontradas */
+    border: 2px solid #efb810;
+}
+.a0 {
+    background-color: #aeeb6dc6;
+}
+.a1 {
+    background-color: #757fe887;
+}
+.a2 {
+    background-color: #be6fc7bf;
+}
+.a3 {
+    background-color: #76e2ec;
+}
+.a4 {
+    background-color: #ed8585;
 }
 
-/* Estilos para las celdas seleccionadas */
 .seleccionada {
-    background-color: yellow;
+    background-color: rgba(96, 169, 237, 0.476);
 }
 
 .tachado {
@@ -42,10 +55,4 @@
     position: absolute;
     background-color: red;
     pointer-events: none;
-}
-
-@media (max-width: 600px) {
-    .col-md-12 {
-        padding: 0 0 0 18%;
-    }
 }

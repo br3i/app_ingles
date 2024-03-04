@@ -32,9 +32,9 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
                             <h3 class="card-title">Welcome to Quiz!</h3>
                         </div>
                         <!-- Botones de Unidades -->
-                        <div class="unidad-buttons">
+                        <div class="unidad-buttons mx-auto">
                             <?php foreach ($unidades as $unidad) : ?>
-                                <button class="unidad-btn" data-id="<?= $unidad['id_unidad']; ?>">
+                                <button class="unidad-btn btn bg-info font-weight-bold text-uppercase text-dark m-2" data-id="<?= $unidad['id_unidad']; ?>">
                                     <?= $unidad['descripcion']; ?>
                                 </button>
                             <?php endforeach; ?>

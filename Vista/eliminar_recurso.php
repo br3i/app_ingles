@@ -23,6 +23,7 @@
                             </div>
                         </div>
                         <?php
+                        include_once '../Modelo/zona_horaria.php';
                         include_once '../Config/conexion.php';
 
                         // Verificar si se ha enviado el formulario de selección de video a eliminar

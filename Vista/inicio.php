@@ -1,5 +1,6 @@
 <?php
 // Conexión a la base de datos
+include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
 
 // Obtener el ID de usuario desde la sesión

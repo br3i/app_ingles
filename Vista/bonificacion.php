@@ -95,7 +95,7 @@
                                                     } else {
                                                         echo "<p class='card-text'>Quantity owned: 0 / $maximo</p>";
                                                     }
-                                                    echo "<form action='procesar_compra.php' method='post'>";
+                                                    echo "<form action='../Modelo/procesar_compra.php' method='post'>";
                                                         echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
                                                         echo "<input type='hidden' name='costo_bonificacion' value='$costo'>";
                                                         echo "<button type='submit' class='btn btn-primary' $botonDeshabilitado>Buy</button>";

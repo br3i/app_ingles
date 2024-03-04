@@ -14,7 +14,9 @@
                         <div class="card-body">
                             <div class="row">
                                 <?php
-                                include_once "../Config/conexion.php";
+                                include_once '../Modelo/zona_horaria.php';
+                                include_once '../Config/conexion.php';
+                                
                                 // Consulta para obtener las categorías de logros
                                 $query_categorias = "SELECT DISTINCT categoria FROM logro ORDER BY categoria";
                                 $result_categorias = mysqli_query($con, $query_categorias);

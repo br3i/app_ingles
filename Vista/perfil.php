@@ -11,7 +11,7 @@ $resultado = mysqli_query($con, $sql);
 // Verificar si se encontró alguna entrada en la tabla usuario para el usuario actual
 if (mysqli_num_rows($resultado) > 0) {
     $row = mysqli_fetch_assoc($resultado);
-    $nombre = $row['nombre'];
+    $nombreU = $row['nombre'];
     $descrip = $row['descripcion'];
 }
 
@@ -146,6 +146,8 @@ if ($resultRachas) {
                                         </h4>
                                         <!-- Otros detalles del perfil, como descripción, fecha de registro, etc. -->
 
+                                        <p>Name: <?php echo $nombreU; ?></p>
+
                                         <p>Description: <?php  echo $descrip; ?></p>
 
                                         <p>Member since:
@@ -153,36 +155,10 @@ if ($resultRachas) {
                                         </p>
                                     </div>
                                 </div>
-                                <div class="card col-md-6 align-items-center">
-                                    <div class="m-3">
+                                <div class="card col-md-6">
+                                    <div class="d-flex align-items-center justify-content-center" style="height: 100%">
                                         <?php
-                                        $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
-
-                                        if ($imageInfo !== false) {
-                                            $mime = $imageInfo['mime'];
-
-                                            switch ($mime) {
-                                                case 'image/jpeg':
-                                                    $mime = 'jpeg';
-                                                    break;
-                                                case 'image/png':
-                                                    $mime = 'png';
-                                                    break;
-                                                case 'image/gif':
-                                                    $mime = 'gif';
-                                                    break;
-                                                case 'image/jpg':
-                                                    $mime = 'jpg';
-                                                    break;
-                                                default:
-                                                    // El tipo de imagen no es reconocido
-                                                    break;
-                                            }
-                                        } else {
-                                            // No se pudo obtener información sobre la imagen
-                                        }
-
-                                        echo "<img src='data:image/$mime;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='width: 30%; opacity: 0.9; margin: 0 auto; display: block;'>";
+                                        echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='width: 50%; max-height: 95%; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)'>";
                                         ?>
                                     </div>
                                 </div>

@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+header('Cache-Control: no-cache, no-store, must-revalidate');
+header('Pragma: no-cache');
+
 session_start();
 session_regenerate_id(true);
 
@@ -17,7 +20,8 @@ if (!isset($_SESSION['id_usuario'])) {
 
 $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
 
-include_once "../Config/conexion.php";
+include_once '../Modelo/zona_horaria.php';
+include_once '../Config/conexion.php';
 
 function obtenerPreguntas($tipo) {
     global $con;
@@ -51,8 +55,8 @@ function obtenerPreguntas($tipo) {
     return $preguntas;
 }
 
-$preguntasPrueba = obtenerPreguntas('Prueba');
-$preguntasActividad = obtenerPreguntas('Actividad');
+$preguntasPrueba = obtenerPreguntas('Test');
+$preguntasActividad = obtenerPreguntas('Activity');
 
 $preguntasJsonPrueba = json_encode($preguntasPrueba, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
 $preguntasJsonActividad = json_encode($preguntasActividad, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
@@ -106,6 +110,7 @@ fclose($fileActividad);
   <link rel="stylesheet" href="../Publico/css/prueba.css">
   <link rel="stylesheet" href="../Publico/css/racha.css">
   <link rel="stylesheet" href="../Publico/css/ahorcado.css">
+  <link rel="stylesheet" href="../Publico/css/crucigrama.css">
   <link rel="stylesheet" href="../Publico/css/sopaLetras.css">
   <link rel="stylesheet" href="../Publico/css/logros.css">
 
@@ -246,51 +251,24 @@ fclose($fileActividad);
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a href="panel.php?modulo=inicio" class="brand-link">
-        <img src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" class="brand-image img-circle elevation-3"
-          style="opacity: 0.8" />
+        <img src='../Publico/img/soloLogoRatbio.png' alt='My App Logo' class="brand-image" style='opacity: 0.8; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)' />
+
         <span class="brand-text font-weight-light">Ratbio</span>
       </a>
 
       <!-- Sidebar -->
       <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 mb-4 d-flex align-items-center">
           <div class="image">
             <div>
               <?php
-
-              $imageInfo = getimagesizefromstring($_SESSION['foto_perfil']);
-
-              if ($imageInfo !== false) {
-                $mime = $imageInfo['mime'];
-
-                switch ($mime) {
-                  case 'image/jpeg':
-                    echo "<img src='data:image/jpeg;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
-                    break;
-                  case 'image/png':
-                    echo "<img src='data:image/png;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
-                    break;
-                  case 'image/gif':
-                    echo "<img src='data:image/gif;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
-                    break;
-                  case 'image/jpg':
-                    echo "<img src='data:image/jpg;base64," . base64_encode($_SESSION['foto_perfil']) . "' class='img-circle elevation-2' alt='User Image' style='opacity: 0.9'>";
-                    break;
-                  default:
-                    // El tipo de imagen no es reconocido
-                    break;
-                }
-              } else {
-                // No se pudo obtener información sobre la imagen
-              }
-
-
+              echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='max-height: 80%; width: 2.8rem; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)'>";
               ?>
             </div>
           </div>
           <div class="info">
-            <a href="#" class="d-block">
+            <a href="panel.php?modulo=perfil" class="d-block">
               <?php echo $_SESSION['username'] ?>
             </a>
           </div>
@@ -690,10 +668,10 @@ fclose($fileActividad);
   <script src="../Publico/js/prueba.js"></script>
   <script src="../Publico/js/racha.js"></script>
   <script src="../Publico/js/ahorcado.js"></script>
+  <script src="../Publico/js/crucigrama.js"></script>
   <script src="../Publico/js/sopaLetras.js"></script>
   <!-- Inside this JavaScript file I've coded all Quiz Codes -->
-  <!--<script src="../Publico/js/pruebas.js"></script>
-  <script src="../Publico/js/prueba.js"></script>
+  <!--<script src="../Publico/js/pruebas.js"></script> -->
 </body>
 
 </html>

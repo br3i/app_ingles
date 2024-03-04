@@ -124,7 +124,7 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
 
                     <div class="modal fade" id="agregarActividadModal" aria-hidden="true">
                         <div class="modal-dialog">
-                            <form id="actividad_form" action="agregar_actividades.php" method="POST">
+                            <form id="actividad_form" action="../Modelo/agregar_actividades.php" method="POST">
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <!-- Agrega aquí el contenido del formulario para agregar actividades -->
@@ -178,7 +178,7 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
 
                     <div class="modal fade" id="agregarPruebaModal" aria-hidden="true">
                         <div class="modal-dialog">
-                            <form id="actividad_form" action="agregar_actividades.php" method="POST">
+                            <form id="actividad_form" action="../Modelo/agregar_actividades.php" method="POST">
                                 <div class="modal-content">
                                     <div class="modal-body">
                                         <!-- Agrega aquí el contenido del formulario para agregar actividades -->

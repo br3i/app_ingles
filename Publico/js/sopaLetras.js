@@ -16,27 +16,8 @@ if (url.includes('modulo=sopaLetras')) {
 
         // Palabras a encontrar
         var palabras = [
-            'HTML',
-            'CSS',
-            'JAVASCRIPT',
-            'PYTHON',
-            'REACT',
-            'ANGULAR',
-            'VUE',
-            'NODE',
-            'RUBY',
-            'JAVA',
-            'SWIFT',
-            'PHP',
-            'MYSQL',
-            'MONGODB',
-            'REDUX',
-            'EXPRESS',
-            'DJANGO',
-            'FLASK',
-            'LARAVEL',
-            'BOOTSTRAP'
-        ];
+            "simpsons", "moon", "war", "avengers", "fast", "springfield", "homer", "bart", "lisa", "maggie", "marge", "krusty", "apu", "burns", "smithers", "flanders", "moonwalk", "astronaut", "space", "orbit", "apollo", "neil", "lunar", "nasa", "rocket", "astronomy", "hitler", "allies", "axis", "nazis", "stalin", "pearl", "dunkirk", "holocaust", "hiroshima", "japan", "ironman", "thor", "hulk", "captain", "blackwidow", "shield", "ultron", "vision", "tony", "stark", "race", "speed", "furious", "cars", "dom", "letty", "mia", "shaw", "han"];
+
         var palabrasSeleccionadas = []; // Aquí se guardarán las palabras seleccionadas
 
         // Obtener la tabla donde se mostrará la sopa de letras
@@ -81,14 +62,14 @@ if (url.includes('modulo=sopaLetras')) {
                         if (sopaLetras[filaInicial][columnaInicial + i] !== '' && sopaLetras[filaInicial][columnaInicial + i] !== palabra.charAt(i)) {
                             return false; // Palabra no puede ser colocada en esta dirección
                         }
-                        sopaLetras[filaInicial][columnaInicial + i] = palabra.charAt(i);
+                        sopaLetras[filaInicial][columnaInicial + i] = palabra.toUpperCase().charAt(i);
                     } else {
                         // Verificar si la casilla está vacía o contiene la misma letra
                         if (sopaLetras[filaInicial + i][columnaInicial] !== '' && sopaLetras[filaInicial + i][columnaInicial] !== palabra.charAt(i)) {
                             palabraCabe = false; // Palabra no puede ser colocada en esta dirección
                             break;
                         }
-                        sopaLetras[filaInicial + i][columnaInicial] = palabra.charAt(i);
+                        sopaLetras[filaInicial + i][columnaInicial] = palabra.toUpperCase().charAt(i);
                     }
                 }
                 
@@ -132,7 +113,7 @@ if (url.includes('modulo=sopaLetras')) {
         var listaPalabras = document.getElementById('palabras');
         palabrasSeleccionadas.forEach(function(palabra) {
             var li = document.createElement('li');
-            li.textContent = palabra;
+            li.textContent = palabra.toUpperCase();
             listaPalabras.appendChild(li);
         });
 
@@ -162,12 +143,13 @@ if (url.includes('modulo=sopaLetras')) {
         var nTachadas = 0;
         tabla.addEventListener('mouseup', function(event) {
             if (letraInicial) {
-                if (palabrasSeleccionadas.includes(palabraSeleccionada)) {
+                if (palabrasSeleccionadas.includes(palabraSeleccionada.toLowerCase())) {
                     alert('¡Encontraste la palabra: ' + palabraSeleccionada + '!');
                     // Agregar clase 'encontrada' a las celdas de la palabra encontrada
                     var celdasPalabra = document.querySelectorAll('.seleccionada');
                     celdasPalabra.forEach(function(celda) {
                         celda.classList.add('encontrada');
+                        celda.classList.add("a"+nTachadas);
                     });
                     // Tachar la palabra encontrada en la lista de palabras
                     var elementosLi = listaPalabras.getElementsByTagName('li');

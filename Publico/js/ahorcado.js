@@ -23,26 +23,64 @@ var errores = 0;
 
 /* Palabras */
 
-palabras_array.push("BEAR");
-palabras_array.push("CAT");
-palabras_array.push("PARROT");
-palabras_array.push("FIRE");
+// Primeras palabras relacionadas a las temáticas
+palabras_array.push("simpsons");
+palabras_array.push("moon");
+palabras_array.push("war");
+palabras_array.push("avengers");
+palabras_array.push("fast");
 
-//palabras_array.push("LEON");
-//palabras_array.push("CABALLO");
-//palabras_array.push("PERRO");
-//palabras_array.push("GATO");
-//palabras_array.push("LAGARTIJA");
-//palabras_array.push("RINOCERONTE");
-//palabras_array.push("TIBURON");
-//palabras_array.push("CARACOL");
-//palabras_array.push("ALACRAN");
-//palabras_array.push("ARAÑA");
-//palabras_array.push("CHAPULIN");
-//palabras_array.push("AVESTRUZ");
-//palabras_array.push("OCELOTE");
-//palabras_array.push("MUSARAÑA");
-//palabras_array.push("AGUILA");
+// Palabras adicionales
+palabras_array.push("springfield");
+palabras_array.push("homer");
+palabras_array.push("bart");
+palabras_array.push("lisa");
+palabras_array.push("maggie");
+palabras_array.push("marge");
+palabras_array.push("krusty");
+palabras_array.push("apu");
+palabras_array.push("burns");
+palabras_array.push("smithers");
+palabras_array.push("flanders");
+palabras_array.push("moonwalk");
+palabras_array.push("astronaut");
+palabras_array.push("space");
+palabras_array.push("orbit");
+palabras_array.push("apollo");
+palabras_array.push("neil");
+palabras_array.push("lunar");
+palabras_array.push("nasa");
+palabras_array.push("rocket");
+palabras_array.push("astronomy");
+palabras_array.push("hitler");
+palabras_array.push("allies");
+palabras_array.push("axis");
+palabras_array.push("nazis");
+palabras_array.push("stalin");
+palabras_array.push("pearl");
+palabras_array.push("dunkirk");
+palabras_array.push("holocaust");
+palabras_array.push("hiroshima");
+palabras_array.push("japan");
+palabras_array.push("ironman");
+palabras_array.push("thor");
+palabras_array.push("hulk");
+palabras_array.push("captain");
+palabras_array.push("blackwidow");
+palabras_array.push("shield");
+palabras_array.push("ultron");
+palabras_array.push("vision");
+palabras_array.push("tony");
+palabras_array.push("stark");
+palabras_array.push("race");
+palabras_array.push("speed");
+palabras_array.push("furious");
+palabras_array.push("cars");
+palabras_array.push("dom");
+palabras_array.push("letty");
+palabras_array.push("mia");
+palabras_array.push("shaw");
+palabras_array.push("han");
         
 /* Objetos */
 function Tecla(x, y, ancho, alto, letra){
@@ -84,7 +122,7 @@ function dibujaLetraLetra(){
     var h = this.alto;
     ctx.fillStyle = "black";
     ctx.font = "bold 40px Courier";
-    ctx.fillText(this.letra, this.x+w/2-12, this.y+h/2+14);
+    ctx.fillText(this.letra.toUpperCase(), this.x+w/2-12, this.y+h/2+14);
 }
 function dibujaCajaLetra(){
     ctx.fillStyle = "white";
@@ -97,21 +135,176 @@ function dibujaCajaLetra(){
 /// Funcion para dar una pista la usuario ////
 function pistaFunction(palabra){
     let pista = ""; // Se crea la variable local pista que contendra nuestra frase de pista
-    switch(palabra){  // Se crea un switch para poder controlar las pistas segun la palabra 
-        case 'FIRE':   // Se debera hacer un case por cada palabra 
-            pista = "red and hot";
-            break;     // Es importante el break en cada case 
-        case 'BEAR':
-            pista = "big and clawed";
+    switch(palabra) {
+        // Se crea un switch para poder controlar las pistas según la palabra
+        case 'simpsons':
+            pista = "Famous animated family";
             break;
-        case 'PARROT':
-            pista = "They can talk";
+        case 'moon':
+            pista = "Earth's natural satellite";
             break;
-        case 'CAT':
-            pista = "They are tender but they scratch.";
+        case 'war':
+            pista = "Conflict between nations";
             break;
-        default:  // El defaul se puede omitir // 
-            pista="No hay pista aun xP";
+        case 'avengers':
+            pista = "Superhero team";
+            break;
+        case 'fast':
+            pista = "High-speed action movies";
+            break;
+        case 'springfield':
+            pista = "Hometown of The Simpsons";
+            break;
+        case 'homer':
+            pista = "Father in The Simpsons";
+            break;
+        case 'bart':
+            pista = "Mischievous son in The Simpsons";
+            break;
+        case 'lisa':
+            pista = "Intelligent daughter in The Simpsons";
+            break;
+        case 'maggie':
+            pista = "Baby in The Simpsons";
+            break;
+        case 'marge':
+            pista = "Homemaker and wife in The Simpsons";
+            break;
+        case 'krusty':
+            pista = "Clown in The Simpsons";
+            break;
+        case 'apu':
+            pista = "Owner of the Kwik-E-Mart in The Simpsons";
+            break;
+        case 'burns':
+            pista = "Rich and evil in The Simpsons";
+            break;
+        case 'smithers':
+            pista = "Mr. Burns' loyal assistant";
+            break;
+        case 'flanders':
+            pista = "Neighbor of The Simpsons";
+            break;
+        case 'moonwalk':
+            pista = "Dance move made famous by Michael Jackson";
+            break;
+        case 'astronaut':
+            pista = "Trained to travel and work in space";
+            break;
+        case 'space':
+            pista = "Vast expanse beyond Earth's atmosphere";
+            break;
+        case 'orbit':
+            pista = "Path of a celestial object around another";
+            break;
+        case 'apollo':
+            pista = "First moon landing mission";
+            break;
+        case 'neil':
+            pista = "First name of the first man on the moon";
+            break;
+        case 'lunar':
+            pista = "Relating to the moon";
+            break;
+        case 'nasa':
+            pista = "Space agency";
+            break;
+        case 'rocket':
+            pista = "Vehicle for space travel";
+            break;
+        case 'astronomy':
+            pista = "Study of celestial objects";
+            break;
+        case 'hitler':
+            pista = "Leader of Nazi Germany";
+            break;
+        case 'allies':
+            pista = "Countries against the Axis powers in WWII";
+            break;
+        case 'axis':
+            pista = "Alliance between Germany, Italy, and Japan in WWII";
+            break;
+        case 'nazis':
+            pista = "German fascist party during WWII";
+            break;
+        case 'stalin':
+            pista = "Soviet leader during WW2";
+            break;
+        case 'pearl':
+            pista = "December 7, 1941 attack site";
+            break;
+        case 'dunkirk':
+            pista = "1940 evacuation operation";
+            break;
+        case 'holocaust':
+            pista = "Genocide of Jews during WW2";
+            break;
+        case 'hiroshima':
+            pista = "Atomic bomb city in Japan";
+            break;
+        case 'japan':
+            pista = "Asian country in WW2";
+            break;
+        case 'ironman':
+            pista = "Genius billionaire playboy philanthropist";
+            break;
+        case 'thor':
+            pista = "Norse god of thunder";
+            break;
+        case 'hulk':
+            pista = "Big green smashing machine";
+            break;
+        case 'captain':
+            pista = "Leader of the Avengers";
+            break;
+        case 'blackwidow':
+            pista = "Avenger spy";
+            break;
+        case 'shield':
+            pista = "Protection organization";
+            break;
+        case 'ultron':
+            pista = "Artificial intelligence villain";
+            break;
+        case 'vision':
+            pista = "Synthetic Avenger";
+            break;
+        case 'tony':
+            pista = "Iron Man's first name";
+            break;
+        case 'stark':
+            pista = "Last name of Iron Man";
+            break;
+        case 'race':
+            pista = "Competition of speed";
+            break;
+        case 'speed':
+            pista = "Velocity";
+            break;
+        case 'furious':
+            pista = "Intense anger";
+            break;
+        case 'cars':
+            pista = "Automobiles";
+            break;
+        case 'dom':
+            pista = "Main character in Fast and Furious";
+            break;
+        case 'letty':
+            pista = "Tough and skilled driver in Fast and Furious";
+            break;
+        case 'mia':
+            pista = "Love interest of Dom in Fast and Furious";
+            break;
+        case 'shaw':
+            pista = "Antagonist turned ally in Fast and Furious";
+            break;
+        case 'han':
+            pista = "Drift king in Fast and Furious";
+            break;
+
+        default: // El default se puede omitir
+            $pista = "Ther's no hint for this word";
     }
     // Pintamos la palabra en el canvas , en este ejemplo se pinta arriba a la izquierda //
     ctx.fillStyle = "black";  // Aqui ponemos el color de la letra
@@ -153,6 +346,7 @@ function teclado(){
 function pintaPalabra(){
     var p = Math.floor(Math.random()*palabras_array.length);
     palabra = palabras_array[p];
+    console.log(palabra);
 
     pistaFunction(palabra);
 
@@ -200,22 +394,29 @@ function ajusta(xx, yy){
 /* Detecta tecla clickeada y la compara con las de la palabra ya elegida al azar */
 function selecciona(e){
     var pos = ajusta(e.clientX, e.clientY);
+    console.log("Coordenadas del clic del ratón: ", e.clientX, e.clientY);
+    console.log("Posición ajustada: ", pos.x, pos.y);
     var x = pos.x;
     var y = pos.y;
     var tecla;
     var bandera = false;
+    
     for (var i = 0; i < teclas_array.length; i++){
         tecla = teclas_array[i];
         if (tecla.x > 0){
             if ((x > tecla.x) && (x < tecla.x + tecla.ancho) && (y > tecla.y) && (y < tecla.y + tecla.alto)){
+                console.log("Tecla encontrada: ", tecla);
                 break;
             }
         }
     }
     if (i < teclas_array.length){
+        console.log("Tecla seleccionada: ", tecla.letra);
         for (var i = 0 ; i < palabra.length ; i++){ 
             letra = palabra.substr(i, 1);
-            if (letra == tecla.letra){ /* comparamos y vemos si acerto la letra */
+            console.log("Letra de la palabra: ", letra);
+            if (letra == tecla.letra.toLowerCase()){ /* comparamos y vemos si acerto la letra */
+                
                 caja = letras_array[i];
                 caja.dibujaLetra();
                 aciertos++;
@@ -224,6 +425,7 @@ function selecciona(e){
         }
         if (bandera == false){ /* Si falla aumenta los errores y checa si perdio para mandar a la funcion gameover */
             errores++;
+            console.log("Error al seleccionar la letra.");
             horca(errores);
             if (errores==3) {
                 document.getElementById("hangButn2").hidden=false;
@@ -245,14 +447,14 @@ function gameOver(errores){
 
     ctx.font = "bold 50px Courier";
     if (errores < 5){
-        ctx.fillText("Muy bien, la palabra es: ", 110, 280);
+        ctx.fillText("Very well, the word is: ", 110, 280);
     } else {
-        ctx.fillText("Lo sentimos, la palabra era: ", 110, 280);
+        ctx.fillText("Sorry, the word was: ", 110, 280);
     }
     
     ctx.font = "bold 80px Courier";
-    lon = (canvas.width - (palabra.length*48))/2;
-    ctx.fillText(palabra, lon, 380);
+    lon = (canvas.width - (palabra.toUpperCase().length*48))/2;
+    ctx.fillText(palabra.toUpperCase(), lon, 400);
     horca(errores);
 }
 
@@ -267,27 +469,29 @@ window.onload = function(){
             horca(errores);
             canvas.addEventListener("click", selecciona, false);
         } else {
-            alert ("Error al cargar el contexto!");
+            alert ("Error loading context!");
         }
     }
 }
 
 function reproducirAudio() {
-    console.log("Esta llegando a la funcion de reproducir audio");
-    if(palabra=="FIRE"){
-        var audio= new Audio("../Publico/audios/fire.mp3");
-        audio.play();
-    }
-    if(palabra=="PARROT"){
-        var audio= new Audio("../Publico/audios/parrot.mp3");
-        audio.play();
-    }
-    if(palabra=="BEAR"){
-        var audio= new Audio("../Publico/audios/bear.mp3");
-        audio.play();
-    }
-    if(palabra=="CAT"){
-        var audio= new Audio("../Publico/audios/cat.mp3");
-        audio.play();
-    }
+    console.log("Esta llegando a la función de reproducir audio");
+    
+    // Ruta del archivo de audio
+    var rutaAudio = "../Publico/audios/" + palabra + ".mp3";
+    console.log("Ruta del archivo de audio:", rutaAudio);
+    
+    // Verificar la disponibilidad del archivo de audio
+    fetch(rutaAudio)
+        .then(response => {
+            if (response.ok) {
+                var audio = new Audio(rutaAudio);
+                audio.play();
+            } else {
+                alert("The audio file is not available.");
+            }
+        })
+        .catch(error => {
+            console.error("Error al verificar la disponibilidad del archivo de audio:", error);
+        });
 }

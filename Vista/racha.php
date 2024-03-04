@@ -1,5 +1,15 @@
 <?php
+include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
+
+date_default_timezone_set($user_timezone);
+
+// Obtener la zona horaria actualmente configurada
+$current_timezone = date_default_timezone_get();
+
+// Imprimir la zona horaria
+echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
+
 
 // Inicializar variables con valores predeterminados
 $racha_actual = "N/A";

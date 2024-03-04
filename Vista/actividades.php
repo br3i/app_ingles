@@ -27,9 +27,20 @@ date_default_timezone_set('America/Bogota');
                             $queryRacha = mysqli_query($con, "SELECT end_date FROM racha WHERE id_usuario = $userId");
                             $rowRacha = mysqli_fetch_assoc($queryRacha);
                             $MiendDate = $rowRacha['end_date'];
-                            echo "<script>console.log('El valor de eso es: " . $MiendDate . "');</script>";
-                            echo "<script>console.log('El valor de time() es: " . time() . "');</script>";
-                            echo "<script>console.log('La fecha actual es: " . date('Y-m-d', time()) . "');</script>";
+                            echo "<script>console.log('El valor de en la base end_date es: " . $MiendDate . "');</script>";
+                            echo "<script>console.log('El valor de time() en numero es: " . time() . "');</script>";
+                            
+                            echo "<script>console.log('La fecha de MiendDate es: " . date('Y-m-d H:i:s', strtotime($MiendDate)) . "');</script>";
+                            echo "<script>console.log('La fecha de time con seg es: " . date('Y-m-d H:i:s', time()) . "');</script>";
+                            $diffHoras = time() - strtotime($MiendDate);
+                            echo "<script>console.log('La diferencia en seg es: " . $diffHoras . "');</script>";
+                            if(date('Y-m-d', strtotime($MiendDate)) === date('Y-m-d', time())) {
+                                $variableAImpri = 'true';
+                            }                          
+                            else {
+                                $variableAImpri = 'false';
+                            }
+                            echo "<script>console.log('El valor de la variableAImpri es: " . $variableAImpri . "');</script>";
 
 
 
@@ -161,7 +172,7 @@ date_default_timezone_set('America/Bogota');
         // Realizar una solicitud AJAX para actualizar la fecha de última actividad en la base de datos
         // Suponiendo que estés utilizando jQuery para realizar solicitudes AJAX
         $.ajax({
-            url: 'actRacha.php',
+            url: '../Modelo/actRacha.php',
             method: 'POST',
             data: { userId: userId },
             success: function(response) {

@@ -1,3 +1,4 @@
+
 url = window.location.href;
 if (url.includes('modulo=racha')) {
     const startDateStr  = document.getElementById('start').textContent.trim();
@@ -14,7 +15,10 @@ if (url.includes('modulo=racha')) {
 
     let currentDate = new Date(startDate);
 
+    cont= 0;
     while (currentDate <= endDate) {
+        console.log(cont+" - current: "+ currentDate);
+        console.log(cont+" - endD: "+ endDate);
         const calendarDiv = document.createElement('div');
         calendarDiv.classList.add('calendar');
 
@@ -55,11 +59,25 @@ if (url.includes('modulo=racha')) {
 
         let endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
 
+        cot = 0;
+        console.log(cot+ " startMonth: " + startOfMonth);
+        console.log(cot+ " endMonth:" + endOfMonth);
+        
+
         while (startOfMonth <= endOfMonth) {
+            cot++;
             const dayElement = document.createElement('div');
             dayElement.classList.add('day');
 
             // Marcar los días dentro del rango con un color diferente
+
+            if(startDate.toISOString().split('T')[0] == startOfMonth.toISOString().split('T')[0]){
+                console.log("Son iguales");
+                console.log("startDate: "+ startDate.getDate());
+                console.log("startOfMonth: "+ startOfMonth.getDate());
+                dayElement.classList.add('bg-info');
+                dayElement.classList.add('text-dark');
+            }
             if (startOfMonth >= startDate && startOfMonth <= endDate) {
                 dayElement.classList.add('highlight');
             }
@@ -70,11 +88,23 @@ if (url.includes('modulo=racha')) {
             // Avanzar al siguiente día
             startOfMonth.setDate(startOfMonth.getDate() + 1);
         }
+        
+
 
         calendarDiv.appendChild(daysDiv);
         calendarsDiv.appendChild(calendarDiv);
 
         // Avanzar al siguiente mes
         currentDate.setMonth(currentDate.getMonth() + 1);
+        currentDate.setDate(1);
+        currentDate.setHours(0);
+        currentDate.setMinutes(0);
+        currentDate.setSeconds(0);
+
+        console.log(cont+" - currentDate Cambiada: "+ currentDate);
+        cont++;
+        console.log(cont);
     }
+    console.log(cont+" - Salida current: "+ currentDate);
+    console.log(cont+" - Salida endD: "+ endDate);
 }

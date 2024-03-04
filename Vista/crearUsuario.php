@@ -1,46 +1,77 @@
 <?php
 if (isset($_REQUEST['guardar'])) {
   include_once "..\Config\conexion.php";
+  include_once '../Modelo/zona_horaria.php';
+
+  date_default_timezone_set($user_timezone);
+  // Obtener la zona horaria actualmente configurada
+  $current_timezone = date_default_timezone_get();
+
+  // Imprimir la zona horaria
+  echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
 
   $username = mysqli_real_escape_string($con, $_POST['username'] ?? '');
   $nombre = mysqli_real_escape_string($con, $_POST['nombre'] ?? '');
+  $description = mysqli_real_escape_string($con, $_POST['description'] ?? '');
   $password = mysqli_real_escape_string($con, $_POST['passw'] ?? '');
-  $rol = mysqli_real_escape_string($con, $_POST['rol'] ?? '');
+  $fecha_creacion = date('Y-m-d H:i:s');
+  $rol = 'student';
+  $puntos = 0;
 
   if ($username == '' || $nombre == '' || $password == '' || $rol == '') {
-    $errorMessage = "Todos los campos son obligatorios";
+    $errorMessage = "All fields are required";
   } else {
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     $fotoPerfil = "";
 
-    if (isset($_FILES['fperfil']['tmp_name']) && !empty($_FILES['fperfil']['tmp_name'])) {
-      $fotoPerfil = addslashes(file_get_contents($_FILES['fperfil']['tmp_name']));
-    } else if (isset($_POST['fotDefault']) && $_POST['fotDefault'] == 'ftDefault') {
-      $fotoPerfil = addslashes(file_get_contents("..\Publico\img\arq1.jpg"));
-    } else if (isset($_POST['fotDefault']) && $_POST['fotDefault'] == 'ftDefault2') {
-      $fotoPerfil = addslashes(file_get_contents("..\Publico\img\arq2.jpg"));
-    }
+    //Hacer un query para ver si existe un usuario con el mismo username y si es así, mostrar un mensaje de error
+    $queryUU = "SELECT * FROM usuario WHERE username = '$username';";
+    $resultUU = mysqli_query($con, $queryUU);
+    $rowUU = mysqli_fetch_assoc($resultUU);
 
-    $query = "INSERT INTO usuario (username, nombre, passw, rol, foto_perfil) VALUES ('$username', '$nombre','$password', '$rol', '$fotoPerfil');";
-    $result = mysqli_query($con, $query);
-    if ($result) {
-      echo "<meta http-equiv='refresh' content='0;url=..\index.php?mensaje=Usuario creado exitosamente'/>";
-    } else {
-      ?>
-      <div class="alert alert-danger" role="alert">
-        Error al crear el usuario
-        <?php echo mysqli_error($con); ?>
-      </div>
-      <?php
+    if ($rowUU) {
+      $errorMessage = "The user name already exists";
+    }else{
+      $queryCN = "INSERT INTO usuario (username, nombre, passw, rol, foto_perfil, fecha_creacion, descripcion, puntos) VALUES ('$username', '$nombre','$password', '$rol', '$fotoPerfil', '$fecha_creacion', '$description', '$puntos');";
+
+      $resultCN = mysqli_query($con, $queryCN);
+
+      //Hacer un query para obtener el id del usuario
+      echo "<script>console.log('Username: " . $username . "');</script>";
+      $queryOI = "SELECT id_usuario FROM usuario WHERE username = '$username';";
+      $resultOI = mysqli_query($con, $queryOI);
+      $rowOI = mysqli_fetch_assoc($resultOI);
+      $id_usuario = $rowOI['id_usuario'];
+
+      if (isset($_FILES['fperfil']['tmp_name']) && !empty($_FILES['fperfil']['tmp_name'])) {
+        $extension = pathinfo($_FILES["fperfil"]["name"], PATHINFO_EXTENSION);
+        // Construimos la ruta de la imagen agregando la extensión al final
+        $rutaImagen = "../Publico/usuarios/fotosPerfil/" . $id_usuario . "." . $extension;
+        // Muestra la ruta de la imagen en la consola
+        echo "<script>console.log('Ruta de la imagen: " . $rutaImagen . "');</script>";
+      } else if (isset($_POST['fotDefault']) && $_POST['fotDefault'] == 'ftDefault') {
+        $rutaImagen = "../Publico/img/arq1.jpg";
+      } else if (isset($_POST['fotDefault']) && $_POST['fotDefault'] == 'ftDefault2') {
+        $rutaImagen = "../Publico/img/arq2.jpg";
+      }
+
+      //Hacer un query para actualizar el campo foto_perfil con la ruta de la imagen con el id del usuario
+      $queryUP = "UPDATE usuario SET foto_perfil = '" . $rutaImagen . "' WHERE id_usuario = '$id_usuario';";
+      $resultUP = mysqli_query($con, $queryUP);
+
+      if($resultUP){
+        move_uploaded_file($_FILES["fperfil"]["tmp_name"], $rutaImagen);
+        echo "<meta http-equiv='refresh' content='0;url=..\index.php?mensaje=Usuario creado exitosamente'/>";
+      }else{
+        $errorMessage = "Error uploading image ". mysqli_error($con) ."";
+        echo "<script>console.log('Error al subir la imagen". mysqli_error($con) ."');</script>";
+      }
     }
-    mysqli_close($con);
   }
+  mysqli_close($con);
 }
 ?>
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -64,15 +95,15 @@ if (isset($_REQUEST['guardar'])) {
 
 
 
-<body>
+<body style="background-color: #e9ecef;">
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="card ml-5 mr-5 mt-1">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
+    <section class="card-header bg-info">
+      <div class="card-body text-dark">
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Create an Account</h1>
+          <div class="mx-auto">
+            <h1 class="">CREATE AN ACCOUNT</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -82,8 +113,8 @@ if (isset($_REQUEST['guardar'])) {
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
+          <div class="col-12 bg-info">
+            <div class="card bg-light mr-5 ml-5">
               <!-- /.card-header -->
               <div class="card-body">
                 <form action="" method="post" enctype="multipart/form-data">
@@ -96,27 +127,12 @@ if (isset($_REQUEST['guardar'])) {
                     <input type="text" name="nombre" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="">Password</label>
-                    <input type="password" name="passw" class="form-control">
+                    <label for="">Description</label>
+                    <input type="text" name="description" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label for="">Role</label>
-                    <select name="rol" class="form-control">
-                      <?php
-                      $usuario_actual = "estudiante"; // Coloca aquí el rol del usuario actual obtenido de tu base de datos o autenticación
-                      
-                      // Opciones permitidas según el rol del usuario actual
-                      $opciones_admin = ['admin', 'estudiante', 'docente'];
-                      $opciones_estudiante_docente = ['estudiante', 'docente'];
-
-                      $opciones = ($usuario_actual === 'admin') ? $opciones_admin : $opciones_estudiante_docente;
-
-                      // Generar las opciones
-                      foreach ($opciones as $opcion) {
-                        echo "<option value=\"$opcion\">$opcion</option>";
-                      }
-                      ?>
-                    </select>
+                    <label for="">Password</label>
+                    <input type="password" name="passw" class="form-control">
                   </div>
 
 

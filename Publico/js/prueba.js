@@ -377,13 +377,13 @@ if (url.includes('modulo=prueba')) {
             id_usuario: userId,
             id_unidad: unidadId,
             nota: userNota.toFixed(2),
-            tipo: "Prueba",
+            tipo: "Test",
             actividadIds: actividadIds,
         };
         //imprimir todos los valores en este punto
         console.log("userData:", userData);
 
-        fetch('save_nota_test.php', {
+        fetch('../Modelo/save_nota_test.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
