@@ -1,7 +1,9 @@
 <?php
-// Obtener el ID del usuario desde la sesión
-$userId = $_SESSION['id_usuario'];
-date_default_timezone_set('America/Bogota');
+include_once '../Config/conexion.php';
+include_once '../Modelo/zona_horaria.php';
+
+date_default_timezone_set($user_timezone);
+
 
 ?>
 <!-- Content Wrapper. Contains page content -->
@@ -17,16 +19,18 @@ date_default_timezone_set('America/Bogota');
                     <div class="card card-primary">
                         <div class="row">
                             <?php
-                            include_once '../Config/conexion.php';
+                            $MiendDate = '';
 
                             $userId = $_SESSION['id_usuario'];
 
-                            $query = mysqli_query($con, "SELECT DISTINCT unidad FROM recurso JOIN unidad ON recurso.id_unidad = unidad.id_unidad ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
+                            $query1 = mysqli_query($con, "SELECT DISTINCT unidad FROM recurso JOIN unidad ON recurso.id_unidad = unidad.id_unidad ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
 
 
                             $queryRacha = mysqli_query($con, "SELECT end_date FROM racha WHERE id_usuario = $userId");
                             $rowRacha = mysqli_fetch_assoc($queryRacha);
-                            $MiendDate = $rowRacha['end_date'];
+                            if($rowRacha){
+                                $MiendDate = $rowRacha['end_date'];
+                            }
                             echo "<script>console.log('El valor de en la base end_date es: " . $MiendDate . "');</script>";
                             echo "<script>console.log('El valor de time() en numero es: " . time() . "');</script>";
                             
@@ -44,7 +48,7 @@ date_default_timezone_set('America/Bogota');
 
 
 
-                            while ($row = mysqli_fetch_assoc($query)) {
+                            while ($row = mysqli_fetch_assoc($query1)) {
                                 $unidad = $row['unidad'];
 
                                 echo '
@@ -65,13 +69,35 @@ date_default_timezone_set('America/Bogota');
                                     $ubicacionArchivo = $recRow['location'];
                                     $idRecurso = $recRow['id_recurso'];
 
-                                    if ($tipoArchivo == 'video') {
-                                        $icono_archivo = 'fas fa-file-video';
-                                    } elseif ($tipoArchivo == 'audio') {
-                                        $icono_archivo = 'fas fa-file-audio';
-                                    }
+                                    // Consulta para obtener el número total de actividades asociadas a este recurso
+                                    $queryTotal = "SELECT COUNT(*) AS total_actividades FROM actividad WHERE id_recurso = '$idRecurso' AND tipo = 'Activity'";
+                                    $resultTotal = mysqli_query($con, $queryTotal) or die(mysqli_error($con));
+                                    $rowTotal = mysqli_fetch_assoc($resultTotal);
+                                    $totalActividades = $rowTotal['total_actividades'];
 
-                                    echo '<option data-location="' . $ubicacionArchivo . '" data-id-recurso="' . $idRecurso . '">' . $nombreArchivo . '</option>';
+                                    // Consulta para verificar si el usuario ya ha realizado todas las actividades asociadas a este recurso
+                                    $query = "SELECT COUNT(DISTINCT actividad.id_actividad) AS num_actividades
+                                            FROM actividad
+                                            LEFT JOIN nota_actividad ON actividad.id_actividad = nota_actividad.id_actividad
+                                            LEFT JOIN nota ON nota_actividad.id_nota = nota.id_nota
+                                            WHERE actividad.id_recurso = '$idRecurso' AND nota.id_usuario = '$userId' AND actividad.tipo = 'Activity'";
+                                    
+                                    $result = mysqli_query($con, $query) or die(mysqli_error($con));
+                                    $row = mysqli_fetch_assoc($result);
+                                    $numActividadesRealizadas = $row['num_actividades'];
+
+                                    echo '<script>console.log("El valor de numActividadesRealizadas es: ' . $numActividadesRealizadas . '");</script>';
+                                    echo '<script>console.log("El valor de totalActividades es: ' . $totalActividades . '");</script>';
+                                    if ($numActividadesRealizadas != $totalActividades) {
+                                        // Mostrar el recurso en el select solo si el usuario no ha completado todas las actividades asociadas a él
+                                        if ($tipoArchivo == 'video') {
+                                            $icono_archivo = 'fas fa-file-video';
+                                        } elseif ($tipoArchivo == 'audio') {
+                                            $icono_archivo = 'fas fa-file-audio';
+                                        }
+
+                                        echo '<option data-location="' . $ubicacionArchivo . '" data-id-recurso="' . $idRecurso . '">' . $nombreArchivo . '</option>';
+                                    }
                                 }
 
                                 echo '
@@ -80,9 +106,16 @@ date_default_timezone_set('America/Bogota');
                                         </div>
                                     </div>';
                             }
-                            $queryActividad = "SELECT a.*, r.location FROM actividad a
-                            JOIN recurso r ON a.id_recurso = r.id_recurso
-                            WHERE a.tipo = 'Activity'";
+                            $queryActividad = "SELECT a.*, r.location, r.id_unidad 
+                                                FROM actividad a
+                                                JOIN recurso r ON a.id_recurso = r.id_recurso
+                                                WHERE a.tipo = 'Activity' 
+                                                AND a.id_actividad NOT IN (
+                                                    SELECT na.id_actividad 
+                                                    FROM nota_actividad na
+                                                    JOIN nota n ON na.id_nota = n.id_nota
+                                                    WHERE n.id_usuario = '$userId'
+                                                )";
                             $resultActividad = mysqli_query($con, $queryActividad);                          
 
                             $questionsActividad = array();
@@ -97,6 +130,7 @@ date_default_timezone_set('America/Bogota');
                                     'tipo' => $rowActividad['tipo'],
                                     'id_recurso' => intval($rowActividad['id_recurso']),
                                     'id_actividad' => intval($rowActividad['id_actividad']),
+                                    'id_unidad' => intval($rowActividad['id_unidad']),
                                     'descripcion' => $rowActividad['descripcion'],
                                     'pregunta' => $rowActividad['pregunta'],
                                     'respuesta' => $rowActividad['respuesta'],
@@ -162,6 +196,24 @@ date_default_timezone_set('America/Bogota');
 <script>
 // Variable global para almacenar temporalmente las actividades asociadas
     var actividadesAsociadasTemp;
+    
+    //Respuesta de puntos ganados
+    var puntosGanados = 10;
+
+    //Select
+    var conSelect = 0;
+    //Multiple choice
+    var conBMC = 0;
+    var conMMC = 0;
+    //Order
+    var conMO = 0;
+    //Complete
+    var conMCom = 0;
+    //Match
+    var conMMat = 0;
+    //Number
+    var conMNu = 0;
+
     // Definir userId globalmente
     var userId = "<?php echo $userId; ?>";
     console.log("El valor de userId es: " + userId);
@@ -175,12 +227,131 @@ date_default_timezone_set('America/Bogota');
             url: '../Modelo/actRacha.php',
             method: 'POST',
             data: { userId: userId },
+            dataType: 'json',
             success: function(response) {
                 console.log('Fecha de última actividad actualizada correctamente.');
+                console.log('Respuesta:', response);
+
+                // Imprimir todas las propiedades del objeto response
+                Object.keys(response).forEach(function(key) {
+                    if(response[key] != ""){
+                        console.log(key + ':', response[key]);
+                    }
+                });
+
+                var mensaje = 'Your last activity date has been updated';
+                //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
             },
             error: function(xhr, status, error) {
                 console.error('Error al actualizar la fecha de última actividad:', error);
             }
+        });
+    }
+
+    function save_nota_actividad(tipoPregunta, id_unidad, id_actividad, ...args){
+        console.log("Entra en la funcion para guardar la nota de la actividad con tipoPregunta: " + tipoPregunta + " y args: " + args)
+            for (let i = 0; i < args.length; i++) {
+            console.log('Argumento', i + 1, ':', args[i]);
+        }
+        let data = { tipoPregunta: tipoPregunta,  userId: userId, id_unidad: id_unidad, id_actividad: id_actividad, puntosGanados: puntosGanados};
+        switch (tipoPregunta) {
+            case 'select':
+                // Si es una pregunta de tipo select
+                data.n_intentos = args[0];
+                data.n_opciones = args[1];
+                break;
+            case 'multiple choice':
+                // Si es una pregunta de tipo multiple choice
+                data.buenasMC = args[0];
+                data.malasMC = args[1];
+                data.totalMC = args[2];
+                data.totalMTot = args[3];
+                break;
+            case 'order':
+                // Si es una pregunta de tipo order
+                data.n_intentosO = args[0];
+                data.n_opcionesO = args[1];
+                break;
+            case 'complete':
+                // Si es una pregunta de tipo complete
+                data.n_intentosC = args[0];
+                data.n_opcionesC = args[1];
+                break;
+            case 'match':
+                // Si es una pregunta de tipo match
+                data.n_intentosMat = args[0];
+                data.n_opcionesMat = args[1];
+                break;
+            case 'number':
+                // Si es una pregunta de tipo number
+                data.n_intentosNum = args[0];
+                data.n_opcionesNum = args[1];
+                break;
+            default:
+                console.error('Tipo de pregunta no reconocido:', tipoPregunta);
+                return;
+        }
+
+        // Realizar una solicitud AJAX para guardar la nota de la actividad en la base de datos
+        // Suponiendo que estés utilizando jQuery para realizar solicitudes AJAX
+        console.log("Se envia userId: " + userId);
+        console.log("Se envia tipoPregunta: " + tipoPregunta);
+
+        $.ajax({
+            url: '../Modelo/save_nota_actividad.php',
+            method: 'POST',
+            data: data,
+            dataType: 'json',
+            success: function(response) {
+                console.log('Nota de actividad guardada correctamente.');
+                console.log('Respuesta:', response);
+
+                // Imprimir todas las propiedades del objeto response
+                Object.keys(response).forEach(function(key) {
+                    if(response[key] != ""){
+                        console.log(key + ':', response[key]);
+                    }
+                });
+
+                //Reiniciar los contadores
+                //Select
+                conSelect = 0;
+                //Multiple choice
+                conBMC = 0;
+                conMMC = 0;
+                //Order
+                conMO = 0;
+                //Complete
+                conMCom = 0;
+                //Match
+                conMMat = 0;
+                //Number
+                conMNu = 0;
+
+
+                // Actualizar el contador de puntos
+                var puntosGanados = response.puntosGanados;
+                var puntosActuales = parseInt($('#puntos-counter').text());
+                var nuevosPuntos = puntosActuales + puntosGanados;
+                $('#puntos-counter').text(nuevosPuntos);
+
+                var mensaje = 'The activity ' + response.id_actividad + ' in the unity ' + response.id_unidad + ' has been registered with your note: ' + response.nota_actividad + ' also you earned ' + puntosGanados + ' points';
+                //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al guardar la nota de actividad:', error);
+            }
+        });
+    }
+
+    
+
+    // Función para obtener actividades asociadas a un recurso
+    function obtenerActividadesAsociadas(idRecursoSeleccionado) {
+        console.log("En esta funcion llega con este valor: " + idRecursoSeleccionado);
+        console.log(preguntasActividad);
+        return preguntasActividad.filter(function (actividad) {
+            return actividad.id_recurso === parseInt(idRecursoSeleccionado);
         });
     }
 
@@ -272,138 +443,9 @@ date_default_timezone_set('America/Bogota');
         });
     }
 
-    // Función para obtener actividades asociadas a un recurso
-    function obtenerActividadesAsociadas(idRecursoSeleccionado) {
-        console.log("En esta funcion llega con este valor: " + idRecursoSeleccionado);
-        console.log(preguntasActividad);
-        return preguntasActividad.filter(function (actividad) {
-            return actividad.id_recurso === parseInt(idRecursoSeleccionado);
-        });
-    }
-
-    // Función para mostrar la retroalimentación después de responder preguntas
-    function mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada, tipoActividad) {
-        console.log('Mostrando retroalimentación');
-        console.log('respuestasCorrectasUsuario: ' + JSON.stringify(respuestasCorrectasUsuario, null, 2));
-        console.log('actividadSeleccionada: ' + JSON.stringify(actividadSeleccionada, null, 2));
-        console.log('tipoActividad: ' + tipoActividad);
-
-        // Cambiar el fondo solo de la opción seleccionada si es una pregunta de opciones
-        if (tipoActividad === 'opciones') {
-            console.log("1");
-            var opcionSeleccionada = document.querySelector('input[name="pregunta"]:checked');
-            if (opcionSeleccionada) {
-                var esCorrecta = respuestasCorrectasUsuario;
-                opcionSeleccionada.parentNode.style.backgroundColor = esCorrecta ? '#7CFF7C' : '#FF7C7C';
-                actualizarTablaRacha();
-            }
-        }
-
-        if (tipoActividad === 'opcionMultiple') {
-            console.log("2");
-            console.log("Llega con estos valores:", respuestasCorrectasUsuario);
-            var opSelecionadas = respuestasCorrectasUsuario;
-            // Cambiar el fondo de todas las opciones correctas y seleccionadas
-            Object.keys(opSelecionadas).forEach(function (key) {
-                console.log("Es: " + key);
-                console.log("ademas: " + respuestasCorrectasUsuario[key]);
-                var elemento = document.querySelector('input[value="' + key + '"]');
-                //Esta seleccionada
-                //Verificar si esta opcion esta dentro de actividadSeleccionada.respuesta
-                if (actividadSeleccionada.respuesta.includes((key))){
-                    //Si esta dentro de la respuesta
-                    if (elemento) {
-                        // Seleccionada y es correcta: pintar de verde
-                        elemento.parentNode.style.backgroundColor = '#7CFF7C';
-                    }
-                } else {
-                    if (elemento) {
-                        // Seleccionada pero no es correcta: pintar de rojo
-                        elemento.parentNode.style.backgroundColor = '#FF7C7C';
-                    }
-                }
-            });
-
-            // Mostrar mensaje de respuesta correcta o incorrecta
-            respuestasCorrectasUsuario = false;
-            actualizarTablaRacha();
-        }
-
-        // Mostrar mensaje específico para el caso de ordenar si la respuesta es correcta
-        if (tipoActividad === 'ordenar') {
-            if (respuestasCorrectasUsuario) {
-                alert('Correct answer in the sorting activity!');
-            } else {
-                alert('Incorrect order. Please try again.');
-            }
-            actualizarTablaRacha();
-        }
-
-        // Mostrar mensaje de respuesta correcta o incorrecta para la actividad de completar
-        if (tipoActividad === 'completar') {
-            var mensaje = respuestasCorrectasUsuario ? 'Correct answers!' : 'Incorrect answers. Please try again.';
-            actualizarTablaRacha();
-            alert(mensaje);
-        }
-
-        if (tipoActividad === 'unir') {
-            var mensajeUnir = respuestasCorrectasUsuario ? 'Connections are correct!' : 'Connections are incorrect. Please try again.';
-            actualizarTablaRacha();
-            alert(mensajeUnir);
-        }
-
-        if (tipoActividad === 'numerar') {
-            console.log("Entra en numerar con estos valores:");
-            Object.keys(respuestasCorrectasUsuario).forEach(function (palabra) {
-                console.log(palabra, respuestasCorrectasUsuario[palabra]);
-            });
-            var mensajeUnir = respuestasCorrectasUsuario ? 'Numbers are correct!' : 'Numbers are incorrect. Please try again.';
-            actualizarTablaRacha();
-            alert(mensajeUnir);
-        }
-
-        // Cerrar la ventana modal si la respuesta es correcta (para todas las preguntas)
-        if (respuestasCorrectasUsuario) {
-            setTimeout(function () {
-                var modal = document.getElementById('myModal');
-                modal.style.display = 'none';
-            }, 2000);  // Ajusta el tiempo según tus preferencias
-        }
-    }
-
-    //Funcion para identificar el tipo de actividad
-    function detectarTipoActividad(actividad) {
-        var pregunta = actividad.pregunta.toLowerCase();
-        console.log("Pregunta con esto dentro: " + pregunta);
-
-        if (pregunta.includes('match') || pregunta.includes('link') || pregunta.includes('join') || pregunta.includes('unir')) {
-            return 'unir';
-        } else if (pregunta.includes('complete') || pregunta.includes('completar')) {
-            return 'completar';
-        }else if (pregunta.includes('number') || pregunta.includes('numera')) {
-            return 'numerar';
-        } else if (pregunta.includes('order') || pregunta.includes('ordenar')) {
-            return 'ordenar';
-        } else if (pregunta.includes('options') || pregunta.includes('opciones') || pregunta.includes('choose') || pregunta.includes('escoge') || pregunta.includes('select') || pregunta.includes('selecciona')) {
-            if (
-                pregunta.includes('multiple') ||
-                pregunta.includes('opciones múltiples') ||
-                pregunta.includes('select all that apply')||
-                pregunta.includes('choose all')||
-                pregunta.includes('selecciona todas')
-            ) {
-                return 'opcionMultiple';
-            } else {
-                return 'opciones';
-            }
-        }
-
-        // Por defecto, asumir que es una actividad de opciones si no se encuentra ninguna palabra clave específica
-        return 'opciones';
-    }
-
     function mostrarPreguntas(actividadSeleccionada) {
-        var tipoActividad = detectarTipoActividad(actividadSeleccionada);
+        var tipoActividad = actividadSeleccionada.descripcion.toLowerCase();
+        console.log("Tipo de actividad: " + tipoActividad);
         var formularioContainer = document.getElementById('formulario-container');
         formularioContainer.innerHTML = '';
 
@@ -413,7 +455,7 @@ date_default_timezone_set('America/Bogota');
         formulario.appendChild(preguntaElement);
 
         // Construir el formulario según el tipo de actividad detectado
-        if (tipoActividad === 'opciones') {
+        if (tipoActividad === 'select') {
             actividadSeleccionada.opciones.forEach(function (opcion, opcionIndex) {
                 // Crear elementos de opción para actividad de opciones
                 var opcionElement = document.createElement('input');
@@ -439,7 +481,7 @@ date_default_timezone_set('America/Bogota');
                     mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada, tipoActividad);
                 });
             });
-        } else if (tipoActividad === 'unir') {
+        } else if (tipoActividad === 'match') {
             console.log("Valor de la respuesta: " + actividadSeleccionada.respuesta);
             var palabraIzquierda = null;
             var palabraDerecha = null;
@@ -545,7 +587,7 @@ date_default_timezone_set('America/Bogota');
             contenedorGeneral.appendChild(sendButton);
 
             formulario.appendChild(contenedorGeneral);
-        } else if (tipoActividad === 'completar') {
+        } else if (tipoActividad === 'complete') {
             // Div que contendrá las opciones y los espacios para completar
             var completarContainer = document.createElement('div');
 
@@ -637,7 +679,7 @@ date_default_timezone_set('America/Bogota');
 
             // Agregar el contenedor principal al formulario
             formulario.appendChild(completarContainer);
-        } else if (tipoActividad === 'ordenar') {
+        } else if (tipoActividad === 'order') {
             // Coloca las palabras en un distinto orden, aleatoriamente
             var opcionesBarajadas = actividadSeleccionada.opciones.sort(function () {
                 return 0.5 - Math.random();
@@ -724,7 +766,7 @@ date_default_timezone_set('America/Bogota');
                 mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada, tipoActividad);
             });
             
-        }else if(tipoActividad === 'opcionMultiple'){
+        }else if(tipoActividad === 'multiple choice'){
             actividadSeleccionada.opciones.forEach(function (opcion, opcionIndex) {
                 // Crear elementos de opción para actividad de opciones múltiples
                 var opcionElement = document.createElement('input');
@@ -759,7 +801,7 @@ date_default_timezone_set('America/Bogota');
             });
 
             formulario.appendChild(comprobarBoton);
-        } else if (tipoActividad === 'numerar') {
+        } else if (tipoActividad === 'number') {
             console.log("entramos en numerar");
 
             var optionContainer = document.createElement('div');
@@ -1132,6 +1174,140 @@ date_default_timezone_set('America/Bogota');
     
 
 
+    // Función para mostrar la retroalimentación después de responder preguntas
+    function mostrarRetroalimentacion(respuestasCorrectasUsuario, actividadSeleccionada, tipoActividad) {
+        //Multiple choice
+        conBMC = 0;
+        conMMC = 0;
+
+        console.log('Mostrando retroalimentación');
+        console.log('respuestasCorrectasUsuario: ' + JSON.stringify(respuestasCorrectasUsuario, null, 2));
+        console.log('actividadSeleccionada: ' + JSON.stringify(actividadSeleccionada, null, 2));
+        console.log('tipoActividad: ' + tipoActividad);
+        console.log('Valor de actividadSeleccionada.id_unidad: ' + actividadSeleccionada.id_unidad);
+
+        // Cambiar el fondo solo de la opción seleccionada si es una pregunta de opciones
+        if (tipoActividad === 'select') {
+            conSelect++;
+            console.log("1");
+            var opcionSeleccionada = document.querySelector('input[name="pregunta"]:checked');
+            if (opcionSeleccionada) {
+                var esCorrecta = respuestasCorrectasUsuario;
+                console.log("Valor de esCorrecta: " + esCorrecta);
+                opcionSeleccionada.parentNode.style.backgroundColor = esCorrecta ? '#7CFF7C' : '#FF7C7C';
+                
+                if(esCorrecta){
+                    console.log("Valor de conSelect: " + conSelect);
+                    console.log("Valor de actividadSeleccionada.opciones: " + actividadSeleccionada.opciones);
+                    console.log("Valor de actividadSeleccionada.opciones.length: " + actividadSeleccionada.opciones.length);
+
+                    actualizarTablaRacha();
+                    //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad,conSelect, actividadSeleccionada.opciones.length);                    
+                }
+            }
+        }
+
+        if (tipoActividad === 'multiple choice') {
+            console.log("2");
+            console.log("Llega con estos valores:", respuestasCorrectasUsuario);
+            var nResBMC = actividadSeleccionada.respuesta.split(",").length;
+            console.log("El numero de respuestas correctas es: " + nResBMC);
+            var opSelecionadas = respuestasCorrectasUsuario;
+            // Cambiar el fondo de todas las opciones correctas y seleccionadas
+            Object.keys(opSelecionadas).forEach(function (key) {
+                console.log("Es: " + key);
+                console.log("ademas: " + respuestasCorrectasUsuario[key]);
+                if(respuestasCorrectasUsuario[key]){
+                    conBMC++;
+                    console.log("Valor en conBMC: " + conBMC);
+                }else{
+                    conMMC++;
+                    console.log("Valor en conMMC: " + conMMC);
+                }
+                var elemento = document.querySelector('input[value="' + key + '"]');
+                //Esta seleccionada
+                //Verificar si esta opcion esta dentro de actividadSeleccionada.respuesta
+                if (actividadSeleccionada.respuesta.includes((key))){
+                    //Si esta dentro de la respuesta
+                    if (elemento) {
+                        // Seleccionada y es correcta: pintar de verde
+                        elemento.parentNode.style.backgroundColor = '#7CFF7C';
+                    }
+                } else {
+                    if (elemento) {
+                        // Seleccionada pero no es correcta: pintar de rojo
+                        elemento.parentNode.style.backgroundColor = '#FF7C7C';
+                    }
+                }
+            });
+
+            // Mostrar mensaje de respuesta correcta o incorrecta
+            respuestasCorrectasUsuario = false;
+            actualizarTablaRacha();
+            //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conBMC, conMMC, nResBMC, actividadSeleccionada.opciones.length);
+        }
+
+        // Mostrar mensaje específico para el caso de ordenar si la respuesta es correcta
+        if (tipoActividad === 'order') {
+            if (respuestasCorrectasUsuario) {
+                alert('Correct answer in the sorting activity!');
+                actualizarTablaRacha();
+                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMO, actividadSeleccionada.opciones.length);
+            } else {
+                conMO++;
+                alert('Incorrect order. Please try again.   ' + conMO);
+            }
+        }
+
+        // Mostrar mensaje de respuesta correcta o incorrecta para la actividad de completar
+        if (tipoActividad === 'complete') {
+            var mensaje = respuestasCorrectasUsuario ? 'Correct answers!' : 'Incorrect answers. Please try again.';
+            if (!respuestasCorrectasUsuario) {
+                conMCom++; // Aumentar en 1 si las respuestas son incorrectas
+                console.log("Valor de conMCom: " + conMCom);
+            }else{
+                actualizarTablaRacha();
+                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMCom, actividadSeleccionada.opciones.length);                
+            }
+            alert(mensaje);
+        }
+
+        if (tipoActividad === 'match') {
+            var mensajeUnir = respuestasCorrectasUsuario ? 'Connections are correct!' : 'Connections are incorrect. Please try again.';
+            if (!respuestasCorrectasUsuario) {
+                conMMat++; // Aumentar en 1 si las respuestas son incorrectas
+                console.log("Valor de conMMat: " + conMMat);
+            }else{
+                actualizarTablaRacha();
+                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMMat, actividadSeleccionada.opciones.length);                
+            }
+            alert(mensajeUnir);
+        }
+
+        if (tipoActividad === 'number') {
+            console.log("Entra en numerar con estos valores:");
+            Object.keys(respuestasCorrectasUsuario).forEach(function (palabra) {
+                console.log(palabra, respuestasCorrectasUsuario[palabra]);
+            });
+            var mensajeNumber = respuestasCorrectasUsuario ? 'Numbers are correct!' : 'Numbers are incorrect. Please try again.';
+            if (!respuestasCorrectasUsuario) {
+                conMNu++; // Aumentar en 1 si las respuestas son incorrectas
+                console.log("Valor de conMNu: " + conMNu);
+            }else{
+                actualizarTablaRacha();
+                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMNu, actividadSeleccionada.opciones.length);
+            }
+            alert(mensajeNumber);
+        }
+
+        // Cerrar la ventana modal si la respuesta es correcta (para todas las preguntas)
+        if (respuestasCorrectasUsuario) {
+            setTimeout(function () {
+                var modal = document.getElementById('myModal');
+                modal.style.display = 'none';
+            }, 2000);  // Ajusta el tiempo según tus preferencias
+        }
+    }
 
 
     // Obtener el elemento de cierre y la ventana modal
@@ -1149,9 +1325,4 @@ date_default_timezone_set('America/Bogota');
             modal.style.display = 'none';
         }
     };
-
-
-
-
-    
 </script>

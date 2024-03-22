@@ -1,11 +1,10 @@
 url = window.location.href;
-if (url.includes('modulo=prueba')) {
+//if (url.includes('modulo=prueba')) {
     let questions;
-    let selectedUnitIndex = -1; // Inicializar con un valor que no corresponda a ningún índice válido
     let unidadId;
 
     // En tu script JavaScript (prueba.js)
-    document.addEventListener("DOMContentLoaded", function () {
+    //document.addEventListener("DOMContentLoaded", function () {
         const currentPath = "/app_ingles/Vista/panel.php";
         const isPruebaPage = window.location.pathname.includes(currentPath) && window.location.search.includes("modulo=prueba");
 
@@ -16,46 +15,76 @@ if (url.includes('modulo=prueba')) {
 
             unidadButtons.forEach(function (button, index) {
                 console.log("22");
-                button.addEventListener("click", function () {
+                button.addEventListener("click", async function () {
                     unidadId = button.getAttribute("data-id");
                     console.log("Clic en la unidad con ID:", unidadId);
 
-                    // Filtrar preguntas por el id_unidad
-                    const preguntasFiltradas = preguntas.filter(function (pregunta) {
-                        console.log("nose: " + JSON.stringify(pregunta.id_unidad));
 
-                        return pregunta.id_unidad === parseInt(unidadId);
-                    });
-
-                    selectedUnitIndex = index; // Almacena el índice de la unidad seleccionada
-
-                    // Oculta los demás botones de unidad
-                    unidadButtons.forEach((otherButton, otherIndex) => {
-                        if (otherIndex !== index) {
-                            otherButton.style.display = "none";
+                    try{
+                        // Realizar la consulta a la base de datos para verificar si el estudiante ya ha realizado las pruebas de la unidad
+                        const response = await fetch('../Modelo/check_pruebas_realizadas.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ unidadId: unidadId, id_usuario: userId}),
+                        });
+                        
+                        if (!response.ok) {
+                            throw new Error('Error en la solicitud: ' + response.statusText);
                         }
-                    });
 
-                    console.log("aaqui: " + preguntasFiltradas);
-                    console.log("aaqui: " + preguntasFiltradas.length);
+                        const data = await response.json();
+                        console.log("Respuesta de la consulta:", data);
 
-                    if (preguntasFiltradas.length > 0) {
-                        // Mostrar el botón de inicio si hay preguntas para la unidad
-                        startBtn.removeAttribute("hidden");
+                        // Filtrar preguntas por el id_unidad
+                        const preguntasFiltradas = preguntas.filter(function (pregunta) {
+                            console.log("0 Aqui la unidad: " + JSON.stringify(pregunta.id_unidad));
 
-                        // Obtener solo las primeras 10 preguntas después de reorganizarlas
-                        let allQuestions = preguntasFiltradas.slice(); // Copiar el array para no modificar el original
-                        let shuffledQuestions = shuffleArray(allQuestions);
+                            return data.remaining_activity_ids.includes(pregunta.id_actividad.toString());
+                        });
 
-                        // Seleccionar solo las primeras 10 preguntas después de reorganizarlas
-                        let selectedQuestions = shuffledQuestions.slice(0, 10);
+                        console.log("Preguntas filtradas:", preguntasFiltradas);
+                        console.log("length: " + preguntasFiltradas.length);
 
-                        // Asignar las preguntas reorganizadas y seleccionadas a la variable "questions"
-                        questions = selectedQuestions;
-                        console.log("Preguntas reorganizadas y seleccionadas:", questions);
-                    } else {
-                        // Ocultar el botón de inicio si no hay preguntas para la unidad
-                        startBtn.setAttribute("hidden", "true");
+                        if (preguntasFiltradas.length > 0 && !data.pruebasRealizadas) {
+                            // Oculta los demás botones de unidad
+                            unidadButtons.forEach((otherButton, otherIndex) => {
+                                if (otherIndex !== index) {
+                                    otherButton.style.display = "none";
+                                }
+                            });
+
+                            // Mostrar el botón de inicio si hay preguntas para la unidad y no se han realizado las pruebas
+                            startBtn.removeAttribute("hidden");
+
+                            // Obtener solo las primeras 10 preguntas después de reorganizarlas
+                            let allQuestions = preguntasFiltradas.slice(); // Copiar el array para no modificar el original
+                            let shuffledQuestions = shuffleArray(allQuestions);
+
+                            // Seleccionar solo las primeras 10 preguntas después de reorganizarlas
+                            let selectedQuestions = shuffledQuestions.slice(0, 10);
+
+                            // Asignar las preguntas reorganizadas y seleccionadas a la variable "questions"
+                            questions = selectedQuestions;
+                            console.log("Preguntas reorganizadas y seleccionadas:", questions);
+                            document.getElementById("sideBarHidden").setAttribute("hidden", "true");
+                            document.getElementById("sideBarHidden2").setAttribute("hidden", "true");
+                            document.getElementById("navBarHidden").setAttribute("hidden", "true");
+                        } else {
+                            // Mostrar la card que indica que no hay tests pendientes
+                            document.getElementById("noTestsCard").style.display = "block";
+
+                            // Ocultar la card después de 3 segundos
+                            setTimeout(function() {
+                                document.getElementById("noTestsCard").style.display = "none";
+                            }, 3000);
+
+                            // Ocultar el botón de inicio
+                            startBtn.setAttribute("hidden", "true");
+                        }
+                    } catch (error) {
+                        console.error("Error al procesar la respyesta:", error);
                     }
                 });
             });
@@ -71,7 +100,7 @@ if (url.includes('modulo=prueba')) {
             questions = selectedQuestions;
             console.log("zzzPreguntas reorganizadas y seleccionadas:", questions);
         }
-    });
+    //});
 
 
     // Función para reorganizar aleatoriamente un array (algoritmo de Fisher-Yates)
@@ -154,7 +183,7 @@ if (url.includes('modulo=prueba')) {
 
     // si se hace clic en el botón Salir del cuestionario
     quit_quiz.onclick = ()=>{
-        window.location.reload(); //reload the current window
+        //window.location.reload(); //reload the current window
     }
 
     const next_btn = document.querySelector("footer .next_btn");
@@ -368,7 +397,10 @@ if (url.includes('modulo=prueba')) {
     }
 
     function saveTestResult(userScore, totalQuestions, unidadId, actividadIds) {
-        // Obtener el valor de id_usuario de mi <input type="hidden" id="userId" value="<?php echo $_SESSION['id_usuario']; ?>">
+        document.getElementById("sideBarHidden").removeAttribute("hidden");
+        document.getElementById("sideBarHidden2").removeAttribute("hidden");
+        document.getElementById("navBarHidden").removeAttribute("hidden");
+
         let userId = document.getElementById("userId").value;
         let porcentaje = (userScore / totalQuestions);
         let userNota = 10 * porcentaje;
@@ -379,6 +411,7 @@ if (url.includes('modulo=prueba')) {
             nota: userNota.toFixed(2),
             tipo: "Test",
             actividadIds: actividadIds,
+            puntosGanados: 20
         };
         //imprimir todos los valores en este punto
         console.log("userData:", userData);
@@ -393,20 +426,88 @@ if (url.includes('modulo=prueba')) {
         .then(response => {
             console.log('Respuesta del servidor:', response);
             // Verificar si la respuesta es exitosa
-            if (response.ok) {
-                return response.json();
-            } else {
-                throw new Error('Respuesta no exitosa del servidor');
+            if (!response.ok) {
+                throw new Error('Error en la solicitud: ' + response.statusText);
             }
+
+
+
+            return response.json(); // Convertir la respuesta a JSON
         })
         .then(data => {
             console.log('Nota guardada exitosamente:', data);
-            // Puedes realizar acciones adicionales aquí si es necesario
+            
+            var puntosActuales = parseInt($('#puntos-counter').text());
+            var nuevosPuntos = puntosActuales + data.puntosGanados;
+            $('#puntos-counter').text(nuevosPuntos);
+
+            if(data.nota == 10.00){
+                console.log("Manda a llamar a la nueva función de la nota 10");
+                save_nota_10(data.nota);
+            }
+
+            
+            var mensaje = data.message;
+            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         })
         .catch(error => {
             console.error('Error al procesar la respuesta:', error);
-            // Puedes agregar mensajes de depuración adicionales si es necesario
             console.log("error 1: " + JSON.stringify(userData) + "\n" + error);
+            var mensaje = 'There was an error while saving the test result. Please try again later.';
+            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         });
     }
-}
+
+    function save_nota_10(nota_actividad){
+        console.log("Entra en la funcion para guardar la nota de 10");
+        let userID = document.getElementById("userId").value;
+
+        let userData = {
+            id_usuario: userID,
+            nota_actividad: nota_actividad
+        };
+        //imprimir todos los valores en este punto
+        console.log("userData:", userData);
+
+        fetch('../Modelo/nota10.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        })
+        .then(response => {
+            console.log('Respuesta del servidor:', response);
+            // Verificar si la respuesta es exitosa
+            if (!response.ok) {
+                throw new Error('Error en la solicitud: ' + response.statusText);
+            }
+
+
+
+            return response.json(); // Convertir la respuesta a JSON
+        })
+        .then(data => {
+            console.log('Nota guardada exitosamente:', data);
+            
+            var puntosActuales = parseInt($('#puntos-counter').text());
+            var nuevosPuntos = puntosActuales + data.puntosGanados;
+            $('#puntos-counter').text(nuevosPuntos);
+
+            if(data.nota == 10.00){
+                console.log("Entra en la funcion para guardar la nota de 10");
+                save_nota_10(data.nota);
+            }
+
+            
+            var mensaje = data.message;
+            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+        })
+        .catch(error => {
+            console.error('Error al procesar la respuesta:', error);
+            console.log("error 1: " + JSON.stringify(userData) + "\n" + error);
+            var mensaje = 'There was an error while saving the test result. Please try again later.';
+            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+        });
+    }
+//}

@@ -2,10 +2,10 @@
 include_once '../Config/conexion.php';
 
 // Consulta para obtener las actividades
-$actividades_query = mysqli_query($con, "SELECT * FROM actividad") or die(mysqli_error($con));
+$actividades_query = mysqli_query($con, "SELECT * FROM actividad ORDER BY tipo") or die(mysqli_error($con));
 
 // Consulta para obtener los usuarios y sus datos
-$usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_error($con));
+$usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario") or die(mysqli_error($con));
 
 // Cerrar la conexión a la base de datos
 
@@ -40,9 +40,23 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_erro
                                                 <th>Points</th>
                                                 <!-- Crear dinámicamente las columnas de las actividades -->
                                                 <?php
+                                                $numActivities = 0;
+                                                $numTests = 0;
+                                                $bgTH = '';
+
                                                 while ($actividad = mysqli_fetch_assoc($actividades_query)) {
-                                                    echo '<th>' . $actividad['tipo'] . ' id ' . $actividad['id_actividad'] . '</th>';
+                                                    if($actividad['tipo'] == 'Test'){
+                                                        $numTests++;
+                                                        $bgTH = 'bg-info';
+                                                    } else {
+                                                        $numActivities++;
+                                                        $bgTH = 'bg-dark';
+                                                    }
+                                                    echo '<th class="' . $bgTH . '" >' . $actividad['tipo'] . ' id ' . $actividad['id_actividad'] . '</th>';
+                                                    
                                                 }
+                                                echo '<script>console.log(' . $numActivities . ')</script>';
+                                                echo '<script>console.log(' . $numTests . ')</script>';
                                                 ?>
                                                 <th class="bg-info">Average Tests</th>
                                                 <th class="bg-dark">Average Activities</th>
@@ -74,18 +88,19 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_erro
                                                 mysqli_data_seek($actividades_query, 0); // Reiniciar el puntero de la consulta de actividades
                                                 $sumActivities = 0;
                                                 $sumTests = 0;
-                                                $numActivities = 0;
-                                                $numTests = 0;
+                                                
                                                 while ($actividad = mysqli_fetch_assoc($actividades_query)) {
-                                                    echo '<td>';
+                                                    echo '<td';
+                                                    if (isset($notas[$actividad['id_actividad']])) {
+                                                        echo ' class="bg-secondary"';
+                                                    }
+                                                    echo '>';
                                                     if (isset($notas[$actividad['id_actividad']])) {
                                                         echo $notas[$actividad['id_actividad']];
                                                         if($actividad['tipo'] == 'Test'){
                                                             $sumTests += $notas[$actividad['id_actividad']];
-                                                            $numTests++;
                                                         } else {
                                                             $sumActivities += $notas[$actividad['id_actividad']];
-                                                            $numActivities++;
                                                         }
                                                     } else {
                                                         echo 'N/A';
@@ -126,6 +141,8 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario") or die(mysqli_erro
                                                 echo '<td class="' . $styleSA . '">' . number_format($sumActivities, 2) . '</td>';
 
                                                 echo '</tr>';
+                                                $numActivities = 0;
+                                                $numTests = 0;
                                             }
                                             mysqli_close($con);
                                             ?>

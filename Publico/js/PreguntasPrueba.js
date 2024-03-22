@@ -57,15 +57,55 @@ let preguntas = [
     {
         "id": 4,
         "tipo": "Test",
-        "id_recurso": 9,
-        "id_actividad": 17,
+        "id_recurso": 14,
+        "id_actividad": 24,
         "id_unidad": 1,
-        "descripcion": "Order",
-        "pregunta": "1",
-        "respuesta": "1",
+        "descripcion": "Test 4",
+        "pregunta": "What number of pounds does Homer need to qualify as disabled?",
+        "respuesta": "300",
         "opciones": [
-            "1"
+            "250",
+            "300",
+            "310",
+            "290",
+            "295"
         ],
-        "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
+        "ruta_video": "../Publico/archivos/7x7x1-6.mp4"
+    },
+    {
+        "id": 5,
+        "tipo": "Test",
+        "id_recurso": 14,
+        "id_actividad": 25,
+        "id_unidad": 1,
+        "descripcion": "Test 4",
+        "pregunta": "What number of pounds does Homer need to qualify as disabled?",
+        "respuesta": "300",
+        "opciones": [
+            "250",
+            "300",
+            "310",
+            "290",
+            "295"
+        ],
+        "ruta_video": "../Publico/archivos/7x7x1-6.mp4"
+    },
+    {
+        "id": 6,
+        "tipo": "Test",
+        "id_recurso": 16,
+        "id_actividad": 26,
+        "id_unidad": 2,
+        "descripcion": "Test 4",
+        "pregunta": "What number of pounds does Homer need to qualify as disabled?",
+        "respuesta": "300",
+        "opciones": [
+            "250",
+            "300",
+            "310",
+            "290",
+            "295"
+        ],
+        "ruta_video": "../Publico/archivos/7x8x1-2.mp4"
     }
 ];

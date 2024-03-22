@@ -15,12 +15,6 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar si se ha iniciado sesión y si se ha enviado el ID de bonificación
     if (isset($_SESSION['id_usuario']) && isset($_POST['id_bonificacion'])) {
-        // Obtener el ID de usuario y el ID de bonificación desde la sesión y el formulario
-        $id_usuario = $_SESSION['id_usuario'];
-        $id_bonificacion = $_POST['id_bonificacion'];
-
-        include_once "../Config/conexion.php";
-
         // Obtener el ID de usuario, puntos del usuario y el ID de bonificación
         $id_usuario = $_SESSION['id_usuario'];
         $puntos_usuario = $_SESSION['puntos'];
@@ -45,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($cantidad_bonificaciones_usuario < $maximo_bonificacion) {
                 // Insertar la nueva bonificación adquirida en la tabla usuario_bonificacion
                 $fecha_adquisicion = date("Y-m-d H:i:s");
-                $query_insertar_bonificacion = "INSERT INTO usuario_bonificacion (id_usuario, id_bonificacion, fecha_adquisicion, estado) VALUES ($id_usuario, $id_bonificacion, '$fecha_adquisicion', 'no utilizada')";
+                $fecha_uso = date("Y-m-d H:i:s");
+                $query_insertar_bonificacion = "INSERT INTO usuario_bonificacion (id_usuario, id_bonificacion, fecha_adquisicion, fecha_uso, estado) VALUES ($id_usuario, $id_bonificacion, '$fecha_adquisicion', '$fecha_uso', 'no utilizada')";
                 $result_insertar_bonificacion = mysqli_query($con, $query_insertar_bonificacion);
 
                 if ($result_insertar_bonificacion) {
@@ -62,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         // Redirigir a la página de bonificaciones
                         mysqli_close($con);
                         header("Location: ../Vista/panel.php?modulo=bonificacion");
-                        exit();
+                        exit;
                     } else {
                         // Manejar el error
                         echo "Error al actualizar los puntos del usuario.";
@@ -86,11 +81,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Si no se ha iniciado sesión o no se ha enviado el ID de bonificación, redireccionar a la página de inicio de sesión
         header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=id_bonificacion=".$_SESSION['id_usuario']);
 
-        exit();
+        exit;
     }
 } else {
     // Si se intenta acceder directamente a este archivo sin enviar el formulario, redireccionar a la página principal
     header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=error2");
-    exit();
+    exit;
 }
 ?>

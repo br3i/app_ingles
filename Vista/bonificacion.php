@@ -91,15 +91,29 @@
                                                     echo "<p class='card-text'>$descripcion</p>";
                                                     echo "<p class='card-text'>Cost: $costo points</p>";
                                                     if (isset($cantidad_bonificaciones[$id_bonificacion])) {
+                                                        if($cantidad_bonificaciones[$id_bonificacion] > 0){
+                                                            $botonDeshabilitadoUso = '';
+                                                        }else{
+                                                            $botonDeshabilitadoUso = 'disabled';
+                                                        }
                                                         echo "<p class='card-text'>Quantity owned: {$cantidad_bonificaciones[$id_bonificacion]} / $maximo</p>";
                                                     } else {
                                                         echo "<p class='card-text'>Quantity owned: 0 / $maximo</p>";
                                                     }
-                                                    echo "<form action='../Modelo/procesar_compra.php' method='post'>";
-                                                        echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
-                                                        echo "<input type='hidden' name='costo_bonificacion' value='$costo'>";
-                                                        echo "<button type='submit' class='btn btn-primary' $botonDeshabilitado>Buy</button>";
-                                                    echo "</form>";
+                                                    echo "<div class='d-flex justify-content-center'>";
+                                                        echo "<form action='../Modelo/procesar_compra.php' method='post'>";
+                                                            echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
+                                                            echo "<input type='hidden' name='costo_bonificacion' value='$costo'>";
+                                                            echo "<button type='submit' class='btn btn-primary m-2' $botonDeshabilitado>Buy</button>";
+                                                        echo "</form>";
+                                                        echo "<form action='../Modelo/procesar_uso_bonificacion.php' method='post'>";
+                                                            if($nombre != 'No lose streak'){
+                                                                echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
+                                                                echo "<input type='hidden' name='nombre_bonificacion' value='$nombre'>";
+                                                                echo "<button type='submit' class='btn btn-primary m-2' $botonDeshabilitadoUso>Use</button>";
+                                                            }
+                                                        echo "</form>";
+                                                    echo "</div>";
                                                 echo "</div>";
                                             echo "</div>";
                                         echo "</div>";

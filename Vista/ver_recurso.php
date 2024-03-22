@@ -149,7 +149,7 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                                                     <option value=1>Order</option>
                                                     <option value=2>Match</option>
                                                     <option value=3>Complete</option>
-                                                    <option value=4>Multiple Choise</option>
+                                                    <option value=4>Multiple Choice</option>
                                                     <option value=5>Number</option>
                                                 </select>
                                             </div>

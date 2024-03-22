@@ -30,7 +30,7 @@ if (isset($_POST['save'])) {
 			$tipo_archivo = 'audio';
 		} else {
 			header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Formato de archivo incorrecto");
-			exit();
+			exit;
 		}
 
 		$name = mysqli_real_escape_string($con, $archivo_name);
@@ -51,11 +51,11 @@ if (isset($_POST['save'])) {
 					$subtitulo_location = '../Publico/subtitulos/' . $name . '.' . $subtitulo_extension;
 					if (!move_uploaded_file($subtitulo_temp, $subtitulo_location)) {
 						header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Error al cargar el archivo de subtítulos");
-						exit();
+						exit;
 					}
 				} else {
 					header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Formato de subtítulos incorrecto");
-					exit();
+					exit;
 				}
 			}
 
@@ -76,24 +76,24 @@ if (isset($_POST['save'])) {
 				if (mysqli_stmt_affected_rows($stmt) > 0) {
 					// La inserción fue exitosa
 					header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Archivo cargado correctamente");
-					exit();
+					exit;
 				} else {
 					// Ocurrió un error durante la inserción
 					header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Error al guardar el recurso");
-					exit();
+					exit;
 				}
 			} else {
 				// La unidad no existe en la tabla unidad
 				header("Location: ../Vista/panel.php?modulo=recursos&mensaje=La unidad seleccionada no existe");
-				exit();
+				exit;
 			}
 		} else {
 			header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Error al cargar el archivo");
-			exit();
+			exit;
 		}
 	} else {
 		header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Archivo demasiado grande");
-		exit();
+		exit;
 	}
 }
 

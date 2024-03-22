@@ -27,14 +27,14 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
             <div class="row">
                 <!-- Left col -->
                 <div class="col-lg-12">
-                    <div class="card card-primary">
+                    <div class="card card-primary bg-secondary">
                         <div class="card-header">
                             <h3 class="card-title">Welcome to Quiz!</h3>
                         </div>
                         <!-- Botones de Unidades -->
                         <div class="unidad-buttons mx-auto">
                             <?php foreach ($unidades as $unidad) : ?>
-                                <button class="unidad-btn btn bg-info font-weight-bold text-uppercase text-dark m-2" data-id="<?= $unidad['id_unidad']; ?>">
+                                <button class="unidad-btn btn bg-info font-weight-bold text-uppercase m-2" data-id="<?= $unidad['id_unidad']; ?>">
                                     <?= $unidad['descripcion']; ?>
                                 </button>
                             <?php endforeach; ?>
@@ -42,6 +42,15 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
                     </div>
                     <!-- /.card -->
 
+                    <!-- Card oculto con mensaje de 'All the tests related with this unity has been done' -->
+                    <div class="card card-info bg-light text-center" id="noTestsCard" style="display: none;">
+                        <div class="card-header">
+                            <h3 class="card-title">There are no pending tests in this unit</h3>
+                        </div>
+                        <div class="card-body">
+                            All tests for this unit have been completed.
+                        </div>
+                    </div>
                 </div>
                 <!-- start Quiz button -->
                 <div class="start_btn" hidden><button id="startQuizBtn">Start Quiz</button></div>
@@ -107,6 +116,12 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
 
                 <!-- Agregamos un input oculto para almacenar el ID del usuario -->
                 <input type="hidden" id="userId" value="<?php echo $_SESSION['id_usuario']; ?>">
+
+                
+
+
+
+
             </div>
             <!-- /.col -->
 

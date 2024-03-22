@@ -77,7 +77,7 @@ let preguntasActividad = [
         "id_recurso": 9,
         "id_actividad": 10,
         "id_unidad": 1,
-        "descripcion": "Multiple Choise",
+        "descripcion": "Multiple Choice",
         "pregunta": "Choose all the characters who participate in this video",
         "respuesta": "Homer,Smithers,Mr. Burns,Lenny,Carl",
         "opciones": [
@@ -112,60 +112,17 @@ let preguntasActividad = [
     {
         "id": 7,
         "tipo": "Activity",
-        "id_recurso": 9,
-        "id_actividad": 15,
-        "id_unidad": 1,
-        "descripcion": "0",
-        "pregunta": "who told homer to open the door?",
-        "respuesta": "Smithers",
-        "opciones": [
-            "Smithers",
-            "Bart",
-            "Marge",
-            "Lisa"
-        ],
-        "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
-    },
-    {
-        "id": 8,
-        "tipo": "Activity",
-        "id_recurso": 9,
-        "id_actividad": 16,
-        "id_unidad": 1,
-        "descripcion": "2",
-        "pregunta": "1",
-        "respuesta": "1",
-        "opciones": [
-            "1"
-        ],
-        "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
-    },
-    {
-        "id": 9,
-        "tipo": "Activity",
-        "id_recurso": 9,
-        "id_actividad": 18,
-        "id_unidad": 1,
-        "descripcion": "Multiple Choise",
-        "pregunta": "3",
-        "respuesta": "3",
-        "opciones": [
-            "3"
-        ],
-        "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
-    },
-    {
-        "id": 10,
-        "tipo": "Activity",
-        "id_recurso": 9,
-        "id_actividad": 19,
+        "id_recurso": 11,
+        "id_actividad": 23,
         "id_unidad": 1,
         "descripcion": "Number",
-        "pregunta": "5",
-        "respuesta": "5",
+        "pregunta": "Number the phrases in the order in which they appeared",
+        "respuesta": "This new exercise program is great,2,Someone’s in here,1,It’s like a lottery that rewards stupidity,3",
         "opciones": [
-            "5"
+            "This new exercise program is great",
+            "Someone’s in here",
+            "It’s like a lottery that rewards stupidity"
         ],
-        "ruta_video": "../Publico/archivos/7x7x1-1.mp4"
+        "ruta_video": "../Publico/archivos/7x7x1-3.mp4"
     }
 ];

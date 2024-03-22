@@ -29,7 +29,7 @@ $resultado = mysqli_query($con, $sql);
 // Verificar si se encontró alguna entrada en la tabla racha para el usuario actual
 if (mysqli_num_rows($resultado) > 0) {
     $row = mysqli_fetch_assoc($resultado);
-    $fecha_inicial = $row['start_date'];
+    $fecha_inicial = date('Y-m-d', strtotime($row['start_date']));
     $ultima_actividad = $row['end_date'];
     $racha_actual = $row['num_racha'];
 }
@@ -69,8 +69,7 @@ mysqli_close($con);
                                 </div>
                             </div>
                             <br>
-                            <div>
-                                <p>Date of Last Activity:</p>
+                            <div hidden>
                                 <div id="end">
                                     <?php echo $ultima_actividad; ?>
                                 </div>

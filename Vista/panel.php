@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+include_once '../Modelo/zona_horaria.php';
+include_once '../Config/conexion.php';
+
+date_default_timezone_set($user_timezone);  
+// Obtener la zona horaria actualmente configurada
+$current_timezone = date_default_timezone_get();
+
+// Imprimir la zona horaria
+echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
+
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 
@@ -17,11 +27,115 @@ if (!isset($_SESSION['id_usuario'])) {
   header("location: ../index.php");
   exit;
 }
+// Obtener el ID de usuario desde la sesión
+$id_usuario = $_SESSION['id_usuario'];
+$mensB = false;
+
+if (!isset($_SESSION['code_executed'])) {
+
+    $query_bonif_streak = "SELECT ub.id_usuario_bonificacion, ub.estado, b.nombre_bonificacion FROM usuario_bonificacion ub left join bonificacion b on ub.id_bonificacion = b.id_bonificacion WHERE ub.id_usuario = '$id_usuario' and ub.estado = 'no utilizada' and b.nombre_bonificacion = 'No lose streak'";
+    $result_bonif_streak = mysqli_query($con, $query_bonif_streak);
+    $row_count = mysqli_num_rows($result_bonif_streak);
+    echo '<script>console.log("Cantidad de filas: ' . $row_count . '")</script>';
+
+    $query_fecha_racha = "SELECT end_date, first_activity_date FROM racha WHERE id_usuario = $id_usuario";
+    $result_fecha_racha = mysqli_query($con, $query_fecha_racha);
+    $row_fecha_racha = mysqli_fetch_assoc($result_fecha_racha);
+    if(mysqli_num_rows($result_fecha_racha) > 0){
+      $end_date = $row_fecha_racha['end_date'];
+      $first_activity_date = $row_fecha_racha['first_activity_date'];
+      
+      $mensB = True;
+
+
+      $hoy = new DateTime(); // Crear un objeto DateTime para la fecha actual
+      //$hoy = new DateTime('2024-03-09 20:00:00'); // Crear un objeto DateTime para pruebas
+      $end_date = new DateTime($end_date); // Crear un objeto DateTime para $end_date
+
+      // Restar las fechas
+      $diferencia = $hoy->diff($end_date);
+
+      // Obtener la diferencia en días, horas, minutos y segundos
+      $dias = $diferencia->days;
+
+      //
+      $horas = $diferencia->h;
+      $minutos = $diferencia->i;
+      $segundos = $diferencia->s;
+      $total_segundos = ($dias * 24 * 60 * 60) + ($horas * 60 * 60) + ($minutos * 60) + $segundos;
+
+      $mens = '';
+
+      echo '<script>console.log("end_date: ' . $end_date->format('Y-m-d H:i:s') . ' hoy: ' . $hoy->format('Y-m-d H:i:s') . '")</script>';
+
+      echo '<script>console.log("Diferencia: ' . $dias . ' días, ' . $horas . ' horas, ' . $minutos . ' minutos, ' . $segundos . ' segundos")</script>';
+
+      echo '<script>console.log("Total de segundos: ' . $total_segundos . '")</script>';
+
+      // Verificar si la cantidad de filas es mayor o igual a un valor determinado
+      if ($total_segundos > 93600) {
+        if($row_count >= $dias){
+          // Cambiar el estado de las filas a 'utilizada' en la base de datos
+          $query_update_estado = "UPDATE usuario_bonificacion AS ub
+                                  LEFT JOIN bonificacion AS b ON ub.id_bonificacion = b.id_bonificacion
+                                  SET ub.estado = 'utilizada', ub.fecha_uso = NOW()
+                                  WHERE ub.id_usuario = $id_usuario AND ub.estado = 'no utilizada' AND b.nombre_bonificacion = 'No lose streak' LIMIT $dias;
+                                  ";
+          for ($i = 0; $i < $dias; $i++) {
+              echo '<script>console.log("Query: '.$i.'")</script>';
+              mysqli_query($con, $query_update_estado);
+          }
+          $query_act_fechas = "UPDATE racha SET end_date = NOW(), first_activity_date = DATE_FORMAT(NOW(), '%Y-%m-%d 00:00:00'), num_racha = num_racha + $dias WHERE id_usuario = $id_usuario";
+          $result_act_fechas = mysqli_query($con, $query_act_fechas);
+          if(mysqli_affected_rows($con) > 0){
+            echo '<script>console.log("Your streak was protected")</script>'; 
+            $mens .= 'Your streak was protected, ' . $dias . ' bonifications were used';
+          }
+        }else{
+          // La racha se actualiza a 0
+          echo '<script>console.log("Racha actualizada a 0")</script>'; 
+          $sql_update = "UPDATE racha SET num_racha = 0, end_date = NOW(), start_date = NOW(), first_activity_date = NOW() WHERE id_usuario = $id_usuario";
+          mysqli_query($con, $sql_update);
+          $mens .= 'Yout streak was reset, You did not perform any activity in '. $dias .' days';
+        }
+      }
+    }
+ 
+    ?>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          <?php
+            //Mostrar mensaje de actualización de racha
+            if(!empty($mens) && !empty($mensB) && !isset($_SESSION['code_executed'])): ?>
+            var mensaje = '<?php echo $mens; ?>';
+                var mensajeDiv = document.createElement('div');
+                mensajeDiv.className = 'alert alert-primary alert-dismissible fade show';
+                mensajeDiv.style.position = 'absolute';
+                mensajeDiv.style.top = '8%';
+                mensajeDiv.style.right = '20px';
+                mensajeDiv.style.zIndex = '9999';
+                mensajeDiv.role = 'alert';
+                mensajeDiv.innerHTML = `
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    ${mensaje}
+                `;
+                document.body.appendChild(mensajeDiv);
+            <?php endif; ?>
+        });
+      </script>
+    <?php
+    
+    $_SESSION['code_executed'] = true;
+    echo '<script>console.log("Código ejecutado: ' . htmlspecialchars($_SESSION['code_executed']) . '")</script>';
+
+}else{
+    echo '<script>console.log("Código ya ejecutado: ' . htmlspecialchars($_SESSION['code_executed']) . '")</script>';
+}
 
 $modulo = isset($_GET['modulo']) ? $_GET['modulo'] : '';
-
-include_once '../Modelo/zona_horaria.php';
-include_once '../Config/conexion.php';
 
 function obtenerPreguntas($tipo) {
     global $con;
@@ -131,7 +245,7 @@ fclose($fileActividad);
     </div> -->
 
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav id="navBarHidden" class="main-header navbar navbar-expand navbar-white navbar-light">
       <!-- Left navbar links -->
       <ul class="navbar-nav">
         <li class="nav-item">
@@ -227,10 +341,9 @@ fclose($fileActividad);
         <li class="nav-item">
           <a href="panel.php?modulo=bonificacion" class="nav-link text-dark">
             <i class="fas fa-coins"></i>
-            <span class="badge badge-danger navbar-badge" style="position: relative; top: -10px; right: 7px;">
+            <span id="puntos-counter" class="badge badge-danger navbar-badge" style="position: relative; top: -10px; right: 7px;">
               <?php
-                $puntosUsuario = $_SESSION['puntos'];
-                echo $puntosUsuario;
+                echo $_SESSION['puntos'];
               ?>
             </span>
           </a>
@@ -250,14 +363,14 @@ fclose($fileActividad);
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="panel.php?modulo=inicio" class="brand-link">
+      <a id="sideBarHidden2" href="panel.php?modulo=inicio" class="brand-link">
         <img src='../Publico/img/soloLogoRatbio.png' alt='My App Logo' class="brand-image" style='opacity: 0.8; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)' />
 
         <span class="brand-text font-weight-light">Ratbio</span>
       </a>
 
       <!-- Sidebar -->
-      <div class="sidebar">
+      <div id="sideBarHidden" class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 mb-4 d-flex align-items-center">
           <div class="image">
@@ -384,7 +497,7 @@ fclose($fileActividad);
     <?php
     if (isset($_REQUEST['mensaje'])) {
       ?>
-      <div class="alert alert-primary alert-dismissible fade show"
+      <div id="mensajeAlert" class="alert alert-primary alert-dismissible fade show"
         style="position: absolute; top: 8%; right: 20px; z-index: 9999;" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true">&times;</span>

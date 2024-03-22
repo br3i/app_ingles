@@ -3,8 +3,15 @@
 include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
 
+// Establecer la zona horaria
+date_default_timezone_set($user_timezone);
+
 // Obtener el ID de usuario desde la sesión
 $id_usuario = $_SESSION['id_usuario'];
+
+// Obtener la zona horaria actualmente configurada
+$current_timezone = date_default_timezone_get();
+echo '<script>console.log("Zona horaria actual: ' . $current_timezone . '")</script>';
 
 // Consulta para obtener el total de actividades completadas por el usuario actual
 $query_actividades = "SELECT COUNT(*) as total_actividades

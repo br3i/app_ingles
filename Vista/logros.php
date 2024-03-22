@@ -48,9 +48,18 @@
 
                                                 $id_usuario = $_SESSION['id_usuario'];
                                                 // Verificar si el usuario ha completado el logro
-                                                $query_verificar_logro = "SELECT * FROM usuario_logro WHERE id_usuario = $id_usuario AND id_logro = $id_logro";
+                                                $query_verificar_logro = "SELECT completado FROM usuario_logro WHERE id_usuario = $id_usuario AND id_logro = $id_logro";
                                                 $result_verificar_logro = mysqli_query($con, $query_verificar_logro);
-                                                $completado = mysqli_num_rows($result_verificar_logro) > 0;
+
+                                                if (mysqli_num_rows($result_verificar_logro) > 0) {
+                                                    // Existe un registro para este usuario y logro
+                                                    $rowCompletado = mysqli_fetch_assoc($result_verificar_logro);
+                                                    $completado = $rowCompletado['completado'] == 1 ? true : false;
+                                                } else {
+                                                    // No existe un registro para este usuario y logro
+                                                    $completado = false;
+                                                }
+                                                
 
                                                 // Establecer el estilo de la card según si el logro está completado o no
                                                 $imagenStyle = $completado ? 'color: initial;' : 'filter: grayscale(100%);';

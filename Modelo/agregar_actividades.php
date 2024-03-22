@@ -11,6 +11,7 @@
     echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
 
     if (isset($_POST['save'])) {
+        $tipo = 'Activity';
         $pregunta = $_POST['pregunta'];
         $opciones = $_POST['opciones'];
         $respuesta = $_POST['respuesta'];
@@ -28,13 +29,15 @@
                 $descripcion = 'Complete';
                 break;
             case '4':
-                $descripcion = 'Multiple Choise';
+                $descripcion = 'Multiple Choice';
                 break;
             case '5':
                 $descripcion = 'Number';
+            default:
+                $tipo = 'Test';
                 break;
         }
-        $tipo = $_POST['tipo'];
+        
         $id_recurso = $_POST['id_recurso'];
 
         // Verificar si el recurso existe en la tabla recurso
