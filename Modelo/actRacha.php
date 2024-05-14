@@ -72,28 +72,28 @@ if (mysqli_num_rows($resultado_fecha) > 0) {
 
     // Consulta para saber si tiene Weekend streak proteccion
     $queryRacWeekActivada = "SELECT 
-                            ub.id_usuario_bonificacion, 
-                            ub.id_usuario, 
-                            ub.id_bonificacion, 
-                            ub.fecha_uso, 
-                            ub.estado, 
-                            b.id_bonificacion, 
-                            b.nombre_bonificacion 
-                        FROM 
-                            usuario_bonificacion ub 
-                        JOIN 
-                            bonificacion b 
-                        ON 
-                            ub.id_bonificacion = b.id_bonificacion 
-                        WHERE 
-                            ub.fecha_uso >= CURDATE() AND 
-                            ub.fecha_uso < DATE_ADD(CURDATE(), INTERVAL 1 WEEK) AND
-                            DAYOFWEEK(ub.fecha_uso) = 1 AND
-                            TIME(ub.fecha_uso) <= '23:59:59' AND 
-                            ub.estado = 'utilizada' AND 
-                            b.nombre_bonificacion = 'Weekend streak' AND
-                            ub.id_usuario = '$userId'
-                            LIMIT 1";
+                                ub.id_usuario_bonificacion, 
+                                ub.id_usuario, 
+                                ub.id_bonificacion, 
+                                ub.fecha_uso, 
+                                ub.estado, 
+                                b.id_bonificacion, 
+                                b.nombre_bonificacion 
+                            FROM 
+                                usuario_bonificacion ub 
+                            JOIN 
+                                bonificacion b 
+                            ON 
+                                ub.id_bonificacion = b.id_bonificacion 
+                            WHERE 
+                                ub.fecha_uso >= CURDATE() AND 
+                                ub.fecha_uso < DATE_ADD(CURDATE(), INTERVAL 1 WEEK) AND
+                                DAYOFWEEK(ub.fecha_uso) = 1 AND
+                                TIME(ub.fecha_uso) <= '23:59:59' AND 
+                                ub.estado = 'utilizada' AND 
+                                b.nombre_bonificacion = 'Weekend streak' AND
+                                ub.id_usuario = '$userId'
+                                LIMIT 1";
     $result_RacWeekActivada = mysqli_query($con, $queryRacWeekActivada);
     $row_result_RacWeekActivada = mysqli_fetch_assoc($result_RacWeekActivada);
     
@@ -122,7 +122,7 @@ if (mysqli_num_rows($resultado_fecha) > 0) {
         $response['message'] = '6';
         //NO TIENE WEEKEND STREAK PROTECCION
         // Si la última actividad fue hoy, solo actualizar end_date
-        if (date('Y-m-d', $end_date) === $hoy) {
+        if (date('Y-m-d', strtotime($end_date)) === $hoy) {
             $response['message'] = '7';
             $sql_update = "UPDATE racha SET end_date = NOW() WHERE id_usuario = $userId";
         }else{

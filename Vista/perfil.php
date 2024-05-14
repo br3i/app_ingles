@@ -172,7 +172,7 @@ if ($resultRachas) {
 
                             
                             <!-- Aquí puedes incluir los datos adicionales del perfil, estadísticas y otros elementos que desees mostrar -->
-                            <div class="row ">
+                            <div class="row">
                                 <!-- Ranking del Usuario en Cada Categoría -->
                                 <?php
                                 // Define las categorías y los resultados del ranking
@@ -212,7 +212,10 @@ if ($resultRachas) {
                             </div>
 
                             <!-- Puedes mostrar los logros -->
-                            <div class="row">
+                           <div class="row">
+                                <div class="col-md-12">
+                                    <h4>Achievements:</h4>
+                                </div>
                                 <?php
                                 // Consulta para obtener los logros del usuario
                                 $query_logros_usuario = "SELECT l.id_logro, l.nombre_logro, l.descripcion, l.recompensa, l.imagen
@@ -223,44 +226,36 @@ if ($resultRachas) {
 
                                 // Verificar si hay logros para el usuario
                                 if (mysqli_num_rows($result_logros_usuario) > 0) {
-                                    echo "<div class='card col-md-12 achievements'>";
-                                        echo "<div class='m-3'>";
-                                            echo "<h4>Achievements:</h4>";
-                                            echo "<ul>";
+                                    // Iterar sobre cada logro del usuario
+                                    while ($row_logro_usuario = mysqli_fetch_assoc($result_logros_usuario)) {
+                                        $id_logro = $row_logro_usuario['id_logro'];
+                                        $nombre = $row_logro_usuario['nombre_logro'];
+                                        $descripcion = $row_logro_usuario['descripcion'];
+                                        $recompensa = $row_logro_usuario['recompensa'];
+                                        $imagen = $row_logro_usuario['imagen'];
 
-                                            // Iterar sobre cada logro del usuario
-                                            while ($row_logro_usuario = mysqli_fetch_assoc($result_logros_usuario)) {
-                                                $id_logro = $row_logro_usuario['id_logro'];
-                                                $nombre = $row_logro_usuario['nombre_logro'];
-                                                $descripcion = $row_logro_usuario['descripcion'];
-                                                $recompensa = $row_logro_usuario['recompensa'];
-                                                $imagen = $row_logro_usuario['imagen'];
+                                        // Establecer el estilo de la card
+                                        $contenedorStyle = 'bg-dark';
+                                        $textStyle = 'text-warning';
 
-                                                // Establecer el estilo de la card
-                                                $contenedorStyle = 'bg-dark';
-                                                $textStyle = 'text-warning';
-
-                                                // Mostrar el logro en una tarjeta
-                                                echo "<div class='col-md-4'>";
-                                                    echo "<div class='card $contenedorStyle'>";
-                                                        echo "<div class='card align-items-center justify-content-center contAchiImg'>";
-                                                            echo "<img src='$imagen' class='achiImg' alt='Achievement Image'>";
-                                                        echo "</div>";
-                                                        echo "<div class='card-body $textStyle'>";
-                                                            echo "<h5 class='card-title'>$nombre</h5>";
-                                                            echo "<p class='card-text'>$descripcion</p>";
-                                                            echo "<p class='card-text'>Reward: $recompensa points</p>";
-                                                        echo "</div>";
-                                                    echo "</div>";
-                                                echo "</div>";
-                                            }
-                                            echo "</ul>";
+                                        // Mostrar el logro en una tarjeta
+                                        echo "<div class='col-md-4'>";
+                                        echo "<div class='card $contenedorStyle'>";
+                                        echo "<div class='card align-items-center justify-content-center contAchiImg'>";
+                                        echo "<img src='$imagen' class='achiImg' alt='Achievement Image'>";
                                         echo "</div>";
-                                    echo "</div>";
+                                        echo "<div class='card-body $textStyle'>";
+                                        echo "<h5 class='card-title'>$nombre</h5>";
+                                        echo "<p class='card-text'>$descripcion</p>";
+                                        echo "<p class='card-text'>Reward: $recompensa points</p>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                        echo "</div>";
+                                    }
                                 } else {
-                                    echo "No achievements found.";
+                                    echo "<div class='col-md-12'>No achievements found.</div>";
                                 }
-
+                            echo "</div>";
                                 mysqli_close($con);
                                 ?>
                             </div>

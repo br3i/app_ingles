@@ -45,6 +45,7 @@
 
                                 // Verificar si hay bonificaciones
                                 if (mysqli_num_rows($result_bonificaciones) > 0) {
+                                    $botonDeshabilitadoUso = '';
                                     // Iterar sobre cada bonificación
                                     while ($row_bonificacion = mysqli_fetch_assoc($result_bonificaciones)) {
                                         $id_bonificacion = $row_bonificacion['id_bonificacion'];
@@ -53,7 +54,7 @@
                                         $costo = $row_bonificacion['costo'];
                                         $imagen = $row_bonificacion['imagen'];
                                         $maximo = $row_bonificacion['maximo'];
-                                        
+
                                         // Establecer el estilo de la card según la bonificación
 
                                         if (isset($cantidad_bonificaciones[$id_bonificacion])) {

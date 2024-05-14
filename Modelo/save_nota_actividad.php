@@ -42,7 +42,7 @@ $id_actividad = $_POST['id_actividad'];
 $puntosGanados = $_POST['puntosGanados'];
 
 
-switch($tipoPregunta){
+/*switch($tipoPregunta){
     case 'select':
         $n_intentos = $_POST['n_intentos'];
         $n_opciones = $_POST['n_opciones'];
@@ -256,6 +256,8 @@ mysqli_commit($con);
 
 // Cerrar la conexión a la base de datos
 mysqli_close($con);
+*/
+$hora_actual = date("H:i:s");
 
 // Crear un array con los valores recibidos
 $response = array(
@@ -280,8 +282,9 @@ $response = array(
     'id_actividad' => $id_actividad,
     'puntosGanados' => $puntosGanados,
 
-    'fecha_uso' => $fecha_uso,
-    'diferenciaTiempo' => $diferenciaTiempo
+    //'fecha_uso' => $fecha_uso,
+    //'diferenciaTiempo' => $diferenciaTiempo,
+    'hora' => $hora_actual
 );
 
 $_SESSION['puntos'] += $puntosGanados;

@@ -336,6 +336,9 @@ date_default_timezone_set($user_timezone);
                 $('#puntos-counter').text(nuevosPuntos);
 
                 var mensaje = 'The activity ' + response.id_actividad + ' in the unity ' + response.id_unidad + ' has been registered with your note: ' + response.nota_actividad + ' also you earned ' + puntosGanados + ' points';
+
+                actividadesHorarios(response.hora);
+                
                 //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
             },
             error: function(xhr, status, error) {
@@ -344,6 +347,135 @@ date_default_timezone_set($user_timezone);
         });
     }
 
+    function actividadesHorarios(hora){
+        hora = '21:00:00'
+        console.log("Llega a la funcion de las horas");
+        console.log("La hora es: " + hora);
+        var horaSplit = hora.split(":");
+        var horaInt = parseInt(horaSplit[0]);
+
+        // Obtener la hora en formato de 24 horas (0-23)
+        if (horaInt < 9) {
+            // Redirigir al archivo A
+            
+            let data = {userId: userId};
+            
+            // Realizar una solicitud AJAX para guardar la nota de la actividad en la base de datos
+            console.log("Se envia userId: " + userId);
+
+            $.ajax({
+                url: '../Modelo/antes9am.php',
+                method: 'POST',
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Respuesta exitosa de antes9am.');
+                    console.log('Respuesta:', response);
+
+                    // Imprimir todas las propiedades del objeto response
+                    Object.keys(response).forEach(function(key) {
+                        if(response[key] != ""){
+                            console.log(key + ':', response[key]);
+                        }
+                    });
+
+                    var mensaje = 'T';
+                    //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al guardar la nota de actividad:', error);
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } else if (horaInt >= 21) {
+            // Redirigir al archivo B
+
+
+            let data = {userId: userId};
+            
+            // Realizar una solicitud AJAX para guardar la nota de la actividad en la base de datos
+            console.log("Se envia userId: " + userId);
+
+            $.ajax({
+                url: '../Modelo/despues9pm.php',
+                method: 'POST',
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    console.log('Respuesta exitosa de despues9pm.');
+                    console.log('Respuesta:', response);
+
+                    // Imprimir todas las propiedades del objeto response
+                    Object.keys(response).forEach(function(key) {
+                        if(response[key] != ""){
+                            console.log(key + ':', response[key]);
+                        }
+                    });
+
+                    var mensaje = 'h';
+                    //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error al guardar la nota de actividad:', error);
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        } else {
+            console.log("La hora está entre las 9 am y las 9 pm");
+            // Realizar alguna otra acción o redirigir a otra página si es necesario
+        }
+    }
     
 
     // Función para obtener actividades asociadas a un recurso
@@ -1202,7 +1334,7 @@ date_default_timezone_set($user_timezone);
                     console.log("Valor de actividadSeleccionada.opciones.length: " + actividadSeleccionada.opciones.length);
 
                     actualizarTablaRacha();
-                    //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad,conSelect, actividadSeleccionada.opciones.length);                    
+                    save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad,conSelect, actividadSeleccionada.opciones.length);                    
                 }
             }
         }

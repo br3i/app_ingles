@@ -12,6 +12,7 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
 ?>
 
 <!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Main content -->
     <section class="content">
@@ -64,6 +65,7 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
                                         </thead>
                                         <tbody>
                                             <?php
+                                            // Iterar sobre los usuarios para mostrar sus notas en actividades
                                             while ($usuario = mysqli_fetch_assoc($usuarios_query)) {
                                                 echo '<tr>';
                                                 echo '<td>' . $usuario['id_usuario'] . '</td>';
@@ -84,40 +86,46 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
                                                     $notas[$nota['id_actividad']] = $nota['nota'];
                                                 }
 
-                                                // Iterar sobre las actividades para mostrar las notas correspondientes
-                                                mysqli_data_seek($actividades_query, 0); // Reiniciar el puntero de la consulta de actividades
+                                                // Reiniciar el puntero de la consulta de actividades
+                                                mysqli_data_seek($actividades_query, 0);
+
+                                                // Variables para calcular promedios
                                                 $sumActivities = 0;
                                                 $sumTests = 0;
-                                                
+
+                                                // Iterar sobre las actividades para mostrar las notas correspondientes
                                                 while ($actividad = mysqli_fetch_assoc($actividades_query)) {
                                                     echo '<td';
                                                     if (isset($notas[$actividad['id_actividad']])) {
                                                         echo ' class="bg-secondary"';
-                                                    }
-                                                    echo '>';
-                                                    if (isset($notas[$actividad['id_actividad']])) {
-                                                        echo $notas[$actividad['id_actividad']];
+                                                        // Sumar notas para calcular promedios
                                                         if($actividad['tipo'] == 'Test'){
                                                             $sumTests += $notas[$actividad['id_actividad']];
                                                         } else {
                                                             $sumActivities += $notas[$actividad['id_actividad']];
                                                         }
+                                                        echo '>';
+                                                        echo $notas[$actividad['id_actividad']];
                                                     } else {
+                                                        echo '>';
                                                         echo 'N/A';
                                                     }
                                                     echo '</td>';
                                                 }
+
+                                                // Calcular promedios utilizando la cantidad total de actividades y tests
                                                 if($numActivities > 0){
                                                     $sumActivities = $sumActivities / $numActivities;
-                                                }else{
+                                                } else {
                                                     $sumActivities = 0;
                                                 }
                                                 if($numTests > 0){
                                                     $sumTests = $sumTests / $numTests;
-                                                }else{
+                                                } else {
                                                     $sumTests = 0;
                                                 }
 
+                                                // Determinar estilos de acuerdo a los promedios
                                                 $styleST = '';
                                                 if ($sumTests >= 7) {
                                                     $styleST = 'bg-success';
@@ -136,13 +144,11 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
                                                     $styleSA = 'bg-danger';
                                                 }
 
+                                                // Mostrar promedios en la tabla
                                                 echo '<td class="' . $styleST . '">' . number_format($sumTests, 2) . '</td>';
-
                                                 echo '<td class="' . $styleSA . '">' . number_format($sumActivities, 2) . '</td>';
 
                                                 echo '</tr>';
-                                                $numActivities = 0;
-                                                $numTests = 0;
                                             }
                                             mysqli_close($con);
                                             ?>
