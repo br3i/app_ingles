@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+ob_start();
 session_start();
 session_regenerate_id(true);
 include_once '../Modelo/zona_horaria.php';
