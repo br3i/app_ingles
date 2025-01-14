@@ -23,10 +23,9 @@ date_default_timezone_set($user_timezone);
 
                             $userId = $_SESSION['id_usuario'];
 
-                            $query1 = mysqli_query($con, "SELECT DISTINCT unidad, recurso.id_recurso 
-                              FROM recurso 
-                              JOIN unidad ON recurso.id_unidad = unidad.id_unidad 
-                              ORDER BY recurso.id_recurso ASC") or die(mysqli_error($con));
+                            $query1 = mysqli_query($con, "SELECT DISTINCT unidad.id_unidad, unidad.unidad
+                            FROM unidad
+                            JOIN recurso ON unidad.id_unidad = recurso.id_unidad") or die(mysqli_error($con));
 
 
                             $queryRacha = mysqli_query($con, "SELECT end_date FROM racha WHERE id_usuario = $userId");
