@@ -1,6 +1,6 @@
 <?php
 if (isset($_REQUEST['guardar'])) {
-  include_once "..\Config\conexion.php";
+  include_once "../Config/conexion.php";
   include_once '../Modelo/zona_horaria.php';
 
   date_default_timezone_set($user_timezone);
