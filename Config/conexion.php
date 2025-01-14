@@ -1,9 +1,9 @@
 <?php
 $host = 'free.clusters.zeabur.com';
 $user = 'root';
-$pass = 'dJap1XjSN87m0yeT9M436qEQzR25hOoG';
+$pass = 'wFyz56v2EVCZWgi1j8LX04PeA9u3SDk7';
 $db = 'zeabur';
-$port = '31691';
+$port = '30839';
 
 $con = mysqli_connect($host, $user, $pass, $db, $port);
 
