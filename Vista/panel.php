@@ -627,3 +627,6 @@ function getFrameImage($id_usuario, $con) {
 </body>
 
 </html>
+<?php
+ob_end_flush(); // Envía el contenido del búfer al navegador
+?>
