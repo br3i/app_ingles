@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+session_start();
+session_regenerate_id(true);
 include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
 
@@ -14,8 +16,6 @@ echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "'
 header('Cache-Control: no-cache, no-store, must-revalidate');
 header('Pragma: no-cache');
 
-session_start();
-session_regenerate_id(true);
 
 if (isset($_GET['sesion']) && $_GET['sesion'] == 'cerrar') {
   session_destroy();
@@ -182,6 +182,28 @@ fclose($filePrueba);
 $fileActividad = fopen('../Publico/js/PreguntasActividad.js', 'w');
 fwrite($fileActividad, 'let preguntasActividad = ' . $preguntasJsonActividad . ';');
 fclose($fileActividad);
+
+
+function getFrameImage($id_usuario, $con) {
+    // Consulta para obtener la bonificación activada del usuario
+    $query = "SELECT b.imagen 
+              FROM usuario_bonificacion ub
+              JOIN bonificacion b ON ub.id_bonificacion = b.id_bonificacion
+              WHERE ub.id_usuario = '$id_usuario' 
+              AND ub.estado = 'activada' 
+              AND b.nombre_bonificacion LIKE 'Custom Frame%' 
+              LIMIT 1";
+
+    // Ejecutar la consulta
+    $result = mysqli_query($con, $query);
+    
+    if ($row = mysqli_fetch_assoc($result)) {
+        return $row['imagen']; // Devuelve la ruta de la imagen SVG del marco
+    } else {
+        return null; // Si no tiene marco activado
+    }
+}
+
 ?>
 
 <head>
@@ -189,9 +211,7 @@ fclose($fileActividad);
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>App Ingles</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../Publico/plugins/fontawesome-free/css/all.min.css" />
   <!-- FontAweome CDN Link for Icons-->
@@ -255,65 +275,6 @@ fclose($fileActividad);
 
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
-
-        <!-- Navbar Search -->
-
-        <!-- <li class="nav-item">
-          <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-            <i class="fas fa-search"></i>
-          </a>
-          <div class="navbar-search-block">
-            <form class="form-inline">
-              <div class="input-group input-group-sm">
-                <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                  aria-label="Search" />
-                <div class="input-group-append">
-                  <button class="btn btn-navbar" type="submit">
-                    <i class="fas fa-search"></i>
-                  </button>
-                  <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                    <i class="fas fa-times"></i>
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </li> -->
-
-        <!-- Norifications Dropdown Menu -->
-        <!-- <li class="nav-item dropdown">
-          <a class="nav-link" data-toggle="dropdown" href="#">
-            <i class="fas fa-bell"></i>
-            <span class="badge badge-warning navbar-badge">15</span>
-          </a>
-          <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <span class="dropdown-item dropdown-header">15 Notifications</span>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-envelope mr-2"></i> 4 new messages
-              <span class="float-right text-muted text-sm">3 mins</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-users mr-2"></i> 8 friend requests
-              <span class="float-right text-muted text-sm">12 hours</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
-              <i class="fas fa-file mr-2"></i> 3 new reports
-              <span class="float-right text-muted text-sm">2 days</span>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-            <i class="fas fa-expand-arrows-alt"></i>
-          </a>
-        </li> -->
-
-
         <!-- Boton de racha -->
         <li class="nav-item">
           <a class="nav-link" href="panel.php?modulo=racha">
@@ -372,40 +333,29 @@ fclose($fileActividad);
       <!-- Sidebar -->
       <div id="sideBarHidden" class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 mb-4 d-flex align-items-center">
-          <div class="image">
-            <div>
-              <?php
-              echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='max-height: 80%; width: 2.8rem; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)'>";
-              ?>
+        <div class="user-panel mt-3 mb-2 pb-3 d-flex align-items-center">
+            <div class="image">
+                <div class="frame-container">
+                    <?php
+                    // Obtener la imagen del marco activo
+                    $frameImage = getFrameImage($id_usuario, $con); // Aquí debes obtener la URL del marco activo
+
+                    // Si hay un marco activado, mostrarlo sobre la foto de perfil
+                    if ($frameImage) {
+                        echo "<div class='frame' style='background-image: url(\"$frameImage\");'></div>";
+                    }
+
+                    // Mostrar la imagen de perfil del usuario
+                    echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' class='profile-image'>";
+                    ?>
+                </div>
             </div>
-          </div>
-          <div class="info">
-            <a href="panel.php?modulo=perfil" class="d-block">
-              <?php echo $_SESSION['username'] ?>
-            </a>
-          </div>
+            <div class="info">
+                <a href="panel.php?modulo=perfil" class="d-block">
+                    <?php echo $_SESSION['username']; ?>
+                </a>
+            </div>
         </div>
-
-        <!-- SidebarSearch Form -->
-        <!--
-          <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-              <input
-                class="form-control form-control-sidebar"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <div class="input-group-append">
-                <button class="btn btn-sidebar">
-                  <i class="fas fa-search fa-fw"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          -->
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
@@ -495,7 +445,7 @@ fclose($fileActividad);
       <!-- /.sidebar -->
     </aside>
     <?php
-    if (isset($_REQUEST['mensaje'])) {
+    if (isset($_GET['mensaje'])) {
       ?>
       <div id="mensajeAlert" class="alert alert-primary alert-dismissible fade show"
         style="position: absolute; top: 8%; right: 20px; z-index: 9999;" role="alert">
@@ -549,9 +499,6 @@ fclose($fileActividad);
     if ($modulo == 'recursos') {
       include_once 'recursos.php';
     }
-    if ($modulo == 'mostrar_arch') {
-      include_once 'mostrar_arch.php';
-    }
     if ($modulo == 'ver_recurso') {
       include_once 'ver_recurso.php';
     }
@@ -560,12 +507,6 @@ fclose($fileActividad);
     }
     if ($modulo == 'prueba') {
       include_once 'prueba.php';
-    }
-    if ($modulo == 'ejRep1') {
-      include_once 'ejRep1.php';
-    }
-    if ($modulo == 'ejRep2') {
-      include_once 'ejRep2.php';
     }
     ?>
 
@@ -671,109 +612,8 @@ fclose($fileActividad);
     });
   </script>
 
-  <!-- Script para llamar a la función nuevoProducto -->
-  <!-- <script>
-    document.getElementById("nuevoProductoBtn").addEventListener("click", function () {
-      $("#modalAñadir").modal("show");
-    });
-  </script> -->
-
-  <!-- Ventana Modal Para eliminar un registro -->
-  <!-- <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ¿Estás seguro de eliminar este registro?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-          <button type="button" id="confirmBtn" class="btn btn-danger">Eliminar</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- Modal para editar -->
-  <!-- <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Editar valores</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="nombrePro">Nombre</label>
-              <input type="text" class="form-control" id="nombrePro">
-            </div>
-            <div class="form-group">
-              <label for="precioPro">Precio</label>
-              <input type="number" class="form-control" id="precioPro">
-            </div>
-            <div class="form-group">
-              <label for="existenciaPro">Existencia</label>
-              <input type="number" class="form-control" id="existenciaPro">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="GuCaProductos()">Guardar
-            cambios</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-  <!-- Modal para añadir producto -->
-  <!-- <div class="modal fade" id="modalAñadir" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Añadir producto</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="nPro">Nombre</label>
-              <input type="text" class="form-control" id="nPro">
-            </div>
-            <div class="form-group">
-              <label for="pPro">Precio</label>
-              <input type="number" class="form-control" id="pPro">
-            </div>
-            <div class="form-group">
-              <label for="ePro">Existencia</label>
-              <input type="number" class="form-control" id="ePro">
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-success" onclick="nuevoProducto()">Añadir producto</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
   <!-- My Scripts -->
   <script src="../Publico/js/my-scripts.js"></script>
-
 
   <!-- Inside this JavaScript file I've inserted Questions and Options only -->
   <script src="../Publico/js/PreguntasPrueba.js"></script>
@@ -783,8 +623,6 @@ fclose($fileActividad);
   <script src="../Publico/js/ahorcado.js"></script>
   <script src="../Publico/js/crucigrama.js"></script>
   <script src="../Publico/js/sopaLetras.js"></script>
-  <!-- Inside this JavaScript file I've coded all Quiz Codes -->
-  <!--<script src="../Publico/js/pruebas.js"></script> -->
 </body>
 
 </html>

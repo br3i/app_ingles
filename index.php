@@ -20,13 +20,16 @@ if (isset($_REQUEST['mensaje'])) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Aplicación Ingles</title>
 
-	<!-- Google Font: Source Sans Pro -->
-	<link rel="stylesheet"
-		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-	<!-- Font Awesome -->
+	<!-- Font Awesome -->	
 	<link rel="stylesheet" href="Publico/css/fontawesome-free/css/all.min.css" />
 	<!-- Theme style -->
 	<link rel="stylesheet" href="Publico/css/adminlte.min.css">
+	
+	<!-- Montserrat Google Font -->
+		
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 	<!-- Mi css -->
 	<link rel="stylesheet" href="Publico/css/style.css">
@@ -109,8 +112,7 @@ if (isset($_REQUEST['mensaje'])) {
 							<button type="submit" class="btn btn-primary btn-block" name="login">Start session</button>
 						</div>
 						<div>
-							<a href="Controlador/controlador.php?var=1"
-								class="btn btn-primary btn-block">Create an account</a>
+							<button type="button" class="btn btn-primary btn-block" onclick="window.location.href='Controlador/controlador.php?var=1'">Create an account</button>
 						</div>
 					</div>
 				</form>

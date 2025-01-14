@@ -15,7 +15,8 @@
         $pregunta = $_POST['pregunta'];
         $opciones = $_POST['opciones'];
         $respuesta = $_POST['respuesta'];
-        switch ($_POST['descripcion']) {
+        $descripcion = $_POST['descripcion'];
+        switch ($descripcion) {
             case '0':
                 $descripcion = 'Select';
                 break;

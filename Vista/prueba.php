@@ -19,7 +19,7 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
 
 ?>
 <!-- Content Wrapper. Contains page content -->
-<div class="content-wrapper">
+<div class="content-wrapper content-tests">
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -109,7 +109,7 @@ $unidadesRecursos = mysqli_fetch_all($unidadRecursoResult, MYSQLI_ASSOC);
                         <!-- Here I've inserted Score Result from JavaScript -->
                     </div>
                     <div class="buttons">
-                        <button class="restart">Replay Quiz</button>
+                        <button class="restart">Refresh page</button>
                         <button class="quit">Quit Quiz</button>
                     </div>
                 </div>

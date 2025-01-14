@@ -67,7 +67,7 @@ if ($resultNotaPruebas) {
 }
 
 // 4. Ranking por frecuencia de rachas
-$rankingRachasQuery = "SELECT u.username, r.num_racha AS frecuencia_rachas
+$rankingRachasQuery = "SELECT u.username, COUNT(r.id_racha) AS frecuencia_rachas
                         FROM usuario u
                         LEFT JOIN racha r ON u.id_usuario = r.id_usuario
                         GROUP BY u.username
@@ -142,7 +142,7 @@ mysqli_close($con);
                     <!-- /.card -->
 
                     <!-- Ranking Section -->
-                    <div class="card">
+                    <div class="card content-ranking">
                         <div class="card-header">
                             <h3 class="">Ranking Results</h3>
                         </div>
@@ -164,10 +164,21 @@ mysqli_close($con);
                                                             <span class="badge badge-primary badge-pill"><?= $usuario['total_actividades']; ?></span>
                                                             <?php 
                                                             
-                                                            if (isset($posicionesUsuarios[0][$usuario['username']])): ?>
-                                                                (Posición: <?= "#{$posicionesUsuarios[0][$usuario['username']]}"; ?>)
+                                                            if (isset($posicionesUsuarios[0][$usuario['username']])):
+                                                                // Obtener la posición
+                                                                $posicion = $posicionesUsuarios[0][$usuario['username']];
+
+                                                                // Mostrar el SVG correspondiente según la posición
+                                                                if ($posicion == 1) {
+                                                                    echo '<img src="../Publico/img/ranking/1.svg" alt="Posición 1" width="20" height="20" />';
+                                                                } elseif ($posicion == 2) {
+                                                                    echo '<img src="../Publico/img/ranking/2.svg" alt="Posición 2" width="20" height="20" />';
+                                                                } elseif ($posicion == 3) {
+                                                                    echo '<img src="../Publico/img/ranking/3.svg" alt="Posición 3" width="20" height="20" />';
+                                                                }
+                                                                ?>
                                                             <?php else: ?>
-                                                                (Posición: No Listed)
+                                                                (Place: No Listed)
                                                             <?php endif; ?>
                                                         </li>
                                                     <?php endforeach; ?>
@@ -177,7 +188,7 @@ mysqli_close($con);
                                     </div>
                                     <div class="card bg-light">
                                         <div class="card-header bg-info text-white">
-                                            <h4 class="card-title">Ranking por promedio de notas de Actividades</h4>
+                                            <h4 class="card-title">Ranking by Activity grade point average</h4>
                                         </div>
                                         <div class="card-body">
                                             <?php if (empty($rankingNotaActividades)): ?>
@@ -188,10 +199,21 @@ mysqli_close($con);
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                                             Username: <?= $usuario['username']; ?>
                                                             <span class="badge badge-primary badge-pill"><?= $usuario['avg_nota_actividades']; ?></span>
-                                                            <?php if (isset($posicionesUsuarios[1][$usuario['username']])): ?>
-                                                                (Posición: <?= "#{$posicionesUsuarios[1][$usuario['username']]}"; ?>)
+                                                            <?php if (isset($posicionesUsuarios[1][$usuario['username']])):
+                                                                // Obtener la posición
+                                                                $posicion = $posicionesUsuarios[1][$usuario['username']];
+
+                                                                // Mostrar el SVG correspondiente según la posición
+                                                                if ($posicion == 1) {
+                                                                    echo '<img src="../Publico/img/ranking/1.svg" alt="Posición 1" width="20" height="20" />';
+                                                                } elseif ($posicion == 2) {
+                                                                    echo '<img src="../Publico/img/ranking/2.svg" alt="Posición 2" width="20" height="20" />';
+                                                                } elseif ($posicion == 3) {
+                                                                    echo '<img src="../Publico/img/ranking/3.svg" alt="Posición 3" width="20" height="20" />';
+                                                                }
+                                                                ?>
                                                             <?php else: ?>
-                                                                (Posición: No Listed)
+                                                                (Place: No Listed)
                                                             <?php endif; ?>
                                                         </li>
                                                     <?php endforeach; ?>
@@ -203,7 +225,7 @@ mysqli_close($con);
                                 <div class="col-md-6">
                                     <div class="card bg-light mb-4">
                                         <div class="card-header bg-info text-white">
-                                            <h4 class="card-title">Ranking por promedio de notas de Pruebas</h4>
+                                            <h4 class="card-title">Ranking by test grade point average</h4>
                                         </div>
                                         <div class="card-body">
                                             <?php if (empty($rankingNotaPruebas)): ?>
@@ -214,10 +236,21 @@ mysqli_close($con);
                                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                                             Username: <?= $usuario['username']; ?>
                                                             <span class="badge badge-primary badge-pill"><?= number_format($usuario['avg_nota_pruebas'], 2); ?></span>
-                                                            <?php if (isset($posicionesUsuarios[2][$usuario['username']])): ?>
-                                                                (Posición: <?= "#{$posicionesUsuarios[2][$usuario['username']]}"; ?>)
+                                                            <?php if (isset($posicionesUsuarios[2][$usuario['username']])):
+                                                                // Obtener la posición
+                                                                $posicion = $posicionesUsuarios[2][$usuario['username']];
+
+                                                                // Mostrar el SVG correspondiente según la posición
+                                                                if ($posicion == 1) {
+                                                                    echo '<img src="../Publico/img/ranking/1.svg" alt="Posición 1" width="20" height="20" />';
+                                                                } elseif ($posicion == 2) {
+                                                                    echo '<img src="../Publico/img/ranking/2.svg" alt="Posición 2" width="20" height="20" />';
+                                                                } elseif ($posicion == 3) {
+                                                                    echo '<img src="../Publico/img/ranking/3.svg" alt="Posición 3" width="20" height="20" />';
+                                                                }
+                                                                ?>
                                                             <?php else: ?>
-                                                                (Posición: No Listed)
+                                                                (Place: No Listed)
                                                             <?php endif; ?>
                                                         </li>
                                                     <?php endforeach; ?>
@@ -227,7 +260,7 @@ mysqli_close($con);
                                     </div>
                                     <div class="card bg-light">
                                         <div class="card-header bg-info text-white">
-                                            <h4 class="card-title">Ranking por frecuencia de rachas</h4>
+                                            <h4 class="card-title">Ranking by frequency of streaks</h4>
                                         </div>
                                         <div class="card-body">
                                             <?php if (empty($rankingRachas)): ?>
@@ -240,10 +273,21 @@ mysqli_close($con);
                                                             <span class="badge badge-primary badge-pill"><?= $usuario['frecuencia_rachas']; ?></span>
                                                             <?php 
                                                             echo "<script>console.log('Esto es lo que tengo: ". $posicionesUsuarios[3][$usuario['username']] ."');</script>";
-                                                            if (isset($posicionesUsuarios[3][$usuario['username']])): ?>
-                                                                (Posición: <?= "#{$posicionesUsuarios[3][$usuario['username']]}"; ?>)
+                                                            if (isset($posicionesUsuarios[3][$usuario['username']])):
+                                                                // Obtener la posición
+                                                                $posicion = $posicionesUsuarios[3][$usuario['username']];
+
+                                                                // Mostrar el SVG correspondiente según la posición
+                                                                if ($posicion == 1) {
+                                                                    echo '<img src="../Publico/img/ranking/1.svg" alt="Posición 1" width="20" height="20" />';
+                                                                } elseif ($posicion == 2) {
+                                                                    echo '<img src="../Publico/img/ranking/2.svg" alt="Posición 2" width="20" height="20" />';
+                                                                } elseif ($posicion == 3) {
+                                                                    echo '<img src="../Publico/img/ranking/3.svg" alt="Posición 3" width="20" height="20" />';
+                                                                }
+                                                                ?>
                                                             <?php else: ?>
-                                                                (Posición: No Listed)
+                                                                (Place: No Listed)
                                                             <?php endif; ?>
                                                         </li>
                                                     <?php endforeach; ?>

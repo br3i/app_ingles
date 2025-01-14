@@ -29,9 +29,12 @@
                                 $query_cantidad_bonificaciones = "
                                     SELECT ub.id_bonificacion, COUNT(*) AS cantidad
                                     FROM usuario_bonificacion ub
-                                    WHERE ub.id_usuario = $id_usuario AND ub.estado = 'no utilizada'
+                                    JOIN bonificacion b ON ub.id_bonificacion = b.id_bonificacion
+                                    WHERE ub.id_usuario = $id_usuario
+                                    AND (ub.estado = 'no utilizada' OR b.id_bonificacion IN (SELECT id_bonificacion FROM bonificacion WHERE nombre_bonificacion LIKE '%frame%'))
                                     GROUP BY ub.id_bonificacion
                                 ";
+
                                 $result_cantidad_bonificaciones = mysqli_query($con, $query_cantidad_bonificaciones);
 
                                 // Crear un array asociativo para almacenar la cantidad de bonificaciones por cada bonificación
@@ -56,26 +59,25 @@
                                         $maximo = $row_bonificacion['maximo'];
 
                                         // Establecer el estilo de la card según la bonificación
-
                                         if (isset($cantidad_bonificaciones[$id_bonificacion])) {
-                                            if($puntos_usuario < $costo){
+                                            if ($puntos_usuario < $costo) {
                                                 $contenedorStyle = 'bg-light';
                                                 $textStyle = 'text-muted';
                                                 $botonDeshabilitado = 'disabled';
-                                            }elseif((strpos($nombre, 'Frame') !== false) && $cantidad_bonificaciones[$id_bonificacion] == $maximo){
+                                            } elseif ((strpos($nombre, 'Frame') !== false) && $cantidad_bonificaciones[$id_bonificacion] == $maximo) {
                                                 $contenedorStyle = 'bg-info';
                                                 $textStyle = 'text-light';
                                                 $botonDeshabilitado = 'disabled';
-                                            }elseif(strlen($cantidad_bonificaciones[$id_bonificacion]) > 0){
+                                            } elseif ($cantidad_bonificaciones[$id_bonificacion] > 0) {
                                                 $contenedorStyle = 'bg-secondary';
                                                 $textStyle = 'text-warning';
                                                 $botonDeshabilitado = '';
                                             }
-                                        }elseif($puntos_usuario < $costo){
+                                        } elseif ($puntos_usuario < $costo) {
                                             $contenedorStyle = 'bg-light';
                                             $textStyle = 'text-muted';
                                             $botonDeshabilitado = 'disabled';
-                                        }else{
+                                        } else {
                                             $contenedorStyle = 'bg-dark';
                                             $textStyle = 'text-light';
                                             $botonDeshabilitado = '';
@@ -92,23 +94,22 @@
                                                     echo "<p class='card-text'>$descripcion</p>";
                                                     echo "<p class='card-text'>Cost: $costo points</p>";
                                                     if (isset($cantidad_bonificaciones[$id_bonificacion])) {
-                                                        if($cantidad_bonificaciones[$id_bonificacion] > 0){
-                                                            $botonDeshabilitadoUso = '';
-                                                        }else{
-                                                            $botonDeshabilitadoUso = 'disabled';
-                                                        }
                                                         echo "<p class='card-text'>Quantity owned: {$cantidad_bonificaciones[$id_bonificacion]} / $maximo</p>";
+                                                        $botonDeshabilitadoUso = ($cantidad_bonificaciones[$id_bonificacion] > 0) ? '' : 'disabled';
                                                     } else {
                                                         echo "<p class='card-text'>Quantity owned: 0 / $maximo</p>";
                                                     }
                                                     echo "<div class='d-flex justify-content-center'>";
+                                                        // Botón para comprar bonificación
                                                         echo "<form action='../Modelo/procesar_compra.php' method='post'>";
                                                             echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
                                                             echo "<input type='hidden' name='costo_bonificacion' value='$costo'>";
+                                                            echo "<input type='hidden' name='nombre_bonificacion' value='$nombre'>";
                                                             echo "<button type='submit' class='btn btn-primary m-2' $botonDeshabilitado>Buy</button>";
                                                         echo "</form>";
+                                                        // Botón para usar bonificación
                                                         echo "<form action='../Modelo/procesar_uso_bonificacion.php' method='post'>";
-                                                            if($nombre != 'No lose streak'){
+                                                            if ($nombre != 'No lose streak') {
                                                                 echo "<input type='hidden' name='id_bonificacion' value='$id_bonificacion'>";
                                                                 echo "<input type='hidden' name='nombre_bonificacion' value='$nombre'>";
                                                                 echo "<button type='submit' class='btn btn-primary m-2' $botonDeshabilitadoUso>Use</button>";

@@ -75,21 +75,21 @@ mysqli_close($con);
                                 tests to improve your language skills.</p>
                             <div class="row ">
                                 <div class="col-md-4">
-                                    <div class="info-box bg-success">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
+                                    <div class="info-box crossword esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-crossword.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text font-weight-bold">Crossword</h4>
+                                            <h2 class="info-box-text">Crossword</h2>
                                             <a href="panel.php?modulo=crucigrama"
-                                                class="btn btn-outline-light text-ellipsis"><b>Play</b></a>
+                                                class="btn btn-crossword text-ellipsis"><b>Play</b></a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <div class="info-box bg-info">
-                                        <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
+                                    <div class="info-box hangman esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-hangman.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text font-weight-bold">Hanging Game</h4>
+                                            <h2 class="info-box-text">Hangman</h2>
                                             <a href="panel.php?modulo=ahorcado"
                                                 class="btn btn-outline-light text-ellipsis"><b>Play</b></a>
                                         </div>
@@ -97,42 +97,15 @@ mysqli_close($con);
                                 </div>
                                 
                                 <div class="col-md-4">
-                                    <div class="info-box bg-warning">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
+                                    <div class="info-box word_puzzle esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-word_puzzle.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text font-weight-bold">Words Soup</h4>
+                                            <h4 class="info-box-text">Word search puzzle</h4>
                                             <a href="panel.php?modulo=sopaLetras"
                                                 class="btn btn-outline-light text-ellipsis text-dark"><b>Play</b></a>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Adaptar estos dos para que uno agarre un video al azar y practique y el otro un audio
-                                <div class="col-md-4">
-                                    <div class="info-box bg-dark">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <h4 class="info-box-text">Training 1</h4>
-                                            <a href="panel.php?modulo=ejRep1"
-                                                class="btn btn-outline-light text-ellipsis"><b>Start</b></a>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-4">
-                                    <div class="info-box bg-dark">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
-                                        <div class="info-box-content">
-                                            <h4 class="info-box-text">Training 2</h4>
-                                            <a href="panel.php?modulo=ejRep2"
-                                                class="btn btn-outline-light text-ellipsis"><b>Start</b></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                -->
-
-
                             </div>
                             <div class="progress mt-4">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $porcentaje_actividades; ?>%"

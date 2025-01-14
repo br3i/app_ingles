@@ -8,7 +8,7 @@ date_default_timezone_set($user_timezone);
 ?>
 <!-- Content Wrapper. Contains page content -->
 <br>
-<div class="content-wrapper">
+<div class="content-wrapper content-activities">
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -46,6 +46,7 @@ date_default_timezone_set($user_timezone);
                             }
                             echo "<script>console.log('El valor de la variableAImpri es: " . $variableAImpri . "');</script>";
 
+                            
 
 
                             while ($row = mysqli_fetch_assoc($query1)) {
@@ -53,49 +54,50 @@ date_default_timezone_set($user_timezone);
 
                                 echo '
                                     <div class="col-md-4 unidad-container">
-                                        <div class="d-flex align-items-center justify-content-center info-box bg-dark">
-                                            <h3>Unit ' . $unidad . '</h3>
-                                            <div class="info-box-content">
-                                                <select name="video_select" class="toggleIframeBtn video-select unidad-select bg-dark" onchange="loadVideo(this)" data-iframe="iframe1">';
+                                        <div class="esquinas-redondeados unidad-box' . $unidad . '">
+                                            <!-- Imagen de la unidad -->
+                                            <div class="unidad-image-container">
+                                                <img src="../Publico/img/unit/unit' . $unidad . '.svg" alt="Imagen Unidad" class="unidad-img">
+                                            </div>
 
-                                // Agregar la opción por defecto
-                                echo '<option value="">Select a resource</option>';
+                                            <!-- Información de la unidad -->
+                                            <div class="unidad-info-container">
+                                                <!-- Título de la unidad -->
+                                                <h3 class="unidad-title">Unit</h3>
 
+                                                <!-- Select de recursos -->
+                                                <select name="video_select" class="unidad-select' . $unidad . '" onchange="loadVideo(this)" data-iframe="iframe1">
+                                                    <option value="">Select a resource</option>';
+
+                                // Consulta para los recursos de la unidad
                                 $unidadQuery = mysqli_query($con, "SELECT * FROM `recurso` WHERE id_unidad = '$unidad' ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
 
+                                // Itera sobre los recursos y crea las opciones
                                 while ($recRow = mysqli_fetch_assoc($unidadQuery)) {
                                     $nombreArchivo = $recRow['recurso_name'];
                                     $tipoArchivo = $recRow['tipo_archivo'];
                                     $ubicacionArchivo = $recRow['location'];
                                     $idRecurso = $recRow['id_recurso'];
 
-                                    // Consulta para obtener el número total de actividades asociadas a este recurso
+                                    // Verificar cuántas actividades están pendientes para este recurso
                                     $queryTotal = "SELECT COUNT(*) AS total_actividades FROM actividad WHERE id_recurso = '$idRecurso' AND tipo = 'Activity'";
                                     $resultTotal = mysqli_query($con, $queryTotal) or die(mysqli_error($con));
                                     $rowTotal = mysqli_fetch_assoc($resultTotal);
                                     $totalActividades = $rowTotal['total_actividades'];
 
-                                    // Consulta para verificar si el usuario ya ha realizado todas las actividades asociadas a este recurso
+                                    // Verificar cuántas actividades ya se han realizado para este recurso
                                     $query = "SELECT COUNT(DISTINCT actividad.id_actividad) AS num_actividades
                                             FROM actividad
                                             LEFT JOIN nota_actividad ON actividad.id_actividad = nota_actividad.id_actividad
                                             LEFT JOIN nota ON nota_actividad.id_nota = nota.id_nota
                                             WHERE actividad.id_recurso = '$idRecurso' AND nota.id_usuario = '$userId' AND actividad.tipo = 'Activity'";
-                                    
+
                                     $result = mysqli_query($con, $query) or die(mysqli_error($con));
                                     $row = mysqli_fetch_assoc($result);
                                     $numActividadesRealizadas = $row['num_actividades'];
 
-                                    echo '<script>console.log("El valor de numActividadesRealizadas es: ' . $numActividadesRealizadas . '");</script>';
-                                    echo '<script>console.log("El valor de totalActividades es: ' . $totalActividades . '");</script>';
                                     if ($numActividadesRealizadas != $totalActividades) {
-                                        // Mostrar el recurso en el select solo si el usuario no ha completado todas las actividades asociadas a él
-                                        if ($tipoArchivo == 'video') {
-                                            $icono_archivo = 'fas fa-file-video';
-                                        } elseif ($tipoArchivo == 'audio') {
-                                            $icono_archivo = 'fas fa-file-audio';
-                                        }
-
+                                        // Mostrar el recurso solo si el usuario no ha completado todas las actividades
                                         echo '<option data-location="' . $ubicacionArchivo . '" data-id-recurso="' . $idRecurso . '">' . $nombreArchivo . '</option>';
                                     }
                                 }
@@ -135,7 +137,7 @@ date_default_timezone_set($user_timezone);
                                     'pregunta' => $rowActividad['pregunta'],
                                     'respuesta' => $rowActividad['respuesta'],
                                     'opciones' => $opcionesActividad,
-                                    'ruta_video' => $rowActividad['location'] // Agrega la ruta del video desde la tabla recurso
+                                    'ruta_video' => $rowActividad['location']
                                 );
                                 $idActividad++;
                             }
@@ -163,7 +165,7 @@ date_default_timezone_set($user_timezone);
                         <!-- /.row -->
 
                     </div>
-                        <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()">
+                        <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()" hidden>
                             <option value="">Select an activity</option>
                         </select>
                     </div>
@@ -339,7 +341,7 @@ date_default_timezone_set($user_timezone);
 
                 actividadesHorarios(response.hora);
                 
-                //window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
+                window.location.href = '../Vista/panel.php?modulo=actividades&mensaje=' + encodeURIComponent(mensaje);
             },
             error: function(xhr, status, error) {
                 console.error('Error al guardar la nota de actividad:', error);
@@ -387,39 +389,6 @@ date_default_timezone_set($user_timezone);
                 }
             });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         } else if (horaInt >= 21) {
             // Redirigir al archivo B
 
@@ -452,24 +421,6 @@ date_default_timezone_set($user_timezone);
                     console.error('Error al guardar la nota de actividad:', error);
                 }
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         } else {
             console.log("La hora está entre las 9 am y las 9 pm");
@@ -1376,7 +1327,7 @@ date_default_timezone_set($user_timezone);
             // Mostrar mensaje de respuesta correcta o incorrecta
             respuestasCorrectasUsuario = false;
             actualizarTablaRacha();
-            //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conBMC, conMMC, nResBMC, actividadSeleccionada.opciones.length);
+            save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conBMC, conMMC, nResBMC, actividadSeleccionada.opciones.length);
         }
 
         // Mostrar mensaje específico para el caso de ordenar si la respuesta es correcta
@@ -1384,7 +1335,7 @@ date_default_timezone_set($user_timezone);
             if (respuestasCorrectasUsuario) {
                 alert('Correct answer in the sorting activity!');
                 actualizarTablaRacha();
-                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMO, actividadSeleccionada.opciones.length);
+                save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMO, actividadSeleccionada.opciones.length);
             } else {
                 conMO++;
                 alert('Incorrect order. Please try again.   ' + conMO);
@@ -1399,7 +1350,7 @@ date_default_timezone_set($user_timezone);
                 console.log("Valor de conMCom: " + conMCom);
             }else{
                 actualizarTablaRacha();
-                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMCom, actividadSeleccionada.opciones.length);                
+                save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMCom, actividadSeleccionada.opciones.length);                
             }
             alert(mensaje);
         }
@@ -1411,7 +1362,7 @@ date_default_timezone_set($user_timezone);
                 console.log("Valor de conMMat: " + conMMat);
             }else{
                 actualizarTablaRacha();
-                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMMat, actividadSeleccionada.opciones.length);                
+                save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMMat, actividadSeleccionada.opciones.length);                
             }
             alert(mensajeUnir);
         }
@@ -1427,7 +1378,7 @@ date_default_timezone_set($user_timezone);
                 console.log("Valor de conMNu: " + conMNu);
             }else{
                 actualizarTablaRacha();
-                //save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMNu, actividadSeleccionada.opciones.length);
+                save_nota_actividad(tipoActividad, actividadSeleccionada.id_unidad,  actividadSeleccionada.id_actividad, conMNu, actividadSeleccionada.opciones.length);
             }
             alert(mensajeNumber);
         }

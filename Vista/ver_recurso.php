@@ -1,34 +1,40 @@
 <?php
 include_once '../Config/conexion.php';
 
+// Obtener ID de recurso desde la URL si está presente
+$selected_video_id = isset($_GET['id_recurso']) ? $_GET['id_recurso'] : null;
+
 // Verificar si se ha enviado el formulario de selección de video
 if (isset($_POST['video_select'])) {
     $selected_video_id = $_POST['video_select'];
-
-    // Realizar una nueva consulta para obtener el video seleccionado
-    $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
-    $selected_video = mysqli_fetch_array($selected_query);
 }
 
-// Realizar consulta para obtener los videos de la base de datos
-$query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
+// Si hay un ID de recurso, realizar la consulta para obtener detalles del recurso seleccionado
+if ($selected_video_id) {
+    $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
+    $selected_video = mysqli_fetch_array($selected_query);
 
+    // Obtener totales de actividades y pruebas asociadas
+    $total_actividades_query = mysqli_query($con, "SELECT COUNT(*) as total_actividades FROM `actividad` WHERE `id_recurso` = '$selected_video_id' AND `tipo` = 'Activity'") or die(mysqli_error($con));
+    $total_actividades = mysqli_fetch_assoc($total_actividades_query);
+
+    $total_pruebas_query = mysqli_query($con, "SELECT COUNT(*) as total_pruebas FROM `actividad` WHERE `id_recurso` = '$selected_video_id' AND `tipo` = 'Test'") or die(mysqli_error($con));
+    $total_pruebas = mysqli_fetch_assoc($total_pruebas_query);
+}
+
+// Consulta para obtener la lista de videos
+$query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC") or die(mysqli_error($con));
 ?>
 
-
-<!-- Content Wrapper. Contains page content -->
+<!-- Content Wrapper -->
 <div class="content-wrapper">
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Main row -->
             <div class="row">
-                <!-- Left col -->
                 <div class="col-lg-12">
                     <div class="card alert alert-primary alert-dismissible fade show">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                            <span class="sr-only">Close</span>
                         </button>
                         Welcome to Resources!
                     </div>
@@ -40,88 +46,54 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                                 <a href="panel.php?modulo=recursos" class="btn btn-primary">Back</a>
                             </div>
                         </div>
-                        <?php
-                        // Verificar si se ha enviado el formulario de selección de video
-                        if (isset($_POST['video_select'])) {
-                            $selected_video_id = $_POST['video_select'];
 
-                            // Realizar una nueva consulta para obtener el video seleccionado
-                            $selected_query = mysqli_query($con, "SELECT * FROM `recurso` WHERE `id_recurso` = '$selected_video_id'") or die(mysqli_error($con));
-                            $selected_video = mysqli_fetch_array($selected_query);
+                        <?php if (isset($selected_video)): ?>
+                            <div class="card-body row">
+                                <div class="col-md-4 my-1">
+                                    <h6>Resource Name:</h6>
+                                    <h7 class="text-primary"><?= $selected_video['recurso_name'] ?></h7>
+                                </div>
+                                <div class="col-md-4 my-1">
+                                    <h6>Unity Number:</h6>
+                                    <h7 class="text-primary"><?= $selected_video['id_unidad'] ?></h7>
+                                </div>
+                                <div class="col-md-4 my-1">
+                                    <h6>Number of Activities: <a href="#" data-toggle="modal" data-target="#agregarActividadModal" class="ml-2">+</a></h6>
+                                    <h7 class="text-primary"><?= $total_actividades['total_actividades'] ?></h7>
+                                </div>
+                                <div class="col-md-4 my-1">
+                                    <h6>Number of Tests: <a href="#" data-toggle="modal" data-target="#agregarPruebaModal" class="ml-2">+</a></h6>
+                                    <h7 class="text-primary"><?= $total_pruebas['total_pruebas'] ?></h7>
+                                </div>
+                                <div class="col-md-4 my-1">
+                                    <h6>Description:</h6>
+                                    <h7 class="text-primary"><?= $selected_video['descripcion'] ?></h7>
+                                </div>
+                            </div>
+                            <div class="text-center d-flex align-items-center justify-content-center">
+                                <video width="70%" controls>
+                                    <source src="<?= $selected_video['location'] ?>">
+                                </video>
+                            </div>
+                        <?php endif; ?>
 
-                            // Obtener el total de actividades asociadas al recurso seleccionado
-                            $total_actividades_query = mysqli_query($con, "SELECT COUNT(*) as total_actividades FROM `actividad` WHERE `id_recurso` = '$selected_video_id' AND `tipo` = 'Activity'") or die(mysqli_error($con));
-                            $total_actividades = mysqli_fetch_assoc($total_actividades_query);
-
-                            // Obtener el total de pruebas asociadas al recurso seleccionado
-                            $total_pruebas_query = mysqli_query($con, "SELECT COUNT(*) as total_pruebas FROM `actividad` WHERE `id_recurso` = '$selected_video_id' AND `tipo` = 'Test'") or die(mysqli_error($con));
-                            $total_pruebas = mysqli_fetch_assoc($total_pruebas_query);
-
-                            // Mostrar el video seleccionado
-                            if ($selected_video) {
-                                echo '
-                                <div class="card-body row">
-                                    <div class="col-md-4 my-1" style="word-wrap:break-word;">
-                                        <h6>Resource Name:</h6>
-                                        <h7 class="text-primary">' . $selected_video['recurso_name'] . '</h7>
-                                    </div>
-                                    <div class="col-md-4 my-1" style="word-wrap:break-word;">
-                                        <h6>Unity Number:</h6>
-                                        <h7 class="text-primary">' . $selected_video['id_unidad'] . '</h7>
-                                    </div>
-                                    <div class="col-md-4 my-1" style="word-wrap:break-word;">
-                                        <h6>Number of Activities:
-                                            <a href="#" data-toggle="modal" data-target="#agregarActividadModal" class="ml-2">+</a>
-                                        </h6>
-                                        <h7 class="text-primary">' . $total_actividades['total_actividades'] . '</h7>                                            
-                                    </div>
-                                    <div class="col-md-4 my-1" style="word-wrap:break-word;">
-                                        <h6>Number of Tests:
-                                            <a href="#" data-toggle="modal" data-target="#agregarPruebaModal" class="ml-2">+</a>
-                                        </h6>
-                                        <h7 class="text-primary">' . $total_pruebas['total_pruebas'] . '</h7>                                            
-                                    </div>
-                                    <div class="col-md-4 my-1" style="word-wrap:break-word;">
-                                        <h6>Description:</h6>
-                                        <h7 class="text-primary">' . $selected_video['descripcion'] . '</h7>
-                                    </div>
-                                    <br>
-                                </div>  
-                                <div class="text-center d-flex align-items-center justify-content-center">
-                                        <video width="70%" controls>
-                                            <source src="' . $selected_video['location'] . '">
-                                        </video>
-                                </div>                       
-                            ';
-                            }
-                        }
-                        ?>
-
-                        <!-- Mostrar la lista de videos -->
-
+                        <!-- Video selector form -->
                         <div class="col-md-12">
                             <form action="" method="POST">
                                 <div class="form-group">
                                     <label for="video_select">Select Resource:</label>
                                     <select class="form-control" name="video_select" id="video_select">
-                                        <?php
-                                        while ($fetch = mysqli_fetch_array($query)) {
-                                            $selected = '';
-                                            if (isset($_POST['video_select']) && $_POST['video_select'] == $fetch['id_recurso']) {
-                                                $selected = 'selected';
-                                            }
-                                            echo '<option value="' . $fetch['id_recurso'] . '" ' . $selected . '>' . $fetch['recurso_name'] . '</option>';
-                                        }
-                                        mysqli_close($con);
-                                        ?>
+                                        <?php while ($fetch = mysqli_fetch_array($query)): ?>
+                                            <option value="<?= $fetch['id_recurso'] ?>" <?= isset($selected_video_id) && $selected_video_id == $fetch['id_recurso'] ? 'selected' : '' ?>><?= $fetch['recurso_name'] ?></option>
+                                        <?php endwhile; ?>
                                     </select>
                                 </div>
                                 <button type="submit" class="btn btn-primary mb-4">Load selected resource</button>
                             </form>
                         </div>
-                        <!-- /.card -->
                     </div>
 
+                    <!-- Modal para añadir actividades -->
                     <div class="modal fade" id="agregarActividadModal" aria-hidden="true">
                         <div class="modal-dialog">
                             <form id="actividad_form" action="../Modelo/agregar_actividades.php" method="POST">
@@ -175,7 +147,7 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                     </div>
 
 
-
+                    <!-- Modal para añadir tests -->
                     <div class="modal fade" id="agregarPruebaModal" aria-hidden="true">
                         <div class="modal-dialog">
                             <form id="actividad_form" action="../Modelo/agregar_actividades.php" method="POST">
@@ -220,24 +192,18 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                             </form>
                         </div>
                     </div>
-                    <!-- /.col -->
+
                 </div>
-                <!-- /.row -->
             </div>
-            <!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
 
 <script>
     $(document).ready(function () {
-        // Detectar cuando se presiona la tecla "Volver"
         $(document).keydown(function (event) {
             if (event.keyCode == 8) {
-                event.preventDefault(); // Prevenir el comportamiento predeterminado de la tecla "Volver"
-
-                // Redirigir a la página anterior
+                event.preventDefault();
                 window.location.href = 'panel.php?modulo=recursos';
             }
         });

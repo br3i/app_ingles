@@ -83,109 +83,115 @@ mysqli_close($con);
                             <p>Get started with your English learning journey. Choose from a variety of activities and
                                 tests to improve your language skills.</p>
                             <div class="row">
-                                <div class="col-md-3">
-                                    <div class="info-box bg-primary">
-                                        <span class="info-box-icon"><i class="fas fa-pencil-alt"></i></span>
+                                <div class="col-md-4">
+                                    <div class="custom-info-box info-box activities esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-activi.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Activities</h4>
-                                            <a href="panel.php?modulo=actividades"
-                                                class="btn btn-outline-light text-ellipsis"><b>Do
-                                                    Activities</b></a>
+                                            <h2 class="info-box-text">Activities</h2>
+                                            <a href="panel.php?modulo=actividades" class="btn btn-activity text-ellipsis">
+                                                <b>Do Activities</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-success">
-                                        <span class="info-box-icon"><i class="fas fa-file-signature"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box tests esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-tests.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Tests</h4>
-                                            <a href="panel.php?modulo=prueba"
-                                                class="btn btn-outline-light text-ellipsis"><b>Try
-                                                    Lessons</b></a>
+                                            <h2 class="info-box-text">Tests</h2>
+                                            <a href="panel.php?modulo=prueba" class="btn btn-test text-ellipsis">
+                                                <b>Try Lessons</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-dark">
-                                        <span class="info-box-icon"><i class="fas fas fa-dumbbell"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box training esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-train.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Training</h4>
-                                            <a href="panel.php?modulo=repaso"
-                                                class="btn btn-outline-light text-ellipsis"><b>Train</b></a>
+                                            <h2 class="info-box-text">Training</h2>
+                                            <a href="panel.php?modulo=repaso" class="btn btn-training text-ellipsis">
+                                                <b>Train</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-warning">
-                                        <span class="info-box-icon"><i class="fas fa-crown"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box ranking esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-rank.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Ranking</h4>
-                                            <a href="panel.php?modulo=ranking"
-                                                class="btn btn-outline-light text-ellipsis text-dark"><b>View
-                                                    Rank</b></a>
+                                            <h2 class="info-box-text">Ranking</h2>
+                                            <a href="panel.php?modulo=ranking" class="btn btn-ranking text-ellipsis">
+                                                <b>View Rank</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-info">
-                                        <span class="info-box-icon"><i class="fas fa-trophy"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box achievements esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-achive.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Achiviements</h4>
-                                            <a href="panel.php?modulo=logros"
-                                                class="btn btn-outline-light text-ellipsis"><b>Achiviements</b></a>
+                                            <h2 class="info-box-text">Achievements</h2>
+                                            <a href="panel.php?modulo=logros" class="btn btn-achievements text-ellipsis">
+                                                <b>Achievements</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-light">
-                                        <span class="info-box-icon"><i class="fas fa-star"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box bonification esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-boni.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Bonification</h4>
-                                            <a href="panel.php?modulo=bonificacion"
-                                                class="btn btn-outline-dark text-ellipsis"><b>Get
-                                                    Bonus</b></a>
+                                            <h2 class="info-box-text">Rewards</h2>
+                                            <a href="panel.php?modulo=bonificacion" class="btn btn-bonification text-ellipsis">
+                                                <b>Get Bonus</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="info-box bg-danger">
-                                        <span class="info-box-icon"><i class="fas fa-fire"></i></span>
+
+                                <div class="col-md-4">
+                                    <div class="info-box streak esquinas-redondeados">
+                                        <span class="info-box-icon"><img src="../Publico/iconos/i-streak.svg" alt="" style="max-height: 70px"></span>
                                         <div class="info-box-content">
-                                            <h4 class="info-box-text">Streak</h4>
-                                            <a href="panel.php?modulo=racha"
-                                                class="btn btn-outline-light text-ellipsis"><b>Keep on
-                                                    fire!</b></a>
+                                            <h2 class="info-box-text">Streak</h2>
+                                            <a href="panel.php?modulo=racha" class="btn btn-streak text-ellipsis">
+                                                <b>Keep on fire!</b>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
-                                <?php
-                                if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher') {
-                                    ?>
-                                    <div class="col-md-3">
-                                        <div class="info-box bg-secondary">
-                                            <span class="info-box-icon"><i class="fas fa-film"></i></span>
+
+                                <?php if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher') { ?>
+                                    <div class="col-md-4">
+                                        <div class="info-box resources esquinas-redondeados">
+                                            <span class="info-box-icon"><img src="../Publico/iconos/i-resources.svg" alt="" style="max-height: 70px"></span>
                                             <div class="info-box-content">
-                                                <h4 class="info-box-text">Resources</h4>
-                                                <a href="panel.php?modulo=recursos"
-                                                    class="btn btn-outline-light text-ellipsis"><b>Upload!</b></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="info-box bg-white">
-                                            <span class="info-box-icon"><i class="fas fa-users"></i></span>
-                                            <div class="info-box-content">
-                                                <h4 class="info-box-text">Users</h4>
-                                                <a href="panel.php?modulo=usuarios"
-                                                    class="btn btn-outline-dark text-ellipsis">
-                                                    <b>Watch Users</b>
+                                                <h2 class="info-box-text">Resources</h2>
+                                                <a href="panel.php?modulo=recursos" class="btn btn-resources text-ellipsis">
+                                                    <b>Manage Resources</b>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php
-                                }
-                                ?>
+
+                                    <div class="col-md-4">
+                                        <div class="info-box users esquinas-redondeados">
+                                            <span class="info-box-icon"><img src="../Publico/iconos/i-users.svg" alt="" style="max-height: 70px"></span>
+                                            <div class="info-box-content">
+                                                <h2 class="info-box-text">Users</h2>
+                                                <a href="panel.php?modulo=usuarios" class="btn btn-users text-ellipsis">
+                                                    <b>Manage Users</b>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } ?>
                             </div>
                             <div class="progress mt-4">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: <?php echo $porcentaje_actividades; ?>%"

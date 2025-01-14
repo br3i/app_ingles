@@ -38,7 +38,7 @@ mysqli_begin_transaction($con);
 $query = "INSERT INTO nota (id_usuario, id_unidad, nota, tipo) VALUES ('$id_usuario', '$id_unidad', '$nota', '$tipo')";
 $result = mysqli_query($con, $query);
 
-/*if (!$result) {
+if (!$result) {
     // Si hay un error, revertir la transacción y devolver un mensaje de error
     mysqli_rollback($con);
     $error = mysqli_error($con);
@@ -141,12 +141,12 @@ if (!$resultActPuntosGanados) {
 
 // Si no hay errores, confirmar la transacción
 mysqli_commit($con);
-*/
+
 // Mensaje de respuesta
 $response['message'] = 'Grade saved successfully, '. $nota .' also you have earned ' . $puntosGanados . ' points';
 $response['nota'] = $nota;
 $_SESSION['puntos'] += $puntosGanados;
-/*
+
 // Iniciar la transacción
 mysqli_begin_transaction($con);
 
@@ -215,7 +215,7 @@ try {
     $response['status'] = 'error';
     $response['message'] = $e->getMessage();
 }
-*/
+
 
 // Cerrar la conexión
 mysqli_close($con);

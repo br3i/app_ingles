@@ -20,11 +20,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $puntos_usuario = $_SESSION['puntos'];
         $id_bonificacion = $_POST['id_bonificacion'];
         $costo_bonificacion = $_POST['costo_bonificacion'];
+        $nombre_bonificacion = $_POST['nombre_bonificacion'];
+
+        if(strpos($nombre_bonificacion, 'Frame') !== false){
+            $estado = 'no activada';
+        }else{
+            $estado = 'no utilizada';
+        }
         
         // Verificar si el usuario tiene suficientes puntos para comprar la bonificación
         if ($puntos_usuario >= $costo_bonificacion) {
             // Verificar si el usuario ya tiene el máximo de bonificaciones para este tipo
-            $query_cantidad_bonificaciones = "SELECT COUNT(*) AS cantidad FROM usuario_bonificacion WHERE id_usuario = $id_usuario AND id_bonificacion = $id_bonificacion AND estado = 'no utilizada'";
+            $query_cantidad_bonificaciones = "SELECT COUNT(*) AS cantidad FROM usuario_bonificacion WHERE id_usuario = $id_usuario AND id_bonificacion = $id_bonificacion AND estado = '$estado'";
             $result_cantidad_bonificaciones = mysqli_query($con, $query_cantidad_bonificaciones);
             $row_cantidad_bonificaciones = mysqli_fetch_assoc($result_cantidad_bonificaciones);
             $cantidad_bonificaciones_usuario = $row_cantidad_bonificaciones['cantidad'];
@@ -40,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Insertar la nueva bonificación adquirida en la tabla usuario_bonificacion
                 $fecha_adquisicion = date("Y-m-d H:i:s");
                 $fecha_uso = date("Y-m-d H:i:s");
-                $query_insertar_bonificacion = "INSERT INTO usuario_bonificacion (id_usuario, id_bonificacion, fecha_adquisicion, fecha_uso, estado) VALUES ($id_usuario, $id_bonificacion, '$fecha_adquisicion', '$fecha_uso', 'no utilizada')";
+                $query_insertar_bonificacion = "INSERT INTO usuario_bonificacion (id_usuario, id_bonificacion, fecha_adquisicion, fecha_uso, estado) VALUES ($id_usuario, $id_bonificacion, '$fecha_adquisicion', '$fecha_uso', '$estado')";
                 $result_insertar_bonificacion = mysqli_query($con, $query_insertar_bonificacion);
 
                 if ($result_insertar_bonificacion) {

@@ -1,32 +1,43 @@
 <?php
 include_once '../Config/conexion.php';
 
-// Consulta para obtener las actividades
+// Obtener actividades y usuarios en una sola consulta para reducir el número de consultas a la base de datos
 $actividades_query = mysqli_query($con, "SELECT * FROM actividad ORDER BY tipo") or die(mysqli_error($con));
-
-// Consulta para obtener los usuarios y sus datos
 $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario") or die(mysqli_error($con));
 
-// Cerrar la conexión a la base de datos
+// Crear un array para guardar las actividades por tipo
+$actividades = [];
+while ($actividad = mysqli_fetch_assoc($actividades_query)) {
+    $actividades[] = $actividad;
+}
+
+// Variables para contar actividades y tests
+$numActivities = 0;
+$numTests = 0;
+foreach ($actividades as $actividad) {
+    if ($actividad['tipo'] === 'Test') {
+        $numTests++;
+    } else {
+        $numActivities++;
+    }
+}
+
+// Si hay una búsqueda, filtrar las actividades por id_actividad
+$search_id = isset($_POST['search_id']) ? $_POST['search_id'] : '';
 
 ?>
 
-<!-- Content Wrapper. Contains page content -->
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Main row -->
             <div class="row">
-                <!-- Left col -->
                 <div class="col-lg-12">
-                    <?php if ($_SESSION['rol'] != 'student'): ?>
+                    <?php if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher'): ?>
+                        <!-- Mostrar solo para admins y teachers -->
                         <div class="card card-primary">
                             <div class="card-header">
                                 <h3 class="card-title">Welcome to Users!</h3>
                             </div>
-                            <!-- /.card-header -->
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-striped">
@@ -39,34 +50,56 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
                                                 <th>Member since</th>
                                                 <th>Description</th>
                                                 <th>Points</th>
-                                                <!-- Crear dinámicamente las columnas de las actividades -->
-                                                <?php
-                                                $numActivities = 0;
-                                                $numTests = 0;
-                                                $bgTH = '';
-
-                                                while ($actividad = mysqli_fetch_assoc($actividades_query)) {
-                                                    if($actividad['tipo'] == 'Test'){
-                                                        $numTests++;
-                                                        $bgTH = 'bg-info';
-                                                    } else {
-                                                        $numActivities++;
-                                                        $bgTH = 'bg-dark';
-                                                    }
-                                                    echo '<th class="' . $bgTH . '" >' . $actividad['tipo'] . ' id ' . $actividad['id_actividad'] . '</th>';
-                                                    
-                                                }
-                                                echo '<script>console.log(' . $numActivities . ')</script>';
-                                                echo '<script>console.log(' . $numTests . ')</script>';
-                                                ?>
                                                 <th class="bg-info">Average Tests</th>
                                                 <th class="bg-dark">Average Activities</th>
+
+                                                <?php
+                                                // Mostrar las columnas de actividades y tests después de los promedios
+                                                foreach ($actividades as $actividad) {
+                                                    $bgTH = $actividad['tipo'] === 'Test' ? 'bg-info' : 'bg-dark';
+                                                    echo '<th class="' . $bgTH . '">' . $actividad['tipo'] . ' id ' . $actividad['id_actividad'] . '</th>';
+                                                }
+                                                ?>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
-                                            // Iterar sobre los usuarios para mostrar sus notas en actividades
                                             while ($usuario = mysqli_fetch_assoc($usuarios_query)) {
+                                                // Inicializar variables para cada usuario
+                                                $sumActivities = 0;
+                                                $sumTests = 0;
+                                                $notas = [];
+                                                
+                                                // Obtener las notas del usuario
+                                                $notas_query = mysqli_query($con, "SELECT na.id_actividad, n.nota 
+                                                                                    FROM nota_actividad na 
+                                                                                    INNER JOIN nota n ON na.id_nota = n.id_nota 
+                                                                                    WHERE n.id_usuario = {$usuario['id_usuario']}") or die(mysqli_error($con));
+
+                                                while ($nota = mysqli_fetch_assoc($notas_query)) {
+                                                    $notas[$nota['id_actividad']] = $nota['nota'];
+                                                }
+
+                                                // Calcular promedios
+                                                foreach ($actividades as $actividad) {
+                                                    $id_actividad = $actividad['id_actividad'];
+                                                    if (isset($notas[$id_actividad])) {
+                                                        if ($actividad['tipo'] === 'Test') {
+                                                            $sumTests += $notas[$id_actividad];
+                                                        } else {
+                                                            $sumActivities += $notas[$id_actividad];
+                                                        }
+                                                    }
+                                                }
+                                                
+                                                $averageTests = $numTests > 0 ? $sumTests / $numTests : 0;
+                                                $averageActivities = $numActivities > 0 ? $sumActivities / $numActivities : 0;
+
+                                                // Determinar estilos para promedios
+                                                $styleTests = $averageTests >= 7 ? 'bg-success' : ($averageTests >= 5 ? 'bg-warning' : 'bg-danger');
+                                                $styleActivities = $averageActivities >= 7 ? 'bg-success' : ($averageActivities >= 5 ? 'bg-warning' : 'bg-danger');
+
+                                                // Mostrar la fila con datos del usuario
                                                 echo '<tr>';
                                                 echo '<td>' . $usuario['id_usuario'] . '</td>';
                                                 echo '<td>' . $usuario['username'] . '</td>';
@@ -75,103 +108,96 @@ $usuarios_query = mysqli_query($con, "SELECT * FROM usuario ORDER BY id_usuario"
                                                 echo '<td>' . $usuario['fecha_creacion'] . '</td>';
                                                 echo '<td>' . $usuario['descripcion'] . '</td>';
                                                 echo '<td>' . $usuario['puntos'] . '</td>';
+                                                echo '<td class="' . $styleTests . '">' . number_format($averageTests, 2) . '</td>';
+                                                echo '<td class="' . $styleActivities . '">' . number_format($averageActivities, 2) . '</td>';
 
-                                                // Consulta para obtener las notas de actividades del usuario actual
-                                                $notas_query = mysqli_query($con, "SELECT na.id_actividad, n.nota 
-                                                                                    FROM nota_actividad na 
-                                                                                    INNER JOIN nota n ON na.id_nota = n.id_nota 
-                                                                                    WHERE n.id_usuario = {$usuario['id_usuario']}") or die(mysqli_error($con));
-                                                $notas = array();
-                                                while ($nota = mysqli_fetch_assoc($notas_query)) {
-                                                    $notas[$nota['id_actividad']] = $nota['nota'];
-                                                }
-
-                                                // Reiniciar el puntero de la consulta de actividades
-                                                mysqli_data_seek($actividades_query, 0);
-
-                                                // Variables para calcular promedios
-                                                $sumActivities = 0;
-                                                $sumTests = 0;
-
-                                                // Iterar sobre las actividades para mostrar las notas correspondientes
-                                                while ($actividad = mysqli_fetch_assoc($actividades_query)) {
-                                                    echo '<td';
-                                                    if (isset($notas[$actividad['id_actividad']])) {
-                                                        echo ' class="bg-secondary"';
-                                                        // Sumar notas para calcular promedios
-                                                        if($actividad['tipo'] == 'Test'){
-                                                            $sumTests += $notas[$actividad['id_actividad']];
-                                                        } else {
-                                                            $sumActivities += $notas[$actividad['id_actividad']];
-                                                        }
-                                                        echo '>';
-                                                        echo $notas[$actividad['id_actividad']];
+                                                // Mostrar las notas de actividades y tests
+                                                foreach ($actividades as $actividad) {
+                                                    $id_actividad = $actividad['id_actividad'];
+                                                    echo '<td>';
+                                                    if (isset($notas[$id_actividad])) {
+                                                        echo $notas[$id_actividad];
                                                     } else {
-                                                        echo '>';
                                                         echo 'N/A';
                                                     }
                                                     echo '</td>';
                                                 }
-
-                                                // Calcular promedios utilizando la cantidad total de actividades y tests
-                                                if($numActivities > 0){
-                                                    $sumActivities = $sumActivities / $numActivities;
-                                                } else {
-                                                    $sumActivities = 0;
-                                                }
-                                                if($numTests > 0){
-                                                    $sumTests = $sumTests / $numTests;
-                                                } else {
-                                                    $sumTests = 0;
-                                                }
-
-                                                // Determinar estilos de acuerdo a los promedios
-                                                $styleST = '';
-                                                if ($sumTests >= 7) {
-                                                    $styleST = 'bg-success';
-                                                } elseif ($sumTests >= 5) {
-                                                    $styleST = 'bg-warning';
-                                                } else {
-                                                    $styleST = 'bg-danger';
-                                                }
-
-                                                $styleSA  = '';
-                                                if ($sumActivities >= 7) {
-                                                    $styleSA = 'bg-success';
-                                                } elseif ($sumActivities >= 5) {
-                                                    $styleSA = 'bg-warning';
-                                                } else {
-                                                    $styleSA = 'bg-danger';
-                                                }
-
-                                                // Mostrar promedios en la tabla
-                                                echo '<td class="' . $styleST . '">' . number_format($sumTests, 2) . '</td>';
-                                                echo '<td class="' . $styleSA . '">' . number_format($sumActivities, 2) . '</td>';
-
                                                 echo '</tr>';
                                             }
-                                            mysqli_close($con);
                                             ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            <!-- /.card-body -->
                         </div>
                     <?php else: ?>
-                        <!-- Show error message for students -->
                         <div class="m-2 alert alert-danger" role="alert">
                             Your user role does not allow access to this page.
                         </div>
                     <?php endif; ?>
-                    <!-- /.card -->
+
+                    <!-- Nueva tabla para mostrar las actividades y tests -->
+                    <?php if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher'): ?>
+                        <!-- Formulario de búsqueda -->
+                        <form method="POST" class="mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="search_id" placeholder="Search Activity ID" value="<?php echo htmlspecialchars($search_id); ?>">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="card card-primary mt-4">
+                            <div class="card-header">
+                                <h3 class="card-title">Activities and Tests</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Type</th>
+                                                <th>Description</th>
+                                                <th>Question</th>
+                                                <th>Options</th>
+                                                <th>Answer</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Si hay un término de búsqueda, aplicar un filtro
+                                            if ($search_id != '') {
+                                                $actividades_query = mysqli_query($con, "SELECT * FROM actividad WHERE id_actividad LIKE '%$search_id%' ORDER BY tipo") or die(mysqli_error($con));
+                                            } else {
+                                                $actividades_query = mysqli_query($con, "SELECT * FROM actividad ORDER BY tipo") or die(mysqli_error($con));
+                                            }
+
+                                            while ($actividad = mysqli_fetch_assoc($actividades_query)) {
+                                                echo '<tr>';
+                                                echo '<td>' . $actividad['id_actividad'] . '</td>';
+                                                echo '<td>' . $actividad['tipo'] . '</td>';
+                                                echo '<td>' . $actividad['descripcion'] . '</td>';
+                                                echo '<td>' . $actividad['pregunta'] . '</td>';
+                                                echo '<td>' . $actividad['opciones'] . '</td>';
+                                                echo '<td>' . $actividad['respuesta'] . '</td>';
+                                                echo '</tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
         </div>
-        <!-- /.container-fluid -->
     </section>
-    <!-- /.content -->
 </div>
-<!-- /.content-wrapper -->
+
+<?php
+// Ahora puedes cerrar la conexión al final del archivo
+mysqli_close($con);
+?>

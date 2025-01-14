@@ -6,7 +6,7 @@
             <!-- Main row -->
             
             <div class="contHang">
-                <h1>HANGING GAME</h1>
+                <h1>HANGMAN</h1>
                 <canvas id="pantalla" width="960px" height="450px"> <!-- etiqueta del canvas con sus medidas en la pantalla -->
                     Tu navegador no soporta Canvas.
                 </canvas>

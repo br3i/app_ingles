@@ -5,9 +5,9 @@
         <div class="container-fluid">
             <!-- Main row -->
           <div class="contSopaLetras">
-            <h2>Words Soup</h2>
+            <h2>Word search puzzle</h2>
             <div id="mensaje"></div>
-            <h3>Search the words</h3>
+            <h3>Search these words</h3>
             <ul id="palabras">
             </ul>
             <button type="button" class="btn btn-success" id="btn-reiniciar" style="display: none;">Reiniciar</button>

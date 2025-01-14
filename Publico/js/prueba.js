@@ -157,28 +157,12 @@ url = window.location.href;
         startTimerLine(timeValue); //calling startTimerLine function
     }
 
-
-
-    const restart_quiz = result_box.querySelector(".buttons .restart");
+    const refresh_page = result_box.querySelector(".buttons .restart");
     const quit_quiz = result_box.querySelector(".buttons .quit");
 
-    // si se hace clic en el botón Reiniciar cuestionario
-    restart_quiz.onclick = ()=>{
-        quiz_box.classList.add("activeQuiz"); //show quiz box
-        result_box.classList.remove("activeResult"); //hide result box
-        timeValue = 90; 
-        que_count = 0;
-        que_numb = 1;
-        userScore = 0;
-        widthValue = 0;
-        showQuestions(que_count); //calling showQestions function
-        queCounter(que_numb); //passing que_numb value to queCounter
-        clearInterval(counter); //clear counter
-        clearInterval(counterLine); //clear counterLine
-        startTimer(timeValue); //calling startTimer function
-        startTimerLine(widthValue); //calling startTimerLine function
-        timeText.textContent = "Time Left"; //change the text of timeText to Time Left
-        next_btn.classList.remove("show"); //hide the next button
+    // si se hace clic en el botón Refresh
+    refresh_page.onclick = ()=>{
+        location.reload();
     }
 
     // si se hace clic en el botón Salir del cuestionario
@@ -448,13 +432,13 @@ url = window.location.href;
 
             
             var mensaje = data.message;
-            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+            window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         })
         .catch(error => {
             console.error('Error al procesar la respuesta:', error);
             console.log("error 1: " + JSON.stringify(userData) + "\n" + error);
             var mensaje = 'There was an error while saving the test result. Please try again later.';
-            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+            window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         });
     }
 
@@ -501,13 +485,13 @@ url = window.location.href;
 
             
             var mensaje = data.message;
-            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+            window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         })
         .catch(error => {
             console.error('Error al procesar la respuesta:', error);
             console.log("error 1: " + JSON.stringify(userData) + "\n" + error);
             var mensaje = 'There was an error while saving the test result. Please try again later.';
-            //window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
+            window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         });
     }
 //}
