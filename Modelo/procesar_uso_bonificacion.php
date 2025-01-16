@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $estado = 'activada';
 
             // Primero, marcamos como 'no activada' todas las bonificaciones de tipo "Frame" que no están activas (estado diferente de 'activada')
-            /*$queryUpdateFrames = "
+            $queryUpdateFrames = "
                 UPDATE usuario_bonificacion
                 SET estado = 'no activada'
                 WHERE id_usuario = '$id_usuario'
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Si la consulta falla, muestra un error
                 echo "Error al desactivar otros frames: " . mysqli_error($con);
                 exit;
-            }*/
+            }
         }else{
             $estado = 'utilizada';
         }
