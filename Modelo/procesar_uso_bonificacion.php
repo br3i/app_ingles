@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 AND estado = 'activada'"; // Condición para no afectar a las bonificaciones ya activadas
                             mysqli_query($con, $queryUpdateFrames);
 
-                            //$mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
+                            $mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
                             $mensaje = "The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
                             
                     }
