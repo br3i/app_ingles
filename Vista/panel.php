@@ -189,7 +189,7 @@ function getFrameImage($id_usuario, $con) {
               FROM usuario_bonificacion ub
               JOIN bonificacion b ON ub.id_bonificacion = b.id_bonificacion
               WHERE ub.id_usuario = '$id_usuario' 
-              AND ub.estado = 'activada' 
+              AND ub.estado = 'utilizada' 
               AND b.nombre_bonificacion LIKE 'Custom Frame%' 
               LIMIT 1";
 
