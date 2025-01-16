@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 WHERE id_usuario = '$id_usuario'
                 AND '$nombre_bonificacion' LIKE '%Frame%'
                 AND estado != '$estado'"; // Condición para no afectar a las bonificaciones ya activadas
-            mysqli_query($con, $queryUpdateFrames);
+            $resultDesactivarFrames = mysqli_query($con, $queryUpdateFrames);
 
             // Luego, actualizamos la bonificación que acaba de ser activada
             $queryUpdateActivatedFrame = "
