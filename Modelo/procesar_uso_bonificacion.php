@@ -28,12 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verificar si el nombre de la bonificación es un 'Frame'
         if (strpos($nombre_bonificacion, 'Frame') !== false) {
-            $estado = 'activada';
+            $estado = 'utilizada';
 
             // Primero, marcamos como 'no activada' todas las bonificaciones de tipo "Frame" que no están activas (estado diferente de 'activada')
             $queryUpdateFrames = "
                 UPDATE usuario_bonificacion
-                SET estado = 'no activada'
+                SET estado = 'no utilizada'
                 WHERE id_usuario = '$id_usuario'
                 AND '$nombre_bonificacion' LIKE '%Frame%'
                 AND estado != '$estado'"; // Condición para no afectar a las bonificaciones ya activadas
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $id_usuario_bonificacion = $rowBonificacion['id_usuario_bonificacion'];
                 $id_bonificacion = $rowBonificacion['id_bonificacion'];
                 $id_usuario = $rowBonificacion['id_usuario'];
-                //$estado = $rowBonificacion['estado'];
+                $estado = $rowBonificacion['estado'];
                 $nombre_bonificacion = $rowBonificacion['nombre_bonificacion'];
 
                 if($id_usuario_bonificacion != null){
@@ -120,10 +120,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             // Primero, marcamos como 'no activada' todas las bonificaciones de tipo "Frame" que no están activas (estado diferente de 'activada')
                             $queryUpdateFrames = "
                                 UPDATE usuario_bonificacion
-                                SET estado = 'no activada'
+                                SET estado = 'no utilizada'
                                 WHERE id_usuario = '$id_usuario'
                                 AND '$nombre_bonificacion' LIKE '%Frame%'
-                                AND estado = 'activada'"; // Condición para no afectar a las bonificaciones ya activadas
+                                AND estado = 'utilizada'"; // Condición para no afectar a las bonificaciones ya activadas
                             mysqli_query($con, $queryUpdateFrames);
 
                             $mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
