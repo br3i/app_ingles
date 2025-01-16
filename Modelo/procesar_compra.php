@@ -1,4 +1,7 @@
 <?php
+ob_start();
+session_start();
+session_regenerate_id(true);
 include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
 
@@ -10,7 +13,6 @@ $current_timezone = date_default_timezone_get();
 // Imprimir la zona horaria
 echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
 
-session_start();
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Verificar si se ha iniciado sesión y si se ha enviado el ID de bonificación
@@ -95,4 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=error2");
     exit;
 }
+?>
+<?php
+ob_end_flush(); // Envía el contenido del búfer al navegador
 ?>
