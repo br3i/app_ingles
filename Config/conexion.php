@@ -1,16 +1,16 @@
 <?php
 $host = 'free.clusters.zeabur.com';
 $user = 'root';
-$pass = 'wFyz56v2EVCZWgi1j8LX04PeA9u3SDk7';
+$pass = 'Z6DmKf4rTgp92VbWl0GLkMR8E5N3X1x7';
 $db = 'zeabur';
-$port = '30839';
+$port = '32411';
 
 $con = mysqli_connect($host, $user, $pass, $db, $port);
 
 if (!$con) {
     die('Error de conexión: ' . mysqli_connect_error());
 }
-?>
+// ?>
 <?php
 // $host = 'localhost';
 // $user = 'root';
