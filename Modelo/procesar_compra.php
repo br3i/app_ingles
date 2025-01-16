@@ -30,6 +30,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $estado = 'no utilizada';
         }
         
+        $estado = ($estado === 'utilizada' || $estado === 'no utilizada') ? $estado : 'no utilizada';
+        
         // Verificar si el usuario tiene suficientes puntos para comprar la bonificación
         if ($puntos_usuario >= $costo_bonificacion) {
             // Verificar si el usuario ya tiene el máximo de bonificaciones para este tipo
