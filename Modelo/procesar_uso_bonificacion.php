@@ -1,4 +1,7 @@
 <?php
+ob_start();
+session_start();
+session_regenerate_id(true);
 include_once '../Modelo/zona_horaria.php';
 include_once '../Config/conexion.php';
 
@@ -9,8 +12,6 @@ $current_timezone = date_default_timezone_get();
 
 // Imprimir la zona horaria
 echo "<script>console.log('La zona horaria actual es: " . $current_timezone . "');</script>";
-
-session_start();
 
 $proximoDia = date("Y-m-d", strtotime('tomorrow')) . ' ' . date("H:i");
 $proximoDomingo = date("Y-m-d 23:59:59", strtotime('next sunday'));
@@ -157,4 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=error2");
     exit;
 }
+?>
+<?php
+ob_end_flush(); // Envía el contenido del búfer al navegador
 ?>
