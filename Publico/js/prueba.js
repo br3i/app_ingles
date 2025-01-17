@@ -7,8 +7,9 @@ if (url.includes('modulo=prueba')) {
 
     // En tu script JavaScript (prueba.js)
     document.addEventListener("DOMContentLoaded", function () {
-        const currentPath = "/Vista/panel.php";
-        const isPruebaPage = window.location.pathname.includes(currentPath) && window.location.search.includes("modulo=prueba");
+        const currentPath = window.location.pathname; // Obtiene el pathname dinámicamente
+        console.log("Path actual: ", currentPath);
+        const isPruebaPage = currentPath.endsWith("panel.php") && url.includes("modulo=prueba");
 
         if (isPruebaPage) {
             console.log("11");
