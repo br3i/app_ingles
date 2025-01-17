@@ -9,7 +9,7 @@
                 <div class="col-lg-12">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Welcome to Bonus!</h3>
+                            <h3 class="card-title">Welcome to Rewards!</h3>
                         </div>
                         <div class="card-body">
                             <?php 

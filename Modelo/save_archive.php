@@ -20,13 +20,14 @@ if (isset($_POST['save'])) {
 	$archivo_extension = pathinfo($archivo_name, PATHINFO_EXTENSION);
 
 	// Validación del archivo
-	if ($archivo_size < 500000000) {
+	// if ($archivo_size < 500000000) {
+	if ($archivo_size < 10485760) {
 		$video_extensions = array('avi', 'flv', 'wmv', 'mov', 'mp4');
 		$audio_extensions = array('mp3', 'wav');
 
-		if (in_array($archivo_extension, $video_extensions)) {
+		if (in_array(strtolower($archivo_extension), $video_extensions)) {
 			$tipo_archivo = 'video';
-		} elseif (in_array($archivo_extension, $audio_extensions)) {
+		} elseif (in_array(strtolower($archivo_extension), $audio_extensions)) {
 			$tipo_archivo = 'audio';
 		} else {
 			header("Location: ../Vista/panel.php?modulo=recursos&mensaje=Formato de archivo incorrecto");

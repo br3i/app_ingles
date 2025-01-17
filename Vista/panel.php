@@ -408,7 +408,7 @@ function getFrameImage($id_usuario, $con) {
                   <a href="panel.php?modulo=bonificacion"
                     class="nav-link <?php echo ($modulo == "bonificacion" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
                     <i class="fas fa-star nav-icon" aria-hidden="true"></i>
-                    <p>Bonification</p>
+                    <p>Rewards</p>
                   </a>
                 </li>
                 <li class="nav-item">
