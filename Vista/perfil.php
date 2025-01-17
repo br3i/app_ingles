@@ -94,13 +94,12 @@ if ($resultNotaPruebas) {
 }
 
 // 4. Ranking por frecuencia de rachas
-$rankingRachasQuery = "SELECT u.username, r.num_racha AS frecuencia_rachas
+$rankingRachasQuery = "SELECT u.username, MAX(r.num_racha) AS frecuencia_rachas
                         FROM usuario u
                         LEFT JOIN racha r ON u.id_usuario = r.id_usuario
                         GROUP BY u.username
                         ORDER BY frecuencia_rachas DESC
-                        LIMIT 5;
-                        ";
+                        LIMIT 5;";
 
 $resultRachas = mysqli_query($con, $rankingRachasQuery);
 
