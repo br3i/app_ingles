@@ -155,9 +155,18 @@ if ($resultRachas) {
                                     </div>
                                 </div>
                                 <div class="card col-md-6">
-                                    <div class="d-flex align-items-center justify-content-center" style="height: 100%">
+                                    <div class="d-flex align-items-center justify-content-center" style="height: 100%; position: relative;">
                                         <?php
-                                        echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='width: 50%; max-height: 95%; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)'>";
+                                        // Obtener la imagen del marco activo
+                                        $frameImage = getFrameImage($id_usuario, $con); // Aquí debes obtener la URL del marco activo
+
+                                        // Si hay un marco activado, mostrarlo sobre la foto de perfil
+                                        if ($frameImage) {
+                                            echo "<div class='frame' style='background-image: url(\"$frameImage\"); position: absolute; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30%;'></div>";
+                                        }
+
+                                        // Mostrar la imagen de perfil del usuario
+                                        echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='max-width: 60%; max-height: 70%; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: relative;'>";
                                         ?>
                                     </div>
                                 </div>

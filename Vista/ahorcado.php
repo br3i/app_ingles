@@ -12,7 +12,6 @@
                 </canvas>
                 <!-- El boton que nos sirve para recargar la pagina y asi generar una nueva palabra y volver a jugar -->
                 <button id="hangButn" type="reset" onclick="javascript:window.location.reload();">Play Again</button>
-                <button id="hangButn2" type="reset" onclick="reproducirAudio()" hidden>Audio</button>
             </div>
             <!-- /.row -->
         </div>
