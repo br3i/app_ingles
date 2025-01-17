@@ -35,8 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 UPDATE usuario_bonificacion
                 SET estado = 'no utilizada'
                 WHERE id_usuario = '$id_usuario'
-                AND '$nombre_bonificacion' LIKE '%Frame%'
-                AND estado != '$estado'"; // Condición para no afectar a las bonificaciones ya activadas
+                AND '$nombre_bonificacion' LIKE '%Frame%'"; // Condición para no afectar a las bonificaciones ya activadas
             $resultDesactivarFrames = mysqli_query($con, $queryUpdateFrames);
 
             // Luego, actualizamos la bonificación que acaba de ser activada
@@ -44,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 UPDATE usuario_bonificacion
                 SET estado = '$estado', fecha_uso = '$hoy'
                 WHERE id_usuario = '$id_usuario'
-                AND '$nombre_bonificacion' = 'Frame'";
+                AND id_bonificacion = '$id_bonificacion'";
             mysqli_query($con, $queryUpdateActivatedFrame);
 
             if (!$resultDesactivarFrames) {
@@ -101,37 +100,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         case 'Double points':
                             
 
-                            $mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus has been used successfully, it will be active until tomorrow at ".$proximoDia." nombre: ".$nombre_bonificacion;
+                            $mensaje = "The bonus has been used successfully, it will be active until tomorrow at ".$proximoDia."";
                             
-                            $fecha_uso = $proximoDia;                        
+                            $fecha_uso = $proximoDia;         
                             
                             break;
                         case 'Weekend streak':
                             
 
-                            $mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus has been used successfully, it will be active until the Next Sunday: ".$proximoDomingo." nombre: ".$nombre_bonificacion;
+                            $mensaje = "The bonus has been used successfully, it will be active until the Next Sunday: ".$proximoDomingo."";
                             
                             $fecha_uso = $proximoDomingo;
                             
                             break;
-                        default:
-                            $fecha_uso = $hoy;
-
-                            // Primero, marcamos como 'no activada' todas las bonificaciones de tipo "Frame" que no están activas (estado diferente de 'activada')
-                            $queryUpdateFrames = "
-                                UPDATE usuario_bonificacion
-                                SET estado = 'no utilizada'
-                                WHERE id_usuario = '$id_usuario'
-                                AND '$nombre_bonificacion' LIKE '%Frame%'
-                                AND estado = 'utilizada'"; // Condición para no afectar a las bonificaciones ya activadas
-                            mysqli_query($con, $queryUpdateFrames);
-
-                            $mensaje = "el id_bonificacion=".$id_bonificacion." id_usuario=".$id_usuario." estado=".$estado." id_usuario_bonificacion=".$id_usuario_bonificacion." fecha_uso=".$fecha_uso." The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
-                            $mensaje = "The bonus ".$nombre_bonificacion." has been used successfully, it will be active ";
-                            
                     }
-
-                    $query_uso_bonificacion = "UPDATE usuario_bonificacion SET estado = '$estado', fecha_uso = '$fecha_uso' WHERE id_usuario_bonificacion = $id_usuario_bonificacion";
+                    $query_uso_bonificacion = "UPDATE usuario_bonificacion SET estado = 'utilizada', fecha_uso = '$fecha_uso' WHERE id_usuario_bonificacion = $id_usuario_bonificacion";
                     $result_uso_bonificacion = mysqli_query($con, $query_uso_bonificacion);
                     echo json_encode(['status' => 'success', 'message' => $mensaje, 'estado' => $estado]);
                     header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=".$mensaje);
@@ -140,7 +123,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=Error while using the bonus, it appears that you have not purchased any.");
             }
         }else{
-            header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=You already have an active bonus of this type. This will be active until ".$rowBoniActiva['fecha_uso']);
+            if (strpos($nombre_bonificacion, 'Frame') !== false){
+                header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=You already have an active bonus of this type. This will be active");
+            }
+            else{
+                header("Location: ../Vista/panel.php?modulo=bonificacion&mensaje=You already have an active bonus of this type. This will be active until ".$rowBoniActiva['fecha_uso']);
+            }
         }
 
 
