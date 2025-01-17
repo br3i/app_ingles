@@ -528,3 +528,54 @@ a.btn-word_puzzle:hover {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+
+
+
+
+
+/* Contenedor del formulario con position relative */
+.card.bg-light {
+  position: relative;
+}
+
+/* SVG en la esquina superior derecha */
+.svg-top-right {
+  position: absolute;
+  top: -2.5rem;
+  right: -2.5rem;
+  width: 5rem;
+  /* Cambia este tamaño según lo que necesites */
+  height: auto;
+  z-index: 10;
+}
+
+/* SVG en la esquina inferior izquierda */
+.svg-bottom-left {
+  position: absolute;
+  bottom: -2.5rem;
+  left: -2.5rem;
+  width: 5rem;
+  /* Cambia este tamaño según lo que necesites */
+  height: auto;
+  z-index: 10;
+}
+
+/* Ajustes responsivos para que los SVGs se adapten al tamaño de la pantalla */
+@media (max-width: 768px) {
+
+  .svg-top-right,
+  .svg-bottom-left {
+    width: 6rem;
+    /* Reducir tamaño en pantallas más pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+
+  .svg-top-right,
+  .svg-bottom-left {
+    width: 4rem;
+    /* Reducir aún más en pantallas muy pequeñas */
+  }
+}

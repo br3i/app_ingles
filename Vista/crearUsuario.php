@@ -80,12 +80,7 @@ if (isset($_REQUEST['guardar'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Aplicación Ingles</title>
-
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../Publico/css/fontawesome-free/css/all.min.css" />
+  
   <!-- Theme style -->
   <link rel="stylesheet" href="../Publico/css/adminlte.min.css">
 
@@ -99,10 +94,10 @@ if (isset($_REQUEST['guardar'])) {
   <!-- Content Wrapper. Contains page content -->
   <div class="card ml-5 mr-5 mt-1">
     <!-- Content Header (Page header) -->
-    <section class="card-header bg-info">
+    <section class="card-header" style="background-color: #39bdf7">
       <div class="card-body text-dark">
         <div class="row mb-2">
-          <div class="mx-auto">
+          <div class="mx-auto esquinas-redondeados" style="background-color: #FFC700; padding: 10px">
             <h1 class="">CREATE AN ACCOUNT</h1>
           </div>
         </div>
@@ -113,8 +108,17 @@ if (isset($_REQUEST['guardar'])) {
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12 bg-info">
-            <div class="card bg-light mr-5 ml-5">
+          <div class="col-12" style="background-color: #39bdf7">
+            <div class="card bg-light mr-5 ml-5" style="position: relative;">
+              <!-- SVG en la esquina superior derecha -->
+              <div class="svg-top-right">
+                  <img src="../Publico/img/crear_usuario/superior_der.svg" alt="SVG 1">
+              </div>
+
+              <!-- SVG en la esquina inferior izquierda -->
+              <div class="svg-bottom-left">
+                  <img src="../Publico/img/crear_usuario/inferior_izq.svg" alt="SVG 2">
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <form action="" method="post" enctype="multipart/form-data">
@@ -154,8 +158,15 @@ if (isset($_REQUEST['guardar'])) {
                   </div>
                   
                   <br>
-                  <label for="">Select a default image or upload one of your choice</label>
-                  <input type="file" name="fperfil" class="form-control" id="inpFoto" value="UPLOAD">
+                  <div class="d-flex flex-column justify-content-center align-items-center">
+                    <label for="">Select a default image or upload one of your choice</label>
+                    <input type="file" name="fperfil" class="form-control" id="inpFoto" value="UPLOAD" style="max-width: 35rem;">
+                    <div class="form-group" style="margin: 1rem">
+                      <button type="submit" class="btn btn-success" name="guardar">Create</button>
+                      <button type="button" class="btn btn-primary" id="btnCancelar"
+                        onclick="window.location.href='../index.php'">Cancel</button>
+                    </div>
+                  </div>
                   <br>
 
                   <?php if (isset($errorMessage)): ?>
@@ -171,11 +182,11 @@ if (isset($_REQUEST['guardar'])) {
 
 
 
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <button type="submit" class="btn btn-success" name="guardar">Create</button>
                     <button type="button" class="btn btn-primary" id="btnCancelar"
                       onclick="window.location.href='../index.php'">Cancel</button>
-                  </div>
+                  </div> -->
                 </form>
               </div>
             </div>

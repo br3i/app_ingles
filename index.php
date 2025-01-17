@@ -30,18 +30,25 @@ if (isset($_REQUEST['mensaje'])) {
     <link rel="stylesheet" href="Publico/css/adminlte.min.css">
     <!-- Mi css -->
     <link rel="stylesheet" href="Publico/css/style.css">
+    <style>
+        body {
+            background-image: url('Publico/img/index/boy_welcome.svg'), url('Publico/img/index/welcome.svg');
+            background-position: left bottom, calc(100% - 50px) calc(60% - 40px);
+            background-repeat: no-repeat;
+            background-size: auto 50%, auto 60%;
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
-        <div class="login-logo">
-            <a href=""><b>Welcome</b>!!</a>
-        </div>
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <p class="login-box-msg">Enter your credentials</p>
 
+                <div class="d-flex justify-content-center">
+                    <img src="Publico/img/index/enter_credentials.svg" alt="" style="max-width: 80%; margin: 1rem">                    
+                </div>
                 <?php
                 // Muestra alertas basadas en parámetros GET
                 if (isset($_GET['error'])) {

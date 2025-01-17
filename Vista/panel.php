@@ -261,7 +261,7 @@ function getFrameImage($id_usuario, $con) {
   <div class="wrapper">
     <!-- Preloader -->
     <!-- <div class="preloader flex-column justify-content-center align-items-center">
-      <img class="animation__shake" src="../Publico/img/soloLogoRatbio.png" alt="My App Logo" height="60" width="60" />
+      <img class="animation__shake" src="../Publico/img/logo.svg" alt="My App Logo" height="60" width="60" />
     </div> -->
 
     <!-- Navbar -->
@@ -325,9 +325,9 @@ function getFrameImage($id_usuario, $con) {
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <a id="sideBarHidden2" href="panel.php?modulo=inicio" class="brand-link">
-        <img src='../Publico/img/soloLogoRatbio.png' alt='My App Logo' class="brand-image" style='opacity: 0.8; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)' />
+        <img src='../Publico/img/logo.svg' alt='My App Logo' class="brand-image" style='opacity: 0.8; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)' />
 
-        <span class="brand-text font-weight-light">Ratbio</span>
+        <span class="brand-text font-weight-light">Flamma</span>
       </a>
 
       <!-- Sidebar -->
