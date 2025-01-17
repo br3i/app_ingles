@@ -7,7 +7,7 @@ if (url.includes('modulo=prueba')) {
 
     // En tu script JavaScript (prueba.js)
     document.addEventListener("DOMContentLoaded", function () {
-        const currentPath = "/app_ingles/Vista/panel.php";
+        const currentPath = "/Vista/panel.php";
         const isPruebaPage = window.location.pathname.includes(currentPath) && window.location.search.includes("modulo=prueba");
 
         if (isPruebaPage) {
