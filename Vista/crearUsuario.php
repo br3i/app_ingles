@@ -54,6 +54,8 @@ if (isset($_REQUEST['guardar'])) {
         $rutaImagen = "../Publico/img/user1.png";
       } else if (isset($_POST['fotDefault']) && $_POST['fotDefault'] == 'ftDefault2') {
         $rutaImagen = "../Publico/img/user2.png";
+      } else{
+        $rutaImagen = "../Publico/img/logo.svg";
       }
 
       //Hacer un query para actualizar el campo foto_perfil con la ruta de la imagen con el id del usuario
@@ -146,11 +148,11 @@ if (isset($_REQUEST['guardar'])) {
                     <div style="display: flex; justify-content: space-evenly; border: 1px solid #ced4da;border-radius: .25rem; box-shadow: inset 0 0 0 transparent;">
                       <div>
                         <input type="radio" id="ftDeafault" name="fotDefault" value="ftDefault">
-                        <img src="..\Publico\img\user1.png" alt="" style='width: 150px;'>
+                        <img src="../Publico/img/user1.png" alt="" style='width: 150px;'>
                       </div>
                       <div>
                         <input type="radio" id="ftDeafault2" name="fotDefault" value="ftDefault2">
-                        <img src="..\Publico\img\user2.png" alt="" style='width: 150px;'>
+                        <img src="../Publico/img/user2.png" alt="" style='width: 150px;'>
                       </div>
                       <button type="button" class="btn bg-gradient-info btn-sm" id="btnDeseleccionar"
                         style="position: absolute; left: 20px" onclick="uncheckRadioButtons()">X</button>
