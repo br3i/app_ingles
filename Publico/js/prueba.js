@@ -1,10 +1,10 @@
 url = window.location.href;
-//if (url.includes('modulo=prueba')) {
+if (url.includes('modulo=prueba')) {
     let questions;
     let unidadId;
 
     // En tu script JavaScript (prueba.js)
-    //document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const currentPath = "/app_ingles/Vista/panel.php";
         const isPruebaPage = window.location.pathname.includes(currentPath) && window.location.search.includes("modulo=prueba");
 
@@ -100,7 +100,7 @@ url = window.location.href;
             questions = selectedQuestions;
             console.log("zzzPreguntas reorganizadas y seleccionadas:", questions);
         }
-    //});
+    });
 
 
     // Función para reorganizar aleatoriamente un array (algoritmo de Fisher-Yates)
@@ -167,7 +167,7 @@ url = window.location.href;
 
     // si se hace clic en el botón Salir del cuestionario
     quit_quiz.onclick = ()=>{
-        //window.location.reload(); //reload the current window
+        window.location.reload(); //reload the current window
     }
 
     const next_btn = document.querySelector("footer .next_btn");
@@ -295,13 +295,13 @@ url = window.location.href;
 
         let message = "";
         if (percentage <= 25) {
-            message = "No te preocupes, sigue practicando. 🙂";
+            message = "Don't worry, keep practicing. 🙂";
         } else if (percentage <= 50) {
-            message = "Bien, pero aún hay margen de mejora. 😄";
+            message = "Good, but there's still room for improvement. 😄";
         } else if (percentage <= 75) {
-            message = "¡Buen trabajo! Estás en el camino correcto. 😎";
+            message = "Great job! You're on the right track. 😎";
         } else {
-            message = "¡Felicidades! Eres un experto en el tema. 🤩🎉";
+            message = "Congratulations! You're an expert on the topic. 🤩🎉";
         }
 
         // Crear el mensaje dinámico
@@ -494,4 +494,4 @@ url = window.location.href;
             window.location.href = '../Vista/panel.php?modulo=prueba&mensaje=' + encodeURIComponent(mensaje);
         });
     }
-//}
+}
