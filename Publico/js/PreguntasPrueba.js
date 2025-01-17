@@ -10,9 +10,9 @@ let preguntas = [
         "respuesta": "Smithers",
         "opciones": [
             "Smithers",
-            " Bart",
-            " Marge",
-            " Lisa"
+            "Bart",
+            "Marge",
+            "Lisa"
         ],
         "ruta_video": "../Publico/archivos/King Size Homer 1.mp4"
     },
@@ -27,10 +27,10 @@ let preguntas = [
         "respuesta": "300",
         "opciones": [
             "250",
-            " 300",
-            " 310",
-            " 290",
-            " 295"
+            "300",
+            "310",
+            "290",
+            "295"
         ],
         "ruta_video": "../Publico/archivos/King Size Homer 2.mp4"
     },

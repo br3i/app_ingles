@@ -8,15 +8,33 @@ if (url.includes('modulo=sopaLetras')) {
     // Función para generar una sopa de letras dinámica
     function generarSopaLetras() {
         // Tamaño de la sopa de letras
-        var filas = 10; // Cambia este valor según el tamaño que desees
-        var columnas = 10; // Cambia este valor según el tamaño que desees
+        var filas = 15; // Cambia este valor según el tamaño que desees
+        var columnas = 15; // Cambia este valor según el tamaño que desees
         
         // Array con las letras posibles para la sopa de letras
         var letras = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
         // Palabras a encontrar
         var palabras = [
-            "simpsons", "moon", "war", "avengers", "fast", "springfield", "homer", "bart", "lisa", "maggie", "marge", "krusty", "apu", "burns", "smithers", "flanders", "moonwalk", "astronaut", "space", "orbit", "apollo", "neil", "lunar", "nasa", "rocket", "astronomy", "hitler", "allies", "axis", "nazis", "stalin", "pearl", "dunkirk", "holocaust", "hiroshima", "japan", "ironman", "thor", "hulk", "captain", "blackwidow", "shield", "ultron", "vision", "tony", "stark", "race", "speed", "furious", "cars", "dom", "letty", "mia", "shaw", "han"];
+            "invaded", "surrendered", "launched", "capitalized", "resilient", "dominant", "exterminated", 
+            "swift", "strategic", "brutal", "liberated", "collapsed", "devastating", "unexpected", 
+            "persistent", "resilient", "decisive", "unsuccessful", "ambitious", "avoid", "gain", 
+            "disappointed", "support", "consume", "fat", "order", "warn", "react", "sprain", "stick", 
+            "risk", "health", "plan", "encourage", "junk", "record", "vegetables", "rag", "calories", 
+            "stomach", "deliver", "fortunate", "recuperation", "assign", "silo", "heroic", "science", 
+            "executive", "toddler", "explode", "recuperate", "assign", "scrapper", "diploma", "path", 
+            "boy", "mail", "study", "quote", "explosion", "recovery", "celebrate", "historic", "manned", 
+            "lunar", "landing", "mission", "orbit", "astronaut", "achievement", "anniversary", 
+            "significant", "commit", "goal", "decade", "technological", "exploration", "select", 
+            "referred", "claim", "lack", "appear", "initiate", "demonstrate", "assemble", "infiltrating", 
+            "protect", "experiment", "enhanced", "primary", "unworthy", "heavy", "global", "artificial", 
+            "shapeless", "vulnerable", "central", "retrieve", "rescue", "apprehend", "gather", "confront", 
+            "battle", "transform", "interrogate", "create", "destroy", "reveal", "volunteer", "decide", 
+            "split", "hunted", "gain", "offer", "ensure", "cooperation", "arrange", "sequence", 
+            "pregnant", "celebratory", "revelation", "agile", "violent", "diplomatic", "manipulation", 
+            "trinket", "suicide", "vault", "narrow", "remote"
+        ];
+
 
         var palabrasSeleccionadas = []; // Aquí se guardarán las palabras seleccionadas
 

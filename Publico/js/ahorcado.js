@@ -135,172 +135,396 @@ function dibujaCajaLetra(){
 /// Funcion para dar una pista la usuario ////
 function pistaFunction(palabra){
     let pista = ""; // Se crea la variable local pista que contendra nuestra frase de pista
-    switch(palabra) {
-        // Se crea un switch para poder controlar las pistas según la palabra
-        case 'simpsons':
-            pista = "Famous animated family";
+    switch (palabra) {
+        case 'invaded':
+            pista = "Entered a place by force.";
             break;
-        case 'moon':
-            pista = "Earth's natural satellite";
+        case 'surrendered':
+            pista = "Gave up or yielded.";
             break;
-        case 'war':
-            pista = "Conflict between nations";
+        case 'launched':
+            pista = "Started or initiated.";
             break;
-        case 'avengers':
-            pista = "Superhero team";
+        case 'capitalized':
+            pista = "Took advantage of a situation.";
             break;
-        case 'fast':
-            pista = "High-speed action movies";
+        case 'resilient':
+            pista = "Able to recover quickly.";
             break;
-        case 'springfield':
-            pista = "Hometown of The Simpsons";
+        case 'dominant':
+            pista = "Having power or influence.";
             break;
-        case 'homer':
-            pista = "Father in The Simpsons";
+        case 'exterminated':
+            pista = "Destroyed completely.";
             break;
-        case 'bart':
-            pista = "Mischievous son in The Simpsons";
+        case 'swift':
+            pista = "Happening quickly.";
             break;
-        case 'lisa':
-            pista = "Intelligent daughter in The Simpsons";
+        case 'strategic':
+            pista = "Planned for long-term goals.";
             break;
-        case 'maggie':
-            pista = "Baby in The Simpsons";
+        case 'brutal':
+            pista = "Extremely harsh or cruel.";
             break;
-        case 'marge':
-            pista = "Homemaker and wife in The Simpsons";
+        case 'liberated':
+            pista = "Freed from control.";
             break;
-        case 'krusty':
-            pista = "Clown in The Simpsons";
+        case 'collapsed':
+            pista = "Fell apart or failed.";
             break;
-        case 'apu':
-            pista = "Owner of the Kwik-E-Mart in The Simpsons";
+        case 'devastating':
+            pista = "Causing great destruction.";
             break;
-        case 'burns':
-            pista = "Rich and evil in The Simpsons";
+        case 'unexpected':
+            pista = "Not anticipated.";
             break;
-        case 'smithers':
-            pista = "Mr. Burns' loyal assistant";
+        case 'persistent':
+            pista = "Continuing firmly or obstinately.";
             break;
-        case 'flanders':
-            pista = "Neighbor of The Simpsons";
+        case 'resilient':
+            pista = "Recovering quickly from setbacks.";
             break;
-        case 'moonwalk':
-            pista = "Dance move made famous by Michael Jackson";
+        case 'decisive':
+            pista = "Determining the outcome.";
             break;
-        case 'astronaut':
-            pista = "Trained to travel and work in space";
+        case 'unsuccessful':
+            pista = "Not achieving the goal.";
             break;
-        case 'space':
-            pista = "Vast expanse beyond Earth's atmosphere";
+        case 'ambitious':
+            pista = "Having a strong desire to succeed.";
             break;
-        case 'orbit':
-            pista = "Path of a celestial object around another";
+        case 'avoid':
+            pista = "Stay away from something.";
             break;
-        case 'apollo':
-            pista = "First moon landing mission";
+        case 'gain':
+            pista = "Increase in size or amount.";
             break;
-        case 'neil':
-            pista = "First name of the first man on the moon";
+        case 'disappointed':
+            pista = "Feeling let down.";
+            break;
+        case 'support':
+            pista = "Provide assistance or approval.";
+            break;
+        case 'consume':
+            pista = "Eat or drink.";
+            break;
+        case 'fat':
+            pista = "Having excess body weight.";
+            break;
+        case 'order':
+            pista = "Arrange in sequence.";
+            break;
+        case 'warn':
+            pista = "Advise of danger or risk.";
+            break;
+        case 'react':
+            pista = "Respond to something.";
+            break;
+        case 'sprain':
+            pista = "Injury to a ligament.";
+            break;
+        case 'stick':
+            pista = "A thin, straight piece of wood.";
+            break;
+        case 'risk':
+            pista = "Exposure to danger.";
+            break;
+        case 'health':
+            pista = "State of physical well-being.";
+            break;
+        case 'plan':
+            pista = "A detailed proposal for achieving something.";
+            break;
+        case 'encourage':
+            pista = "Give support or confidence.";
+            break;
+        case 'junk':
+            pista = "Something worthless or unhealthy.";
+            break;
+        case 'record':
+            pista = "Highest or best achievement.";
+            break;
+        case 'vegetables':
+            pista = "Edible plant parts.";
+            break;
+        case 'rag':
+            pista = "A piece of old cloth.";
+            break;
+        case 'calories':
+            pista = "Units of energy in food.";
+            break;
+        case 'stomach':
+            pista = "Part of the body where food is digested.";
+            break;
+        case 'deliver':
+            pista = "To transport to someone.";
+            break;
+        case 'fortunate':
+            pista = "Lucky or well-off.";
+            break;
+        case 'recuperation':
+            pista = "Recovery after an illness or injury.";
+            break;
+        case 'assign':
+            pista = "To give a task or duty.";
+            break;
+        case 'silo':
+            pista = "A tall storage tower for grain.";
+            break;
+        case 'heroic':
+            pista = "Brave or noble.";
+            break;
+        case 'science':
+            pista = "Study of the natural world.";
+            break;
+        case 'executive':
+            pista = "A high-ranking official.";
+            break;
+        case 'toddler':
+            pista = "A young child learning to walk.";
+            break;
+        case 'explode':
+            pista = "To burst violently.";
+            break;
+        case 'recuperate':
+            pista = "To heal or recover.";
+            break;
+        case 'assign':
+            pista = "To delegate a role or task.";
+            break;
+        case 'scrapper':
+            pista = "A determined fighter.";
+            break;
+        case 'diploma':
+            pista = "Certificate of graduation.";
+            break;
+        case 'path':
+            pista = "A track or route.";
+            break;
+        case 'boy':
+            pista = "A young male child.";
+            break;
+        case 'mail':
+            pista = "System for sending letters.";
+            break;
+        case 'study':
+            pista = "To learn or gain knowledge.";
+            break;
+        case 'quote':
+            pista = "A repeated statement.";
+            break;
+        case 'explosion':
+            pista = "A violent burst of energy.";
+            break;
+        case 'recovery':
+            pista = "Process of returning to normal.";
+            break;
+        case 'celebrate':
+            pista = "To honor or commemorate an event or person.";
+            break;
+        case 'historic':
+            pista = "Famous or important in history.";
+            break;
+        case 'manned':
+            pista = "Carried out by or involving a human presence.";
             break;
         case 'lunar':
-            pista = "Relating to the moon";
+            pista = "Relating to the moon.";
             break;
-        case 'nasa':
-            pista = "Space agency";
+        case 'landing':
+            pista = "The act of arriving on a surface, especially from flight.";
             break;
-        case 'rocket':
-            pista = "Vehicle for space travel";
+        case 'mission':
+            pista = "An important assignment or task, often involving travel.";
             break;
-        case 'astronomy':
-            pista = "Study of celestial objects";
+        case 'orbit':
+            pista = "The curved path of a celestial object around a star, planet, or moon.";
             break;
-        case 'hitler':
-            pista = "Leader of Nazi Germany";
+        case 'astronaut':
+            pista = "A person trained for spaceflight.";
             break;
-        case 'allies':
-            pista = "Countries against the Axis powers in WWII";
+        case 'achievement':
+            pista = "A thing done successfully with effort or skill.";
             break;
-        case 'axis':
-            pista = "Alliance between Germany, Italy, and Japan in WWII";
+        case 'anniversary':
+            pista = "The annual recurrence of a date marking a notable event.";
             break;
-        case 'nazis':
-            pista = "German fascist party during WWII";
+        case 'significant':
+            pista = "Having great meaning or importance.";
             break;
-        case 'stalin':
-            pista = "Soviet leader during WW2";
+        case 'commit':
+            pista = "To dedicate oneself to a course of action or policy.";
             break;
-        case 'pearl':
-            pista = "December 7, 1941 attack site";
+        case 'goal':
+            pista = "An objective or desired result.";
             break;
-        case 'dunkirk':
-            pista = "1940 evacuation operation";
+        case 'decade':
+            pista = "A period of ten years.";
             break;
-        case 'holocaust':
-            pista = "Genocide of Jews during WW2";
+        case 'technological':
+            pista = "Relating to technology or advancements in applied science.";
             break;
-        case 'hiroshima':
-            pista = "Atomic bomb city in Japan";
+        case 'exploration':
+            pista = "The action of traveling through or studying an unfamiliar area.";
             break;
-        case 'japan':
-            pista = "Asian country in WW2";
+        case 'select':
+            pista = "To choose something or someone.";
             break;
-        case 'ironman':
-            pista = "Genius billionaire playboy philanthropist";
+        case 'referred':
+            pista = "To mention or allude to.";
             break;
-        case 'thor':
-            pista = "Norse god of thunder";
+        case 'claim':
+            pista = "To assert something as a fact.";
             break;
-        case 'hulk':
-            pista = "Big green smashing machine";
+        case 'lack':
+            pista = "To be without something.";
             break;
-        case 'captain':
-            pista = "Leader of the Avengers";
+        case 'appear':
+            pista = "To come into view or become visible.";
             break;
-        case 'blackwidow':
-            pista = "Avenger spy";
+        case 'initiate':
+            pista = "To start or begin something.";
             break;
-        case 'shield':
-            pista = "Protection organization";
+        case 'demonstrate':
+            pista = "To show or explain something clearly.";
             break;
-        case 'ultron':
-            pista = "Artificial intelligence villain";
+        case 'assemble':
+            pista = "To gather or bring together.";
             break;
-        case 'vision':
-            pista = "Synthetic Avenger";
+        case 'infiltrating':
+            pista = "To secretly enter a place or group.";
             break;
-        case 'tony':
-            pista = "Iron Man's first name";
+        case 'protect':
+            pista = "To keep safe from harm or damage.";
             break;
-        case 'stark':
-            pista = "Last name of Iron Man";
+        case 'experiment':
+            pista = "To test or try something new.";
             break;
-        case 'race':
-            pista = "Competition of speed";
+        case 'enhanced':
+            pista = "Improved or intensified.";
             break;
-        case 'speed':
-            pista = "Velocity";
+        case 'primary':
+            pista = "First or most important.";
             break;
-        case 'furious':
-            pista = "Intense anger";
+        case 'unworthy':
+            pista = "Not deserving respect or attention.";
             break;
-        case 'cars':
-            pista = "Automobiles";
+        case 'heavy':
+            pista = "Having great weight; difficult to lift.";
             break;
-        case 'dom':
-            pista = "Main character in Fast and Furious";
+        case 'global':
+            pista = "Relating to the whole world.";
             break;
-        case 'letty':
-            pista = "Tough and skilled driver in Fast and Furious";
+        case 'artificial':
+            pista = "Made by humans, not natural.";
             break;
-        case 'mia':
-            pista = "Love interest of Dom in Fast and Furious";
+        case 'shapeless':
+            pista = "Lacking a clear or definite form.";
             break;
-        case 'shaw':
-            pista = "Antagonist turned ally in Fast and Furious";
+        case 'vulnerable':
+            pista = "Open to harm or damage.";
             break;
-        case 'han':
-            pista = "Drift king in Fast and Furious";
+        case 'central':
+            pista = "In the middle or of key importance.";
+            break;
+        case 'retrieve':
+            pista = "To get or bring something back.";
+            break;
+        case 'rescue':
+            pista = "To save someone from danger.";
+            break;
+        case 'apprehend':
+            pista = "To arrest or seize someone.";
+            break;
+        case 'gather':
+            pista = "To collect or bring together.";
+            break;
+        case 'confront':
+            pista = "To face or oppose boldly.";
+            break;
+        case 'battle':
+            pista = "To fight against an opponent.";
+            break;
+        case 'transform':
+            pista = "To change in form or appearance.";
+            break;
+        case 'interrogate':
+            pista = "To question someone thoroughly.";
+            break;
+        case 'create':
+            pista = "To bring something into existence.";
+            break;
+        case 'destroy':
+            pista = "To damage something completely.";
+            break;
+        case 'reveal':
+            pista = "To make something known or visible.";
+            break;
+        case 'volunteer':
+            pista = "To offer to do something willingly.";
+            break;
+        case 'decide':
+            pista = "To make a choice or come to a conclusion.";
+            break;
+        case 'split':
+            pista = "To divide or break into parts.";
+            break;
+        case 'hunted':
+            pista = "Being pursued or chased, often with intent to capture.";
+            break;
+        case 'gain':
+            pista = "To acquire or obtain something desired.";
+            break;
+        case 'offer':
+            pista = "To present or propose something for acceptance.";
+            break;
+        case 'ensure':
+            pista = "To make certain or guarantee.";
+            break;
+        case 'cooperation':
+            pista = "The process of working together toward a common goal.";
+            break;
+        case 'arrange':
+            pista = "To organize or put in order.";
+            break;
+        case 'sequence':
+            pista = "A specific order in which related events or things follow each other.";
+            break;
+        case 'pregnant':
+            pista = "Carrying a developing embryo or fetus within the body.";
+            break;
+        case 'celebratory':
+            pista = "Expressing celebration or joy.";
+            break;
+        case 'revelation':
+            pista = "A surprising or previously unknown fact made known.";
+            break;
+        case 'agile':
+            pista = "Able to move quickly and easily.";
+            break;
+        case 'violent':
+            pista = "Involving physical force intended to harm or damage.";
+            break;
+        case 'diplomatic':
+            pista = "Involving negotiation or tact to manage relationships.";
+            break;
+        case 'manipulation':
+            pista = "Controlling or influencing something in a clever or unscrupulous way.";
+            break;
+        case 'trinket':
+            pista = "A small, decorative item of little value.";
+            break;
+        case 'suicide':
+            pista = "The act of intentionally ending one's own life; often metaphorically used for risky actions.";
+            break;
+        case 'vault':
+            pista = "A secure room or chamber for storing valuable items.";
+            break;
+        case 'narrow':
+            pista = "Limited in width or scope.";
+            break;
+        case 'remote':
+            pista = "Far away or distant; also used for electronic devices operated from a distance.";
             break;
 
         default: // El default se puede omitir

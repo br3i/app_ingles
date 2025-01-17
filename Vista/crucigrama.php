@@ -8,29 +8,33 @@
                 <!-- Left col -->
                 <div class="card p-3">
                   <div class="mx-auto m-3">
-                    <h2>Crucigrama</h2>
-                    <b>Busca la palabra que describe la imagen</b>
+                    <h2>Crossword</h2>
+                    <b>Find where to place the word that describes the image</b>
                     <div class="words">
                       <div class="horizontales">
                         <p><b>ACROSS</b></p>
                         <div class="wHor">
                           <img class="pictures" src="../Publico/img/crucigrama/palabra1.png"/>
                           <button id="btn" onclick="reproducirAudioCrucigrama(1)">Audio</button>
+                          <div class="word" style="font-weight: bold">1</div>
                         </div>
                         <div class="wHor">
-                          <img class="pictures" src="../Publico/img/crucigrama/palabra2.png"/>
-                          <button id="btn" onclick="reproducirAudioCrucigrama(2)">Audio</button>
+                          <img class="pictures" src="../Publico/img/crucigrama/palabra3.png"/>
+                          <button id="btn" onclick="reproducirAudioCrucigrama(3)">Audio</button>
+                          <div class="word" style="font-weight: bold">3</div>
                         </div>
                       </div>
                       <div class="verticales">
                           <p><b>DOWN</b></p>
                           <div class="wHor">
-                            <img class="pictures" src="../Publico/img/crucigrama/palabra3.png"/>
-                            <button id="btn" onclick="reproducirAudioCrucigrama(3)">Audio</button>
+                            <img class="pictures" src="../Publico/img/crucigrama/palabra2.png"/>
+                            <button id="btn" onclick="reproducirAudioCrucigrama(2)">Audio</button>
+                            <div class="word" style="font-weight: bold">2</div>
                           </div>
                           <div class="wHor">
                             <img class="pictures" src="../Publico/img/crucigrama/palabra4.png"/>
                             <button id="btn" onclick="reproducirAudioCrucigrama(4)">Audio</button>
+                            <div class="word" style="font-weight: bold">4</div>
                           </div>
                       </div>
                     </div>
@@ -52,7 +56,7 @@
                         <input class="casilla" type="text" maxlength="1" id="fila1C4" />
                       </td>
                       <td style="padding: 0;">
-                        <input class="casilla" type="text" maxlength="1" id="fila1C5" />
+                        <input class="casilla" type="text" maxlength="1" id="fila1C5" value="2" style="font-weight: bold"/>
                       </td>
                       <td style="padding: 0;">
                         <input class="casilla" type="text" maxlength="1" id="fila1C6" />
@@ -95,7 +99,7 @@
                         <input class="casilla" type="text" maxlength="1" id="fila3C1" />
                       </td>
                       <td style="padding: 0;">
-                        <input class="casilla" type="text" maxlength="1" id="fila3C2" />
+                        <input class="casilla" type="text" maxlength="1" id="fila3C2" value="1" style="font-weight: bold"/>
                       </td>
                       <td style="padding: 0;">
                         <input class="casilla" type="text" maxlength="1" id="fila3C3" />
@@ -118,13 +122,13 @@
                     </tr>
                     <tr>
                       <td style="padding: 0;">
-                        <input class="casilla" type="text" maxlength="1" id="fila4C1" />
+                        <input class="casilla" type="text" maxlength="1" id="fila4C1" value="3" style="font-weight: bold"/>
                       </td>
                       <td style="padding: 0;">
                         <input class="casilla" type="text" maxlength="1" id="fila4C2" />
                       </td>
                       <td style="padding: 0;">
-                        <input class="casilla" type="text" maxlength="1" id="fila4C3" />
+                        <input class="casilla" type="text" maxlength="1" id="fila4C3" value="4" style="font-weight: bold"/>
                       </td>
                       <td style="padding: 0;">
                         <input class="casilla" type="text" maxlength="1" id="fila4C4" />
@@ -247,7 +251,7 @@
                       </td>
                     </tr>
                   </table>
-                  <button onclick="verificar()">Verificar</button>
+                  <button onclick="verificar()">Verify</button>
                 </div>
                 <!-- /.col -->
             </div>

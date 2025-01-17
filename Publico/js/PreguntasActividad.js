@@ -46,11 +46,11 @@ let preguntasActividad = [
         "respuesta": "Someone's in here, Homer, This new exercise program is great, Carl, Raise your left hock. Aerate, Mr. Burns",
         "opciones": [
             "Someone's in here",
-            " Homer",
-            " This new exercise program is great",
+            "Homer",
+            "This new exercise program is great",
             " Carl",
-            " Raise your left hock. Aerate",
-            " Mr. Burns"
+            "Raise your left hock. Aerate",
+            "Mr. Burns"
         ],
         "ruta_video": "../Publico/archivos/King Size Homer 3.mp4"
     },
@@ -79,14 +79,14 @@ let preguntasActividad = [
         "respuesta": "Homer, Smithers, Mr. Burns, Lenny, Carl",
         "opciones": [
             "Homer",
-            " Smithers",
-            " Marge",
-            " Mr. Burns",
-            " Lenny",
-            " Carl",
-            " Bart",
-            " Lisa",
-            " Maggy"
+            "Smithers",
+            "Marge",
+            "Mr. Burns",
+            "Lenny",
+            "Carl",
+            "Bart",
+            "Lisa",
+            "Maggy"
         ],
         "ruta_video": "../Publico/archivos/King Size Homer 5.mp4"
     },
@@ -312,7 +312,7 @@ let preguntasActividad = [
             "You’ll want to take in plenty of empty calories.",
             "I wash myself with a rag on a stick.",
             "I don’t want to look like a weirdo.",
-            "Ooh. the floor feels really good on my stomach.\r\n"
+            "Ooh. the floor feels really good on my stomach.\n"
         ],
         "ruta_video": "../Publico/archivos/Mother Simpson 5.mp4"
     },
@@ -1038,7 +1038,7 @@ let preguntasActividad = [
             "I'll put it right under illegal human experimentation.",
             "Where's Loki's scepter?",
             "Technically. I'm a thug for SHIELD.",
-            "Well then technically you're unemployed.\r\n"
+            "Well then technically you're unemployed.\n"
         ],
         "ruta_video": "../Publico/archivos/Avengers Age of Ultron 4.mp4"
     },
@@ -1093,7 +1093,7 @@ let preguntasActividad = [
             "We have an enhanced in the field.",
             "Stark. we really need to get inside.",
             "It's too soon.",
-            "My men can hold them.\r\n"
+            "My men can hold them.\n"
         ],
         "ruta_video": "../Publico/archivos/Avengers Age of Ultron 5.mp4"
     },
@@ -1152,7 +1152,7 @@ let preguntasActividad = [
             "I am a program. I am without form.",
             "This feels weird. This feels wrong.",
             "Tony.",
-            "Hello. I am JARVIS. You are Ultron. a global peace-keeping initiative designed by Mr. Stark.\r\n"
+            "Hello. I am JARVIS. You are Ultron. a global peace-keeping initiative designed by Mr. Stark.\n"
         ],
         "ruta_video": "../Publico/archivos/Avengers Age of Ultron 6.mp4"
     },
@@ -1293,8 +1293,8 @@ let preguntasActividad = [
             "SHIELD",
             "Covert organization dedicated to global security.",
             "JARVIS",
-            "\r\nHero with archery skills",
-            "Hawkeye\r\n"
+            "\nHero with archery skills",
+            "Hawkeye\n"
         ],
         "ruta_video": "../Publico/archivos/Avengers Age of Ultron 9.mp4"
     },
