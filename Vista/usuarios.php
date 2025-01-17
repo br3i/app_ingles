@@ -22,8 +22,11 @@ foreach ($actividades as $actividad) {
     }
 }
 
-// Si hay una búsqueda, filtrar las actividades por id_actividad
+// Obtener los términos de búsqueda
 $search_id = isset($_POST['search_id']) ? $_POST['search_id'] : '';
+$search_type = isset($_POST['search_type']) ? $_POST['search_type'] : '';
+$search_question = isset($_POST['search_question']) ? $_POST['search_question'] : '';
+$search_answer = isset($_POST['search_answer']) ? $_POST['search_answer'] : '';
 
 ?>
 
@@ -140,13 +143,36 @@ $search_id = isset($_POST['search_id']) ? $_POST['search_id'] : '';
                     <?php if ($_SESSION['rol'] == 'admin' || $_SESSION['rol'] == 'teacher'): ?>
                         <!-- Formulario de búsqueda -->
                         <form method="POST" class="mb-3">
-                            <div class="input-group">
-                                <input type="text" class="form-control" name="search_id" placeholder="Search Activity ID" value="<?php echo htmlspecialchars($search_id); ?>">
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-primary">Search</button>
+                            <div class="d-flex">
+                                <div class="mr-2">
+                                    <input type="text" class="form-control" name="search_id" placeholder="Search by ID" value="<?php echo htmlspecialchars($search_id); ?>">
                                 </div>
+                                <div class="mr-2">
+                                    <input type="text" class="form-control" name="search_type" placeholder="Search by Type" value="<?php echo htmlspecialchars($search_type); ?>">
+                                </div>
+                                <div class="mr-2">
+                                    <input type="text" class="form-control" name="search_question" placeholder="Search by Question" value="<?php echo htmlspecialchars($search_question); ?>">
+                                </div>
+                                <div class="mr-2">
+                                    <input type="text" class="form-control" name="search_answer" placeholder="Search by Answer" value="<?php echo htmlspecialchars($search_answer); ?>">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Search</button>
+                                <!-- Botón de recarga -->
+                                <button type="submit" class="btn btn-warning" name="reset_table">Reset Table</button>                        
                             </div>
                         </form>
+                        <?php
+                        // Si el botón "Reset Filters" es presionado, se vacían los filtros y se recarga la página
+                        if (isset($_POST['reset_table'])) {
+                            $search_id = '';
+                            $search_type = '';
+                            $search_question = '';
+                            $search_answer = '';
+                            header("Location: " . $_SERVER['PHP_SELF']. "?modulo=usuarios");
+                            exit();
+                        }
+                        ?>
+
                         <div class="card card-primary mt-4">
                             <div class="card-header">
                                 <h3 class="card-title">Activities and Tests</h3>
@@ -166,12 +192,25 @@ $search_id = isset($_POST['search_id']) ? $_POST['search_id'] : '';
                                         </thead>
                                         <tbody>
                                             <?php
-                                            // Si hay un término de búsqueda, aplicar un filtro
+                                            // Consulta con filtros aplicados
+                                            $query = "SELECT * FROM actividad WHERE 1";
+                                            
                                             if ($search_id != '') {
-                                                $actividades_query = mysqli_query($con, "SELECT * FROM actividad WHERE id_actividad LIKE '%$search_id%' ORDER BY tipo") or die(mysqli_error($con));
-                                            } else {
-                                                $actividades_query = mysqli_query($con, "SELECT * FROM actividad ORDER BY tipo") or die(mysqli_error($con));
+                                                $query .= " AND id_actividad LIKE '%$search_id%'";
                                             }
+                                            if ($search_type != '') {
+                                                $query .= " AND tipo LIKE '%$search_type%'";
+                                            }
+                                            if ($search_question != '') {
+                                                $query .= " AND pregunta LIKE '%$search_question%'";
+                                            }
+                                            if ($search_answer != '') {
+                                                $query .= " AND respuesta LIKE '%$search_answer%'";
+                                            }
+                                            
+                                            $query .= " ORDER BY tipo";
+                                            
+                                            $actividades_query = mysqli_query($con, $query) or die(mysqli_error($con));
 
                                             while ($actividad = mysqli_fetch_assoc($actividades_query)) {
                                                 echo '<tr>';
