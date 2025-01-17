@@ -1,5 +1,7 @@
 url = window.location.href;
+console.log("URL en prueba.js: ", url);
 if (url.includes('modulo=prueba')) {
+    console.log("Javascripts de prueba cargado");
     let questions;
     let unidadId;
 
