@@ -549,7 +549,7 @@ function pistaFunction(palabra){
             pista = "To organize or put in order.";
             break;
         case 'sequence':
-            pista = "A specific order in which related events or things follow each other.";
+            pista = "A specific order in which related events follow each other.";
             break;
         case 'pregnant':
             pista = "Carrying a developing embryo or fetus within the body.";
@@ -570,13 +570,13 @@ function pistaFunction(palabra){
             pista = "Involving negotiation or tact to manage relationships.";
             break;
         case 'manipulation':
-            pista = "Controlling or influencing something in a clever or unscrupulous way.";
+            pista = "Controlling or influencing something in an unscrupulous way.";
             break;
         case 'trinket':
             pista = "A small, decorative item of little value.";
             break;
         case 'suicide':
-            pista = "The act of intentionally ending one's own life; often metaphorically used for risky actions.";
+            pista = "The act of intentionally ending one's own life";
             break;
         case 'vault':
             pista = "A secure room or chamber for storing valuable items.";
@@ -585,7 +585,7 @@ function pistaFunction(palabra){
             pista = "Limited in width or scope.";
             break;
         case 'remote':
-            pista = "Far away or distant; also used for electronic devices operated from a distance.";
+            pista = "Far away or distant; also used for electronic devices.";
             break;
 
         default: // El default se puede omitir
