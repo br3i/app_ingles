@@ -32,10 +32,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Primero, marcamos como 'no activada' todas las bonificaciones de tipo "Frame" que no están activas (estado diferente de 'activada')
             $queryUpdateFrames = "
-                UPDATE usuario_bonificacion
-                SET estado = 'no utilizada'
-                WHERE id_usuario = '$id_usuario'
-                AND '$nombre_bonificacion' LIKE '%Frame%'"; // Condición para no afectar a las bonificaciones ya activadas
+                UPDATE usuario_bonificacion ub
+                JOIN bonificacion b ON ub.id_bonificacion = b.id_bonificacion
+                SET ub.estado = 'no utilizada'
+                WHERE ub.id_usuario = '$id_usuario'
+                AND b.nombre_bonificacion LIKE '%Frame%'"; // Condición para no afectar a las bonificaciones ya activadas
             $resultDesactivarFrames = mysqli_query($con, $queryUpdateFrames);
 
             // Luego, actualizamos la bonificación que acaba de ser activada

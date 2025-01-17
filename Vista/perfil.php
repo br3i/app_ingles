@@ -133,7 +133,7 @@ if ($resultRachas) {
                             </h3>
                         </div>
                         <div class="bg-secondary">
-                            <a href="panel.php?modulo=editarUsuario" class="mt-3 mr-1 float-right btn btn-info">Editar Perfil</a>
+                            <a href="panel.php?modulo=editarUsuario" class="mt-3 mr-1 float-right btn btn-info">Edit Profile</a>
                         </div>
                         <div class="card-body bg-secondary text-dark">
                             <div class="row">                                

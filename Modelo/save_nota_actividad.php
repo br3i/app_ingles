@@ -250,6 +250,23 @@ if (!$resultActPuntosGanados) {
     exit;
 }
 
+// Insertar el progreso de la actividad en la tabla progreso
+$queryProgreso = "INSERT INTO progreso (id_usuario, id_actividad, completado) 
+                  VALUES ('$id_usuario', '$id_actividad', 1) 
+                  ON DUPLICATE KEY UPDATE completado = 1";
+$resultProgreso = mysqli_query($con, $queryProgreso);
+
+if (!$resultProgreso) {
+    mysqli_rollback($con);
+    $error = mysqli_error($con);
+    $response['status'] = 'error';
+    $response['message'] = 'Error al insertar el progreso de la actividad';
+    $response['error'] = $error;
+
+    echo json_encode($response);
+    error_log('Error al insertar el progreso de la actividad: ' . $error);
+    exit;
+}
 
 // Si no hay errores, confirmar la transacción
 mysqli_commit($con);

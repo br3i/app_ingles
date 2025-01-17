@@ -96,7 +96,6 @@ if (isset($_POST['editar'])){
         $_SESSION['nombre'] = $name;
         $_SESSION['descripcion'] = $description;
         $_SESSION['foto_perfil'] = $fotoPerfil;
-        echo "<script>window.location.href = '" . dirname($_SERVER['PHP_SELF']) . "/panel.php?modulo=perfil&mensaje=Usuario ". $_SESSION['username'] ." editado correctamente';</script>";
 
         if ($deleted) {
           echo '<script>console.log("Entra a eliminar.");</script>';
@@ -108,7 +107,7 @@ if (isset($_POST['editar'])){
               if (file_exists($fileWithExt)) { // Verificar si existe el archivo con esta extensión
                   if (unlink($fileWithExt)) { // Intentar eliminar el archivo
                       echo '<script>console.log("Archivo eliminado exitosamente: ' . $fileWithExt . '");</script>';
-                      $fotoPerfil = $directory . '/' . $filename . '.' . pathinfo($_FILES['fperfilEditar']['name'], PATHINFO_EXTENSION);;
+                      $fotoPerfil = $directory . '/' . $filename . '.' . pathinfo($_FILES['fperfilEditar']['name'], PATHINFO_EXTENSION);
                       echo '<script>console.log("Foto de perfil: ' . $fotoPerfil . '");</script>';
                   } else {
                       echo '<script>console.log("Error al eliminar el archivo: ' . $fileWithExt . '");</script>';
@@ -120,12 +119,67 @@ if (isset($_POST['editar'])){
           $fotoPerfil = $directory . '/' . $filename . '.' . pathinfo($_FILES['fperfilEditar']['name'], PATHINFO_EXTENSION);
           if (move_uploaded_file($_FILES["fperfilEditar"]["tmp_name"], $fotoPerfil)) {
               echo '<script>console.log("Nueva imagen subida exitosamente.");</script>';
+              $nombreLogro = "Add Personalized Picture to Profile";
+
+              // Consulta para obtener el id_logro por nombre_logro
+              $logroQuery = "SELECT id_logro FROM logro WHERE nombre_logro = '$nombreLogro'";
+
+              // Ejecutamos la consulta
+              $logroResult = mysqli_query($con, $logroQuery);
+
+              // Verificamos si encontramos el logro
+              if (mysqli_num_rows($logroResult) > 0) {
+                  // Si se encuentra, obtenemos el id_logro
+                  $logroData = mysqli_fetch_assoc($logroResult);
+                  $logroId = $logroData['id_logro'];
+
+                  // Ahora puedes usar el $logroId en tu lógica
+                  echo '<script>console.log("ID del logro: ' . $logroId . '");</script>';
+              } else {
+                  // Si no se encuentra el logro, manejar el error
+                  echo '<script>console.log("Logro no encontrado.");</script>';
+              }
+
+              $logroQuery = "SELECT * FROM usuario_logro WHERE id_usuario = '$id_usuario' AND id_logro = '$logroId'";
+              $logroResult = mysqli_query($con, $logroQuery);
+
+              // 2. Si no existe el logro, asignarlo
+              if (mysqli_num_rows($logroResult) == 0) {
+                  // El logro no ha sido asignado, lo asignamos ahora
+                  $insertLogroQuery = "INSERT INTO usuario_logro (id_usuario, id_logro, cantidad, completado) VALUES ('$id_usuario', '$logroId', '1', '1')";
+                  if (mysqli_query($con, $insertLogroQuery)) {
+                      echo '<script>console.log("Logro asignado correctamente: ' . $nombreLogro . '");</script>';
+                      // Obtener la recompensa del logro
+                      $logroRecompensaQuery = "SELECT recompensa FROM logro WHERE id_logro = '$logroId'";
+                      $logroRecompensaResult = mysqli_query($con, $logroRecompensaQuery);
+
+                      if (mysqli_num_rows($logroRecompensaResult) > 0) {
+                          $logroRecompensaData = mysqli_fetch_assoc($logroRecompensaResult);
+                          $recompensa = $logroRecompensaData['recompensa'];
+
+                          // Actualizar los puntos del usuario
+                          $updatePuntosQuery = "UPDATE usuario SET puntos = puntos + $recompensa WHERE id_usuario = '$id_usuario'";
+                          if (mysqli_query($con, $updatePuntosQuery)) {
+                              echo '<script>console.log("Puntos actualizados correctamente para el usuario: ' . $id_usuario . '");</script>';
+                          } else {
+                              echo '<script>console.log("Error al actualizar puntos: ' . mysqli_error($con) . '");</script>';
+                          }
+                      } else {
+                          echo '<script>console.log("No se encontró la recompensa del logro.");</script>';
+                      }
+                  } else {
+                      echo '<script>console.log("Error al asignar logro: ' . mysqli_error($con) . '");</script>';
+                  }
+              } else {
+                  echo '<script>console.log("El logro ya ha sido asignado previamente.");</script>';
+              }
           } else {
               echo '<script>console.log("Error al subir la nueva imagen.");</script>';
           }
         }else{
           echo '<script>console.log("No entra a eliminar.");</script>';
-        }        
+        }
+        echo "<script>window.location.href = '" . dirname($_SERVER['PHP_SELF']) . "/panel.php?modulo=perfil&mensaje=User ". $_SESSION['username'] ." edited!';</script>";                
       }
     }
   }else{

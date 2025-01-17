@@ -24,6 +24,8 @@ $query_actividades = "SELECT COUNT(*) as total_actividades
 $result_actividades = mysqli_query($con, $query_actividades);
 $row_actividades = mysqli_fetch_assoc($result_actividades);
 $total_actividades = $row_actividades['total_actividades'];
+echo '<script>console.log("Total actividades completadas: ' . $total_actividades . '")</script>';
+
 
 // Consulta para obtener el total de pruebas completadas por el usuario actual
 $query_pruebas = "SELECT COUNT(*) as total_pruebas
@@ -36,6 +38,8 @@ $query_pruebas = "SELECT COUNT(*) as total_pruebas
 $result_pruebas = mysqli_query($con, $query_pruebas);
 $row_pruebas = mysqli_fetch_assoc($result_pruebas);
 $total_pruebas = $row_pruebas['total_pruebas'];
+echo '<script>console.log("Total pruebas completadas: ' . $total_pruebas . '")</script>';
+
 
 
 // Consulta para contar el número total de actividades disponibles en la base de datos
@@ -43,22 +47,30 @@ $query_total_actividades = "SELECT COUNT(*) AS total_actividades FROM actividad 
 $result_total_actividades = mysqli_query($con, $query_total_actividades);
 $row_total_actividades = mysqli_fetch_assoc($result_total_actividades);
 $total_actividades_totales = $row_total_actividades['total_actividades'];
+echo '<script>console.log("Total actividades disponibles: ' . $total_actividades_totales . '")</script>';
+
 
 // Consulta para contar el número total de pruebas disponibles en la base de datos
 $query_total_pruebas = "SELECT COUNT(*) AS total_pruebas FROM actividad WHERE tipo = 'Test'";
 $result_total_pruebas = mysqli_query($con, $query_total_pruebas);
 $row_total_pruebas = mysqli_fetch_assoc($result_total_pruebas);
 $total_pruebas_totales = $row_total_pruebas['total_pruebas'];
+echo '<script>console.log("Total pruebas disponibles: ' . $total_pruebas_totales . '")</script>';
+
 
 // Calcular el porcentaje de actividades y pruebas completadas
 $porcentaje_actividades = ($total_actividades_totales > 0) ? ($total_actividades / $total_actividades_totales) * 100 : 0;
 $porcentaje_pruebas = ($total_pruebas_totales > 0) ? ($total_pruebas / $total_pruebas_totales) * 100 : 0;
+echo '<script>console.log("Porcentaje actividades completadas: ' . $porcentaje_actividades . '%")</script>';
+echo '<script>console.log("Porcentaje pruebas completadas: ' . $porcentaje_pruebas . '%")</script>';
+
 
 // Calcular el progreso general
 $total_completadas = $total_actividades + $total_pruebas;
 $total_totales = $total_actividades_totales + $total_pruebas_totales;
 
 $porcentaje_general = ($total_totales > 0) ? ($total_completadas / $total_totales) * 100 : 0;
+echo '<script>console.log("Progreso general: ' . $porcentaje_general . '%")</script>';
 
 // Cerrar la conexión
 mysqli_close($con);
@@ -210,7 +222,7 @@ mysqli_close($con);
                                 </div>
                             </div>
                             <div class="text-center mt-3">
-                                <span class="font-weight-bold">Tests completed: <?php echo round($porcentaje_pruebas, 2); ?>%</span>
+                                <span class="font-weight-bold">Questions tests completed <?php echo round($porcentaje_pruebas, 2); ?>%</span>
                             </div>
 
                             <div class="progress mt-4">
