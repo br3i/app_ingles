@@ -104,15 +104,15 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Question</label>
-                                                <input type="text" name="pregunta" class="form-control" />
+                                                <textarea name="pregunta" class="form-control" rows="2"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Options (Separated by commas)</label>
-                                                <input type="text" name="opciones" class="form-control" />
+                                                <textarea name="opciones" class="form-control" rows="3"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Answer</label>
-                                                <input type="text" name="respuesta" class="form-control" />
+                                                <textarea name="respuesta" class="form-control" rows="3"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
@@ -158,19 +158,19 @@ $query = mysqli_query($con, "SELECT * FROM `recurso` ORDER BY `id_recurso` ASC")
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Question</label>
-                                                <input type="text" name="pregunta" class="form-control" />
+                                                <textarea name="pregunta" class="form-control" rows="2"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Options (Separated by commas)</label>
-                                                <input type="text" name="opciones" class="form-control" />
+                                                <textarea name="opciones" class="form-control" rows="3"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Answer</label>
-                                                <input type="text" name="respuesta" class="form-control" />
+                                                <textarea name="respuesta" class="form-control" rows="3"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Description</label>
-                                                <input type="text" name="descripcion" class="form-control" />
+                                                <textarea name="descripcion" class="form-control" rows="2"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Type</label>

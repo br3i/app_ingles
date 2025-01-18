@@ -12,10 +12,20 @@
 
     if (isset($_POST['save'])) {
         $tipo = 'Activity';
-        $pregunta = $_POST['pregunta'];
-        $opciones = $_POST['opciones'];
-        $respuesta = $_POST['respuesta'];
-        $descripcion = $_POST['descripcion'];
+
+        $pregunta = trim($_POST['pregunta']); // Eliminar espacios en blanco al inicio y final
+        $opciones = trim($_POST['opciones']); // Eliminar espacios en blanco al inicio y final
+        $respuesta = trim($_POST['respuesta']); // Eliminar espacios en blanco al inicio y final
+        $descripcion = trim($_POST['descripcion']); // Eliminar espacios en blanco al inicio y final
+
+        // Procesar las opciones para eliminar espacios extra y normalizar el formato
+        $opciones = preg_replace('/\s*,\s*/', ',', $opciones); // Eliminar espacios alrededor de las comas
+        $opciones = preg_replace('/\s+/', ' ', $opciones); // Reemplazar múltiples espacios por uno solo dentro de cada palabra
+
+        // Procesar la respuesta de la misma forma que las opciones
+        $respuesta = preg_replace('/\s*,\s*/', ',', $respuesta); // Eliminar espacios alrededor de las comas
+        $respuesta = preg_replace('/\s+/', ' ', $respuesta); // Reemplazar múltiples espacios por uno solo dentro de cada palabra
+
         switch ($descripcion) {
             case '0':
                 $descripcion = 'Select';
