@@ -435,6 +435,13 @@ function getFrameImage($id_usuario, $con) {
                       <p>Users</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="panel.php?modulo=acerca_de"
+                      class="nav-link <?php echo ($modulo == "acerca_de" || $modulo == "inicio" || $modulo == "") ? " active " : " "; ?>">
+                      <i class="fas fa-info-circle nav-icon" aria-hidden="true"></i>
+                      <p>Acerca de</p>
+                    </a>
+                  </li>
                   <?php
                 }
                 ?>
@@ -507,6 +514,9 @@ function getFrameImage($id_usuario, $con) {
     }
     if ($modulo == 'prueba') {
       include_once 'prueba.php';
+    }
+    if ($modulo == 'acerca_de') {
+      include_once 'acerca_de.php';
     }
     ?>
 
