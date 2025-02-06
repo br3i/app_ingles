@@ -166,11 +166,11 @@ date_default_timezone_set($user_timezone);
                         ?>
                         <!-- /.row -->
 
-                    </div>
+                    <!-- </div>
                         <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()" >
                             <option value="">Select an activity</option>
                         </select>
-                    </div>
+                    </div> -->
                     <!-- /.container-fluid -->
                 </div>
                 <!-- /.content -->
