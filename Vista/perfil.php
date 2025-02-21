@@ -162,11 +162,11 @@ if ($resultRachas) {
 
                                         // Si hay un marco activado, mostrarlo sobre la foto de perfil
                                         if ($frameImage) {
-                                            echo "<div class='frame' style='background-image: url(\"$frameImage\"); position: absolute; height: 100%; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 30%;'></div>";
+                                            echo "<div class='frame' style='background-image: url(\"$frameImage\"); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center;'></div>";
                                         }
 
                                         // Mostrar la imagen de perfil del usuario
-                                        echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='max-width: 60%; max-height: 70%; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); position: relative;'>";
+                                        echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 60%; max-height: 70%; opacity: 0.9; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);'>";
                                         ?>
                                     </div>
                                 </div>

@@ -166,11 +166,11 @@ date_default_timezone_set($user_timezone);
                         ?>
                         <!-- /.row -->
 
-                    <!-- </div>
-                        <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()" >
+                    </div>
+                        <select id="actividad-select" name="actividad_select" class="bg-dark" onchange="loadSelectedActivity()" hidden>
                             <option value="">Select an activity</option>
                         </select>
-                    </div> -->
+                    </div>
                     <!-- /.container-fluid -->
                 </div>
                 <!-- /.content -->
@@ -787,6 +787,15 @@ date_default_timezone_set($user_timezone);
                 originalWord.className = 'draggable-word';
                 originalWord.textContent = opcion;
 
+                originalWord.style = `
+                    margin-bottom: 5px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    background-color: #f9f9f9;
+                    cursor: pointer;
+                    text-align: center;
+                `;
+
                 // Agregar evento de clic a cada palabra
                 originalWord.addEventListener("click", function () {
                     // Clonar la palabra original
@@ -1397,12 +1406,13 @@ date_default_timezone_set($user_timezone);
 
     // Obtener el elemento de cierre y la ventana modal
     var modal = document.getElementById('myModal');
-    var closeButton = document.getElementsByClassName('close')[0];
-
-    // Cerrar la ventana modal al hacer clic en el botón de cierre
-    closeButton.onclick = function () {
-        modal.style.display = 'none';
-    };
+    
+    // Agregar un event listener a todos los elementos con la clase 'close'
+    document.querySelectorAll('.close').forEach(function (closeButton) {
+        closeButton.addEventListener('click', function () {
+            modal.style.display = 'none';
+        });
+    });
 
     // Cerrar la ventana modal al hacer clic en el fondo oscuro del modal
     window.onclick = function (event) {

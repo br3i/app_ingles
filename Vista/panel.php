@@ -323,30 +323,30 @@ function getFrameImage($id_usuario, $con) {
 
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-      <!-- Brand Logo -->
-      <a id="sideBarHidden2" href="panel.php?modulo=inicio" class="brand-link">
+    <!-- Brand Logo -->
+    <a id="sideBarHidden2" href="panel.php?modulo=inicio" class="brand-link">
         <img src='../Publico/img/logo.svg' alt='My App Logo' class="brand-image" style='opacity: 0.8; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5)' />
-
         <span class="brand-text font-weight-light">Flamma</span>
-      </a>
+    </a>
 
-      <!-- Sidebar -->
-      <div id="sideBarHidden" class="sidebar">
+    <!-- Sidebar -->
+    <div id="sideBarHidden" class="sidebar">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 mb-2 pb-3 d-flex align-items-center">
             <div class="image">
-                <div class="frame-container">
+                <!-- Contenedor para el marco y la imagen de perfil -->
+                <div class="frame-container" style="position: relative; max-width: 7vh; height: 7vh; overflow: hidden;">
                     <?php
                     // Obtener la imagen del marco activo
                     $frameImage = getFrameImage($id_usuario, $con); // Aquí debes obtener la URL del marco activo
 
                     // Si hay un marco activado, mostrarlo sobre la foto de perfil
                     if ($frameImage) {
-                        echo "<div class='frame' style='background-image: url(\"$frameImage\");'></div>";
+                        echo "<div class='frame' style='background-image: url(\"$frameImage\"); position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%; height: 100%; background-size: contain; background-repeat: no-repeat; background-position: center;'></div>";
                     }
 
                     // Mostrar la imagen de perfil del usuario
-                    echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' class='profile-image'>";
+                    echo "<img src='" . $_SESSION['foto_perfil'] . "' alt='User Image' class='profile-image' style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); max-width: 60%; max-height: 60%; border-radius: 30%; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);'>";
                     ?>
                 </div>
             </div>
